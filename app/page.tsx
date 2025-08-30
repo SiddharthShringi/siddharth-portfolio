@@ -1,11 +1,13 @@
 import React from 'react'
-import Navbar from '@/components/Navbar'
+import HeroSection from '@/components/HeroSection'
 
 
 export default function Home() {
   return (
-    <>
-     <Navbar />
-    </>
+    <div className='min-h-screen bg-background'>
+      <main>
+        <HeroSection />
+      </main>
+    </div>
   )
 }
