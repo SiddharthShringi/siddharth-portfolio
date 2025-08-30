@@ -1,6 +1,7 @@
 import React from 'react'
 import { navItems } from '@/lib/constant'
 import Link from 'next/link'
+import ThemeToggle from './ThemeToggle'
 
 export default function Navbar() {
   return (
@@ -21,6 +22,7 @@ export default function Navbar() {
                                 {item.name}
                         </Link>
                     ))}
+                    <ThemeToggle />
                 </div>
 
             </div>
