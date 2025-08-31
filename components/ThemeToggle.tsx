@@ -1,9 +1,9 @@
-'use client'
+"use client";
 
-import React, { useEffect, useState } from 'react'
-import { useTheme } from 'next-themes'
-import { Moon, Sun } from 'lucide-react';
-import { Switch } from './ui/switch';
+import React, { useEffect, useState } from "react";
+import { useTheme } from "next-themes";
+import { Moon, Sun } from "lucide-react";
+import { Switch } from "./ui/switch";
 
 export default function ThemeToggle() {
   const { resolvedTheme, setTheme } = useTheme();
@@ -19,7 +19,9 @@ export default function ThemeToggle() {
     <div className="flex items-center space-x-2">
       <Sun
         className={`h-4 w-4 transition-colors ${
-          resolvedTheme === "light" ? "text-yellow-500" : "text-muted-foreground"
+          resolvedTheme === "light"
+            ? "text-yellow-500"
+            : "text-muted-foreground"
         }`}
       />
       <Switch
