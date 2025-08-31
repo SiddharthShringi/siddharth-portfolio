@@ -1,6 +1,6 @@
-import React from "react";
-import Link from "next/link";
-import { Linkedin, Github } from "lucide-react";
+import React from 'react';
+import Link from 'next/link';
+import { Linkedin, Github } from 'lucide-react';
 
 export default function Socials() {
   return (

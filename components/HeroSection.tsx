@@ -1,8 +1,8 @@
-import React from "react";
-import * as motion from "motion/react-client";
-import { Button } from "./ui/button";
-import { Download } from "lucide-react";
-import Socials from "./Socials";
+import React from 'react';
+import * as motion from 'motion/react-client';
+import { Button } from './ui/button';
+import { Download } from 'lucide-react';
+import Socials from './Socials';
 
 export default function HeroSection() {
   return (
@@ -23,7 +23,7 @@ export default function HeroSection() {
               Siddharth Shringi
             </h1>
             <p className="text-xl md:text-2xl max-w-2xl mb-6 font-sans text-muted-foreground">
-              A software engineer specializing in{" "}
+              A software engineer specializing in{' '}
               <strong>Ruby on Rails, React, and SQL</strong>. I build clean,
               scalable web applications — from idea to deployment.
             </p>

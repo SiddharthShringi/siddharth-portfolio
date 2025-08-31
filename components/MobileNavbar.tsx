@@ -1,16 +1,16 @@
-import React from "react";
+import React from 'react';
 import {
   Sheet,
   SheetContent,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet";
-import ThemeToggle from "./ThemeToggle";
-import { Menu } from "lucide-react";
-import { navItems } from "@/lib/constant";
-import Link from "next/link";
-import { Button } from "./ui/button";
+} from '@/components/ui/sheet';
+import ThemeToggle from './ThemeToggle';
+import { Menu } from 'lucide-react';
+import { navItems } from '@/lib/constant';
+import Link from 'next/link';
+import { Button } from './ui/button';
 
 export default function MobileNavbar() {
   return (

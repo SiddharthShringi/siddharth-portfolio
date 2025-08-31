@@ -1,8 +1,8 @@
-import React from "react";
-import { navItems } from "@/lib/constant";
-import Link from "next/link";
-import ThemeToggle from "./ThemeToggle";
-import MobileNavbar from "./MobileNavbar";
+import React from 'react';
+import { navItems } from '@/lib/constant';
+import Link from 'next/link';
+import ThemeToggle from './ThemeToggle';
+import MobileNavbar from './MobileNavbar';
 
 export default function Navbar() {
   return (
