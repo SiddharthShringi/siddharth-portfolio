@@ -38,7 +38,7 @@ export default function HeroSection() {
                 className="group uppercase flex items-center gap-2"
                 size="lg"
               >
-                <span>Download CV</span>
+                <span>Download Resume</span>
                 <Download className="text-xl transition-transform group-hover:translate-y-1" />
               </Button>
               <div className="mb-8 sm:mb-0">
