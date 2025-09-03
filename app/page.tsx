@@ -1,11 +1,12 @@
 import React from 'react';
-import HeroSection from '@/components/HeroSection';
+import HeroSection from '@/components/Introduction';
+import Introduction from '@/components/Introduction';
 
 export default function Home() {
   return (
     <div className="min-h-screen bg-background">
       <main>
-        <HeroSection />
+        <Introduction />
       </main>
     </div>
   );

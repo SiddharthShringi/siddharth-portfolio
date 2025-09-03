@@ -7,7 +7,6 @@ async function Blog() {
   return (
     <section className="my-10">
       <div className="px-4 sm:px-6 lg:px-8 xl:px-10">
-        <h1 className="text-4xl font-bold font-sans mb-10">Blogs</h1>
         <Blogs posts={posts} />
       </div>
     </section>

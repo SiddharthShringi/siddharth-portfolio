@@ -9,21 +9,21 @@ export default function Blogs({ posts }: { posts: PostMetadata[] }) {
         <li key={post.slug}>
           <Link
             href={`/blog/${post.slug}`}
-            className="flex flex-col gap-2 cursor-pointer border-b-2 border-accent hover:border-muted-foreground pb-2 mb-3"
+            className="flex flex-col gap-2 py-2 mb-3 px-2 transition"
           >
             <div className="flex items-center justify-between">
               <div className="flex flex-1 flex-col space-y-2 max-w-lg">
-                <h2 className="text-2xl font-semibold font-sans text-foreground">
+                <h2 className="text-2xl font-semibold font-sans text-foreground hover:text-chart-2 transition-colors !cursor-pointer">
                   {post.title}
                 </h2>
                 {post.description && (
-                  <p className="mt-1 line-clamp-2 font-light text-sm font-sans text-muted-foreground">
+                  <p className="mt-1 line-clamp-2 font-light text-md font-sans text-muted-foreground">
                     {post.description}
                   </p>
                 )}
               </div>
               {post.publishedAt && (
-                <p className="mt -1 text-sm font-light font-sans text-muted-foreground">
+                <p className="mt-1 text-xs font-light font-sans text-muted-foreground">
                   {formatDate(post.publishedAt)}
                 </p>
               )}

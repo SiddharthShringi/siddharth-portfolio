@@ -19,9 +19,7 @@ export default function ThemeToggle() {
     <div className="flex items-center space-x-2">
       <Sun
         className={`h-4 w-4 transition-colors ${
-          resolvedTheme === 'light'
-            ? 'text-yellow-500'
-            : 'text-muted-foreground'
+          resolvedTheme === 'light' ? 'text-amber-600' : 'text-muted-foreground'
         }`}
       />
       <Switch

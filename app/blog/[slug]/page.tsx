@@ -1,7 +1,8 @@
 import React from 'react';
-import { getPostBySlug } from '@/lib/posts';
 import Link from 'next/link';
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
+import { getPostBySlug } from '@/lib/posts';
 import { ArrowLeft } from 'lucide-react';
 import MDXContent from '@/components/MDXContent';
 import { formatDate } from '@/lib/utils';
@@ -15,7 +16,7 @@ export default async function Post({ params }: { params: { slug: string } }) {
   }
 
   const { metadata, content } = post;
-  const { title, description, publishedAt, author, image } = metadata;
+  const { title, publishedAt, author, image } = metadata;
 
   return (
     <section className="flex items-center justify-center my-10">
@@ -28,13 +29,23 @@ export default async function Post({ params }: { params: { slug: string } }) {
           <span>Back to Blog</span>
         </Link>
         {/* Post Image */}
+        {image && (
+          <div className="relative mb-6 h-96 wofull overflow-hidden rounded-lg">
+            <Image
+              src={image}
+              alt={title || 'Blog Post Image'}
+              fill
+              className="object-cover"
+            />
+          </div>
+        )}
 
         <header>
           <h1 className="text-4xl font-bold font-sans text-balance my-2">
             {title}
           </h1>
           {publishedAt && (
-            <p className="text-sm text-muted-foreground my-1">
+            <p className="text-xs text-muted-foreground my-1">
               {formatDate(publishedAt)}
             </p>
           )}
@@ -42,7 +53,7 @@ export default async function Post({ params }: { params: { slug: string } }) {
             <p className="text-sm text-muted-foreground my-2">By {author}</p>
           )}
         </header>
-        <main className="prose dark:prose-invert prose-pre:bg-accent dark:prose-pre:bg-accent mt-16">
+        <main className="prose dark:prose-invert prose-pre:bg-accent dark:prose-pre:bg-accent mt-5">
           <MDXContent source={content} />
         </main>
       </div>

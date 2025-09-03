@@ -24,7 +24,7 @@ export default function Navbar() {
                 <Link href="/">Siddharth</Link>
               </span>
               <motion.div
-                className="absolute left-0 -bottom-1 h-[2px] bg-foreground"
+                className="absolute left-0 -bottom-1 h-[2px] bg-chart-2"
                 variants={{
                   rest: { width: 0 },
                   hover: { width: '100%' },

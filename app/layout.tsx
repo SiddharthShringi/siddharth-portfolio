@@ -3,6 +3,7 @@ import { Inter, Playfair_Display, Geist } from 'next/font/google';
 import './globals.css';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 
 const inter = Inter({
   variable: '--font-inter',
@@ -41,7 +42,8 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <Navbar />
-          <div className="container mx-auto">{children}</div>
+          <div className="container mx-auto overflow-hidden">{children}</div>
+          <Footer />
         </ThemeProvider>
       </body>
     </html>
