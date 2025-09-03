@@ -1,5 +1,4 @@
 import React from 'react';
-import HeroSection from '@/components/Introduction';
 import Introduction from '@/components/Introduction';
 
 export default function Home() {
