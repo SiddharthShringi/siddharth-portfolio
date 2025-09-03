@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import ThemeToggle from './ThemeToggle';
 import { Menu } from 'lucide-react';
 import { navItems } from '@/lib/constant';

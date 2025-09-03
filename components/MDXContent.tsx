@@ -9,13 +9,6 @@ function Code({ children, ...props }: any) {
 
 const components = { code: Code };
 
-export default function MDXContent(
-  props: JSX.IntrinsicAttributes & MDXRemoteProps
-) {
-  return (
-    <MDXRemote
-      {...props}
-      components={{ ...components, ...(props.components || {}) }}
-    />
-  );
+export default function MDXContent(props: JSX.IntrinsicAttributes & MDXRemoteProps) {
+  return <MDXRemote {...props} components={{ ...components, ...(props.components || {}) }} />;
 }

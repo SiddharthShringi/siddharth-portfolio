@@ -19,9 +19,8 @@ export default function Introduction() {
           </h1>
 
           <p className="text-xl md:text-2xl max-w-2xl mb-6 font-sans text-muted-foreground">
-            A software engineer specializing in{' '}
-            <strong>Ruby on Rails, React, and SQL</strong>. I build clean,
-            scalable web applications — from idea to deployment.
+            A software engineer specializing in <strong>Ruby on Rails, React, and SQL</strong>. I
+            build clean, scalable web applications — from idea to deployment.
           </p>
         </motion.div>
         <motion.div
@@ -45,31 +44,21 @@ export default function Introduction() {
         <div>
           <h2>Hi, I’m Siddharth 👋</h2>
           <p>
-            I’m a software engineer who loves building clean, scalable web
-            applications. My main stack is Ruby on Rails, React, Next.js, and
-            PostgreSQL, but I’m always exploring new tools that make development
-            faster and smarter.
+            I’m a software engineer who loves building clean, scalable web applications. My main
+            stack is Ruby on Rails, React, Next.js, and PostgreSQL, but I’m always exploring new
+            tools that make development faster and smarter.
           </p>
           <p>
-            For me, coding isn’t just about solving problems — it’s about
-            crafting experiences that feel intuitive and delightful.
+            For me, coding isn’t just about solving problems — it’s about crafting experiences that
+            feel intuitive and delightful.
           </p>
         </div>
         <div>
           <h2>What I’m Working On</h2>
           <ul>
-            <li>
-              ✨ Building my personal portfolio and blog (the site you’re on
-              now).
-            </li>
-            <li>
-              📚 Brushing up Rails + React projects to strengthen my
-              product-building skills.
-            </li>
-            <li>
-              🧠 Exploring algorithms and system design to improve
-              problem-solving depth.
-            </li>
+            <li>✨ Building my personal portfolio and blog (the site you’re on now).</li>
+            <li>📚 Brushing up Rails + React projects to strengthen my product-building skills.</li>
+            <li>🧠 Exploring algorithms and system design to improve problem-solving depth.</li>
           </ul>
         </div>
         <div>
@@ -78,21 +67,20 @@ export default function Introduction() {
             <li>🏋️ At the gym working on strength and functional fitness.</li>
             <li>📖 Reading about philosophy, psychology, and self-growth.</li>
             <li>
-              📝 Journaling and experimenting with frameworks like CBT and IFS
-              to understand the mind better.
+              📝 Journaling and experimenting with frameworks like CBT and IFS to understand the
+              mind better.
             </li>
           </ul>
         </div>
         <div>
           <h2>Why This Site?</h2>
           <p>
-            This space is my digital playground — a place to share what I learn,
-            what I build, and sometimes what I think about life beyond tech.
+            This space is my digital playground — a place to share what I learn, what I build, and
+            sometimes what I think about life beyond tech.
           </p>
           <p>
-            If you’re curious about my work, check out my Projects and Blog .
-            And if you’d like to connect, feel free to reach out on LinkedIn or
-            drop me a message.
+            If you’re curious about my work, check out my Projects and Blog . And if you’d like to
+            connect, feel free to reach out on LinkedIn or drop me a message.
           </p>
         </div>
       </div>
