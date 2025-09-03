@@ -10,7 +10,7 @@ import * as motion from 'motion/react-client';
 export default function Navbar() {
   return (
     <nav className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-border/50">
-      <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-10">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-10">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex-shrink-0">
@@ -20,11 +20,11 @@ export default function Navbar() {
               whileHover="hover"
               animate="rest"
             >
-              <span className="text-xl font-serif font-bold text-foreground">
-                <Link href="/">Siddharth Shringi</Link>
+              <span className="text-xl font-geist font-bold text-foreground">
+                <Link href="/">Siddharth</Link>
               </span>
               <motion.div
-                className="absolute left-0 -bottom-1 h-[2px] bg-foreground"
+                className="absolute left-0 -bottom-1 h-[2px] bg-chart-2"
                 variants={{
                   rest: { width: 0 },
                   hover: { width: '100%' },

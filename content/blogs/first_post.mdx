@@ -1,9 +1,63 @@
 ---
-title: "My First Blog Post"
-publishedAt: "2025-08-31"
-description: "This is why I started writing."
+title: "Getting Started with Next.js and Tailwind CSS"
+description: "A beginner-friendly guide to setting up a Next.js project with Tailwind CSS for fast and modern web development."
+publishedAt: "2025-09-02"
+author: "Siddharth Shringi"
+image: "/Images/blog.jpg"
 ---
 
-# Hello Blog 👋
+Building modern web applications often means balancing speed, scalability, and developer experience. One of the most popular combinations today is **Next.js** with **Tailwind CSS**. Next.js provides server-side rendering, static site generation, and API routes out of the box, while Tailwind CSS makes styling efficient with utility-first classes.
 
-This is my very first post using **MDX + App Router**.
+### Why Next.js?
+Next.js is a **React framework** that makes it easy to build production-ready apps. It optimizes performance automatically and provides built-in routing, so you don’t need to worry about complex configurations.
+
+### Why Tailwind CSS?
+Tailwind CSS is a utility-first CSS framework. Instead of writing custom CSS files, you compose styles using pre-defined classes. This speeds up development and ensures a consistent design system.
+
+---
+
+### Step 1: Create a Next.js App
+Run the following command in your terminal:
+
+```bash
+npx create-next-app@latest my-app
+cd my-app
+````
+
+### Step 2: Install Tailwind CSS
+
+Inside your project folder, install Tailwind CSS with:
+
+```bash
+npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init -p
+```
+
+Then configure your `tailwind.config.js` file to include your project paths.
+
+### Step 3: Use Tailwind in Your Code
+
+You can now use Tailwind classes directly in your components:
+
+```tsx
+export default function Home() {
+  return (
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <h1 className="text-4xl font-bold text-blue-600">
+        Hello, Next.js with Tailwind!
+      </h1>
+    </div>
+  );
+}
+```
+
+---
+
+### Conclusion
+
+With just a few steps, you now have a blazing-fast React framework powered by Next.js and styled beautifully with Tailwind CSS. This setup is ideal for **portfolio websites, blogs, and scalable applications**. The combination offers **developer productivity** and **modern design** out of the box.
+
+```
+
+Would you like me to also create **2–3 more dummy blogs** (with different topics, titles, and snippets) so you have a small set ready for your portfolio site?
+```

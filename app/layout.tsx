@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
-import { Inter, Playfair_Display } from 'next/font/google';
+import { Inter, Playfair_Display, Geist } from 'next/font/google';
 import './globals.css';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 
 const inter = Inter({
   variable: '--font-inter',
@@ -11,6 +12,11 @@ const inter = Inter({
 
 const playfairDisplay = Playfair_Display({
   variable: '--font-playfair-display',
+  subsets: ['latin'],
+});
+
+const geist = Geist({
+  variable: '--font-geist',
   subsets: ['latin'],
 });
 
@@ -26,7 +32,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.variable} ${playfairDisplay.variable} antialiased`}>
+      <body
+        className={`${inter.variable} ${playfairDisplay.variable} ${geist.variable} antialiased`}
+      >
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -34,7 +42,8 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <Navbar />
-          {children}
+          <div className="container mx-auto overflow-hidden">{children}</div>
+          <Footer />
         </ThemeProvider>
       </body>
     </html>
