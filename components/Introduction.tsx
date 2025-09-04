@@ -7,7 +7,7 @@ import Socials from './Socials';
 export default function Introduction() {
   return (
     <section className="flex flex-col justify-center items-center gap-2 sm:gap-4">
-      <div className="mt-10 sm:mt-20">
+      <div className="mt-10 sm:mt-20 p-5">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -29,18 +29,25 @@ export default function Introduction() {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="flex flex-col sm:flex-row items-center gap-8"
         >
-          <Button className="group uppercase flex items-center gap-2" size="lg">
-            <span>Download Resume</span>
+          <a
+            href="/resume.pdf"
+            download="Siddharth_Shringi_Resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Button className="group uppercase flex items-center gap-2" size="lg">
+              <span>Download Resume</span>
 
-            <Download className="text-xl transition-transform group-hover:translate-y-1" />
-          </Button>
+              <Download className="text-xl transition-transform group-hover:translate-y-1" />
+            </Button>
+          </a>
 
           <div className="mb-8 sm:mb-0">
             <Socials />
           </div>
         </motion.div>
       </div>
-      <div className="prose dark:prose-invert font-geist tracking-normal text-foreground">
+      <div className="prose dark:prose-invert font-geist tracking-normal text-foreground px-5 sm:px-0">
         <div>
           <h2>Hi, I’m Siddharth 👋</h2>
           <p>
