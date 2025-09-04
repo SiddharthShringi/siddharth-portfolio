@@ -39,7 +39,7 @@ export default async function Post({ params }: { params: { slug: string } }) {
         )}
 
         <header>
-          <h1 className="text-4xl font-bold font-sans text-balance my-2">{title}</h1>
+          <h1 className="text-4xl font-bold font-sans text-balance my-4 sm:my-2">{title}</h1>
           {publishedAt && (
             <p className="text-xs text-muted-foreground my-1">{formatDate(publishedAt)}</p>
           )}
