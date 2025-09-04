@@ -19,16 +19,22 @@ export default async function Post({ params }: { params: { slug: string } }) {
   const { title, publishedAt, author, image } = metadata;
 
   return (
-    <section className="flex items-center justify-center my-10">
-      <div className="px-4 sm:px-6 lg:px-8 xl:px-10">
+    <section className="md:flex md:items-center md:justify-center my-10">
+      <div className="px-6 lg:px-8 xl:px-10">
         <Link href="/blog" className="flex items-center text-sm text-muted-foreground mb-4">
           <ArrowLeft className="mr-2 h-4 w-4" />
           <span>Back to Blog</span>
         </Link>
         {/* Post Image */}
         {image && (
-          <div className="relative mb-6 h-96 wofull overflow-hidden rounded-lg">
-            <Image src={image} alt={title || 'Blog Post Image'} fill className="object-cover" />
+          <div className="relative w-full sm:mb-6 h-64 sm:h-96 overflow-hidden">
+            <Image
+              src={image}
+              alt={title || 'Blog Post Image'}
+              fill
+              className="object-cover rounded-xl shadow-lg"
+              priority
+            />
           </div>
         )}
 

@@ -7,7 +7,7 @@ import Socials from './Socials';
 export default function Introduction() {
   return (
     <section className="flex flex-col justify-center items-center gap-2 sm:gap-4">
-      <div className="mt-10 sm:mt-20">
+      <div className="mt-10 sm:mt-20 border border-cyan-600 border-dashed p-5">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -40,7 +40,7 @@ export default function Introduction() {
           </div>
         </motion.div>
       </div>
-      <div className="prose dark:prose-invert font-geist tracking-normal text-foreground">
+      <div className="prose dark:prose-invert font-geist tracking-normal text-foreground px-5 sm:px-0">
         <div>
           <h2>Hi, I’m Siddharth 👋</h2>
           <p>
