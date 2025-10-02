@@ -41,9 +41,11 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Navbar />
-          <div className="container mx-auto overflow-hidden">{children}</div>
-          <Footer />
+          <div className="min-h-screen flex flex-col">
+            <Navbar />
+            <div className="flex-1 container mx-auto overflow-hidden">{children}</div>
+            <Footer />
+          </div>
         </ThemeProvider>
       </body>
     </html>
