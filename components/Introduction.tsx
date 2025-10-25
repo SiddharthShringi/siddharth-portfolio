@@ -30,7 +30,7 @@ export default function Introduction() {
           className="flex flex-col sm:flex-row items-center gap-8"
         >
           <a
-            href="/resume.pdf"
+            href="/Siddharth_Shringi_Resume.pdf"
             download="Siddharth_Shringi_Resume.pdf"
             target="_blank"
             rel="noopener noreferrer"
