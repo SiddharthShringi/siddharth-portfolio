@@ -3,11 +3,12 @@ import { getAllPosts } from '@/lib/posts';
 import React from 'react';
 
 async function Blog() {
-  const posts = await getAllPosts();
+  // const posts = await getAllPosts();
   return (
-    <section className="my-10">
+    <section className="h-screen flex justify-center items-center">
       <div className="px-4 sm:px-6 lg:px-8 xl:px-10">
-        <Blogs posts={posts} />
+        {/* <Blogs posts={posts} /> */}
+        <h1 className="text-chart-2 text-5xl"> 🚧 Coming Soon </h1>
       </div>
     </section>
   );
