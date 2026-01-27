@@ -35,8 +35,8 @@ export default function Introduction() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <Button className="group uppercase flex items-center gap-2" size="lg">
-              <span>Download Resume</span>
+            <Button className="group flex items-center gap-2" size="lg">
+              <span>Resume / CV</span>
 
               <Download className="text-xl transition-transform group-hover:translate-y-1" />
             </Button>
