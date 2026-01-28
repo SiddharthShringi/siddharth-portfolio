@@ -7,10 +7,10 @@ async function Blog() {
   return (
     <section className="">
       <div className="mx-auto max-w-7xl">
-        <div className="mx-5 py-5 text-center">
+        <div className="py-5 text-center">
           <h1 className="text-5xl text-chart-2 font-bold">Posts</h1>
           <p className="text-muted-foreground py-2">
-            Thoughts, tutorials, and insights on engineering, and programming.
+            Thoughts, lessons, and reflections from learning and building
           </p>
           <div className="border-t my-2"></div>
         </div>

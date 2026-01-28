@@ -10,7 +10,10 @@ export default function Blogs({ posts }: { posts: PostMetadata[] }) {
   return (
     <div className="flex flex-col gap-4 ">
       {posts.map((post) => (
-        <div className="border rounded-xl mx-5" key={post.slug}>
+        <div
+          className="border rounded-xl mx-5 hover:border-muted-foreground transition-transform duration-300 ease-out hover:scale-99"
+          key={post.slug}
+        >
           <Link href={`/blog/${post.slug}`} className="flex flex-col gap-2 py-2 px-2 transition">
             {/* Mobile Index */}
             <div className="flex flex-col justify-start gap-2 p-5 md:hidden">
