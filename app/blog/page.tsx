@@ -3,13 +3,20 @@ import { getAllPosts } from '@/lib/posts';
 import React from 'react';
 
 async function Blog() {
-  // const posts = await getAllPosts();
+  const posts = await getAllPosts();
   return (
-    <section className="h-screen flex justify-center items-center">
-      <div className="px-4 sm:px-6 lg:px-8 xl:px-10">
-        {/* <Blogs posts={posts} /> */}
-        <h1 className="text-chart-2 text-5xl"> 🚧 Coming Soon </h1>
+    <section className="">
+      <div className="mx-auto max-w-7xl">
+        <div className="py-5 text-center">
+          <h1 className="text-5xl text-chart-2 font-bold">Posts</h1>
+          <p className="text-muted-foreground py-2">
+            Thoughts, lessons, and reflections from learning and building
+          </p>
+          <div className="border-t my-2"></div>
+        </div>
+        <Blogs posts={posts} />
       </div>
+      {/* <h1 className="text-chart-2 text-5xl"> 🚧 Coming Soon </h1> */}
     </section>
   );
 }

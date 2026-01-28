@@ -10,7 +10,7 @@ import * as motion from 'motion/react-client';
 export default function Navbar() {
   return (
     <nav className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-border/50">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-10">
+      <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 xl:px-10">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex-shrink-0">
