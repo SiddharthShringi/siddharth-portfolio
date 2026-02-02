@@ -8,7 +8,7 @@ export default function Projects() {
     <section className="mx-auto max-w-7xl">
       <div className="px-4 sm:px-6 lg:px-8 xl:px-10 mb-6">
         <div className="mx-5 py-5 text-center">
-          <h1 className="text-5xl text-chart-2 font-bold">Projects</h1>
+          <h1 className="text-5xl text-chart-3 dark:text-chart-2 font-bold">Projects</h1>
           <p className="text-muted-foreground py-2">
             Projects and work across different areas of software and learning
           </p>
@@ -18,7 +18,9 @@ export default function Projects() {
           <div className="grid gap-6 md:grid-cols-3">
             {projects.map((p: Project) => (
               <div className="rounded-2xl border p-5" key={`project-${p.title}-${p.links[0]?.url}`}>
-                <h2 className="mt-4 text-xl font-semibold text-chart-2">{p.title}</h2>
+                <h2 className="mt-4 text-xl font-semibold text-chart-3 dark:text-chart-2">
+                  {p.title}
+                </h2>
                 <p className="mt-2 text-sm text-muted-foreground">{p.description}</p>
                 <div className="mt-3 flex flex-wrap gap-2">
                   {p.stack.slice(0, 4).map((tech) => (

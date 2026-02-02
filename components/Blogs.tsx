@@ -46,7 +46,7 @@ export default function Blogs({ posts }: { posts: PostMetadata[] }) {
             {/* Desktop Index */}
             <div className="hidden md:flex items-center justify-between gap-6 p-2">
               <div className="flex flex-1 flex-col space-y-2 max-w-lg lg:max-w-xl">
-                <h2 className="text-xl font-semibold font-sans text-foreground hover:text-chart-2 transition-colors !cursor-pointer">
+                <h2 className="text-xl font-semibold font-sans text-foreground hover:text-chart-3 dark:hover:text-chart-2 transition-colors !cursor-pointer">
                   {post.title}
                 </h2>
                 {post.description && (

@@ -1,0 +1,46 @@
+---
+title: 'Rails Initialization Process: What Actually Runs Before Your App Is Ready'
+description: 'How does Rails prepare your application to handle requests? What are the key steps in the initialization process?'
+publishedAt: '2026-01-29'
+author: 'Siddharth Shringi'
+tags: ['Ruby on Rails']
+image: '/Images/blog2.jpg'
+---
+
+I've been working with Ruby on Rails framework for quite some time now, and one aspect that has always inrigued me is the initialization process of Rails applications. I never paused to think about what actually happens behind the scenes when a Rails app boots up. So, I decided to understand this process.
+
+So what does it mean by booting up Rails application? It is the process of turning an application from a pile of files into a running, configured Ruby Program that is ready to handle work ( requests, console commands, background jobs etc...)
+
+## Let's Boot Our Rails Application
+
+To boot and initialize the Rails App, we start by running `bin/rails server` or `bin/rails console`.
+
+When we create a rails App using the command `rails new myapp`,
+The rails file exist in our project structure `bin` folder.
+
+This is how this file's content looks:
+
+```ruby
+#!/usr/bin/env ruby
+APP_PATH = File.expand_path("../config/application", __dir__)
+require_relative "../config/boot"
+require "rails/commands"
+
+```
+
+`bin/rails` is the entry point of a Rails application.
+
+Now I was curious how does the execution flow works here. In this file I noticed few familiar files.
+
+Like `config/application.rb`, `config/boot.rb`.
+
+Let's see what is inside those files.
+
+**config/boot.rb**
+
+```ruby
+ENV["BUNDLE_GEMFILE"] ||= File.expand_path("../Gemfile", __dir__)
+
+require "bundler/setup" # Set up gems listed in the Gemfile.
+require "bootsnap/setup" # Speed up boot time by caching expensive operations.
+```

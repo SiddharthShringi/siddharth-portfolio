@@ -1,14 +1,27 @@
-import { JSX, ComponentProps } from 'react';
-import { highlight } from 'sugar-high';
+import { JSX } from 'react';
 import { MDXRemote, type MDXRemoteProps } from 'next-mdx-remote-client/rsc';
+import rehypePrettyCode from 'rehype-pretty-code';
 
-function Code({ children, ...props }: ComponentProps<'code'>) {
-  const codeHTML = highlight(children as string);
-  return <code dangerouslySetInnerHTML={{ __html: codeHTML }} {...props} />;
-}
+const rehypePrettyCodeOptions = {
+  theme: {
+    dark: 'one-dark-pro',
+    light: 'one-light',
+  },
+};
 
-const components = { code: Code };
+const components = {};
 
 export default function MDXContent(props: JSX.IntrinsicAttributes & MDXRemoteProps) {
-  return <MDXRemote {...props} components={{ ...components, ...(props.components || {}) }} />;
+  return (
+    <MDXRemote
+      {...props}
+      options={{
+        mdxOptions: {
+          rehypePlugins: [[rehypePrettyCode, rehypePrettyCodeOptions]],
+        },
+        ...props.options,
+      }}
+      components={{ ...components, ...(props.components || {}) }}
+    />
+  );
 }
