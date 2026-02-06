@@ -16,7 +16,6 @@ async function Blog() {
         </div>
         <Blogs posts={posts} />
       </div>
-      {/* <h1 className="text-chart-2 text-5xl"> 🚧 Coming Soon </h1> */}
     </section>
   );
 }

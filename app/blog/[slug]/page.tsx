@@ -22,9 +22,7 @@ export default async function Post({ params }: { params: { slug: string } }) {
     <section className="mx-auto max-w-4xl py-10">
       <div className="px-6 lg:px-8 xl:px-10">
         <header className="mt-10 mb-2">
-          <h1 className="text-4xl font-extrabold text-chart-3 dark:text-chart-2 font-sans text-pretty my-2 sm:my-2">
-            {title}
-          </h1>
+          <p className="text-4xl font-extrabold font-sans text-pretty my-2 sm:my-2">{title}</p>
           {publishedAt && (
             <div className="flex items-center pt-2 pb-4">
               <Calendar className="w-4 h-4 text-muted-foreground" />
@@ -35,20 +33,24 @@ export default async function Post({ params }: { params: { slug: string } }) {
         {/* Post Image */}
 
         {image && (
-          <div className="sm:mb-6 h-64 sm:h-96 rounded-xl shadow-xl overflow-hidden">
-            <AspectRatio ratio={16 / 9}>
-              <Image
-                src={image}
-                alt={title || 'Blog Post Image'}
-                fill
-                className="object-cover"
-                priority
-              />
-            </AspectRatio>
-          </div>
+          <AspectRatio ratio={16 / 9}>
+            <Image
+              src={image}
+              alt={title || 'Blog Post Image'}
+              fill
+              className="object-cover rounded-lg shadow-2xl"
+              priority
+            />
+          </AspectRatio>
         )}
-        <main className="mx-auto max-w-4xl py-4">
-          <article className="prose prose-lg prose-neutral dark:prose-invert">
+        <main className="mx-auto max-w-4xl py-4 my-10">
+          <article
+            className="prose prose-lg prose-neutral 
+              dark:prose-invert tracking-wide 
+              [&>p:first-of-type::first-letter]:font-bold
+              [&>p:first-of-type::first-letter]:text-3xl
+              sm:[&>p:first-of-type::first-letter]:text-4xl"
+          >
             <MDXContent source={content} />
           </article>
         </main>

@@ -132,6 +132,18 @@
   --sh-comment: #a19595;
 }
 
+.prose h1 {
+  @apply text-3xl; /* Applies Tailwind's text-4xl utility styles */
+}
+
+.prose h2 {
+  @apply text-2xl;
+}
+
+.prose h3 {
+  @apply text-xl;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
