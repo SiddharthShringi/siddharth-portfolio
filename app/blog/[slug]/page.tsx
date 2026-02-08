@@ -1,11 +1,45 @@
 import React from 'react';
 import Image from 'next/image';
+import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getPostBySlug } from '@/lib/posts';
 import { Calendar } from 'lucide-react';
 import MDXContent from '@/components/MDXContent';
 import { formatDate } from '@/lib/utils';
 import { AspectRatio } from '@radix-ui/react-aspect-ratio';
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}): Promise<Metadata> {
+  const post = await getPostBySlug(params.slug);
+
+  if (!post) {
+    return notFound();
+  }
+
+  const { metadata } = post;
+
+  return {
+    title: metadata.title,
+    description: metadata.description,
+    openGraph: {
+      title: metadata.title,
+      description: metadata.description,
+      images: metadata.image
+        ? [
+            {
+              url: metadata.image,
+              width: 1200,
+              height: 630,
+              alt: metadata.title,
+            },
+          ]
+        : [],
+    },
+  };
+}
 
 export default async function Post({ params }: { params: { slug: string } }) {
   const { slug } = await params;
@@ -16,17 +50,19 @@ export default async function Post({ params }: { params: { slug: string } }) {
   }
 
   const { metadata, content } = post;
-  const { title, publishedAt, image } = metadata;
+  const { title, publishedAt, image, readingTime } = metadata;
 
   return (
     <section className="mx-auto max-w-4xl py-10">
       <div className="px-6 lg:px-8 xl:px-10">
         <header className="mt-10 mb-2">
           <p className="text-4xl font-extrabold font-sans text-pretty my-2 sm:my-2">{title}</p>
-          {publishedAt && (
+          {publishedAt && readingTime && (
             <div className="flex items-center pt-2 pb-4">
               <Calendar className="w-4 h-4 text-muted-foreground" />
-              <p className="text-xs text-muted-foreground px-2">{formatDate(publishedAt)}</p>
+              <p className="text-sm text-muted-foreground px-2">
+                {formatDate(publishedAt)} • {readingTime}
+              </p>
             </div>
           )}
         </header>
