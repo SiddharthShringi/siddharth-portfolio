@@ -13,7 +13,8 @@ export async function generateMetadata({
 }: {
   params: { slug: string };
 }): Promise<Metadata> {
-  const post = await getPostBySlug(params.slug);
+  const { slug } = await params;
+  const post = await getPostBySlug(slug);
 
   if (!post) {
     return notFound();
@@ -27,10 +28,10 @@ export async function generateMetadata({
     openGraph: {
       title: metadata.title,
       description: metadata.description,
-      images: metadata.image
+      images: metadata.ogImage
         ? [
             {
-              url: metadata.image,
+              url: metadata.ogImage,
               width: 1200,
               height: 630,
               alt: metadata.title,

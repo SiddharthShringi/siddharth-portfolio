@@ -18,6 +18,7 @@ export type PostMetadata = {
   author?: string;
   tags?: string[];
   image?: string;
+  ogImage?: string;
   readingTime?: string;
 };
 

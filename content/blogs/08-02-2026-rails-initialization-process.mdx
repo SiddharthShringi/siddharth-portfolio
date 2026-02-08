@@ -4,7 +4,8 @@ description: 'How does Rails prepare your application to handle requests? What a
 publishedAt: '2026-01-29'
 author: 'Siddharth Shringi'
 tags: ['Ruby on Rails']
-image: '/Images/rails_boot.webp'
+image: '/Images/blog/08-02-2026-rails-initialization-process/cover.webp'
+ogImage: '/Images/blog/08-02-2026-rails-initialization-process/og-image.png'
 ---
 
 I've worked with Rails for a long time, but I never
@@ -16,7 +17,7 @@ This article is an attempt to understand that initialization process
 and to have a mental model of how Rails boots.
 
 By booting a Rails application, I mean the sequence of steps
-that turn a Rails application from a pile of files and configurations
+that turns a Rails application from a pile of files and configurations
 into a fully initialized Ruby process that can accept HTTP requests,
 run console commands, execute background jobs, and perform other tasks.
 
@@ -41,8 +42,8 @@ through the following files:
 ```
 
 The `config.ru` file plays a crucial role in the boot process.
-It's a Rack configuration file. It is the point where Rails application
-is handed over to the Rack-based web server(like Puma).
+It's a Rack configuration file. It is the point where the
+Rails application is handed over to the Rack-based web server(like Puma).
 
 Rack is a Ruby interface for web servers and web
 applications. It creates a contract between web servers and
@@ -53,7 +54,7 @@ should be run by the web server.
 It contains the code to load the Rails application and start the server.
 
 In this article, we will first trace how Rails reaches the `config.ru`
-file and then we will understand how it is used
+file, and then we will understand how it is used
 to initialize the Rails application.
 
 # bin/rails server
@@ -170,8 +171,8 @@ end
 I want to draw your attention to the three key steps in the
 `perform` method of the `ServerCommand` class.
 
-1. First it creates a instance of `Rails::Server` class with the server options.
-   It is a subclass of `Rack::Server` class. The `server_options` method in
+1. First, it creates an instance of the `Rails::Server` class with the server options.
+   It is a subclass of the `Rack::Server` class. The `server_options` method in
    Rails::Command::ServerCommand is defined as follows:
 
 ```ruby
@@ -202,11 +203,11 @@ module Rails
 end
 ```
 
-for example, the default server is set to `puma` and the
+For example, the default server is set to `puma` and the
 default port is set to `3000`. Also, if no environment is specified,
 it defaults to `development`
 
-2. Next, It call to `require APP_PATH` which we defined earlier in `bin/rails` file.
+2. Next, It call to `require APP_PATH`, which we defined earlier in `bin/rails` file.
    This is where Rails loads config/application.rb and begins
    initializing the application itself.
 
@@ -285,20 +286,20 @@ end
 Let's break down the key steps in this file:
 
 - It loads the config/boot file to ensure,
-  Bundler and Bootsnap are set up, along with Gemfile path.
+  Bundler and Bootsnap are set up, along with the Gemfile path.
 - The core Rails framework is loaded.
 - The specific Rails components (like Active Record,
   Action Controller, etc.) are loaded explicitly.
   This allows you to exclude components you don't need.
-- Next, The gems specified in the Gemfile are loaded using Bundler.
-- Finally, The application class is defined,
+- Next, the gems specified in the Gemfile are loaded using Bundler.
+- Finally, the application class is defined,
   which inherits from `Rails::Application`.
   This class is where you can configure application-wide settings.
 
 Notice that we loaded multiple framework components in `config/application.rb`.
 Active Record, Action Controller, Action Mailer, and others. But requiring
 these files doesn't automatically initialize them. That happens during
-`Rails.application.initialize!`, and That's where Railties, Engines,
+`Rails.application.initialize!`, and that's where Railties, Engines,
 and Initializers come in.
 
 ## Railties, Engines, and Initializers
@@ -311,7 +312,7 @@ is implemented as a Railtie or an Engine.
 Think of a Railtie as a way for any library or gem to plug into
 Rails initialization process.
 A Railtie can define initializers, add configuration, hooks into
-Rails Intialization lifecycle and extend Rails classes.
+Rails Initialization lifecycle and extend Rails classes.
 
 ### Engine
 
@@ -321,16 +322,16 @@ and initializers.
 
 ### Initializers
 
-Initializers are blocks of code that Rails runs druing initialization.
+Initializers are blocks of code that Rails runs during initialization.
 They are the primary mechanism through which Railties and Engines
 customize the application `Rails.application.initialize!`.
 
 Not all initializers behave the same way:
 
 - Some initializers run immediately during boot.
-- Others register hooks using `ActiveSupport.on_load`, which delay
+- Others register hooks using `ActiveSupport.on_load`, which delays
   execution until a specific framework component is loaded.
-  For example Active Record registers an initializer that waits until
+  For example, Active Record registers an initializer that waits until
   ActiveRecord is loaded before establishing the database connection.
 
 ```ruby
@@ -358,14 +359,12 @@ fully initialized.
 Once initialization is complete, execution returns to `config.ru`
 
 ```ruby
-
 run Rails.application
-
 ```
 
 This tells Rack which object should handle incoming HTTP requests.
 A Rails application implements the Rack interface, so Rack can
-route requests to it directily.
+route requests to it directly.
 
 and the final line:
 
@@ -373,7 +372,7 @@ and the final line:
 Rails.application.load_server
 ```
 
-At this point, the Rack based web server (for example, Puma) starts,
+At this point, the Rack-based web server (for example, Puma) starts,
 listens on a configured port(like 3000), and begins handling requests.
 
 ```plainText
@@ -393,9 +392,9 @@ Use Ctrl-C to stop
 
 # Summary
 
-![Rails Initialization Process](/Images/Rails_Initialization_summary.webp)
+![Rails Initialization Process](/Images/blog/08-02-2026-rails-initialization-process/summary.webp)
 
-In this article, we traced how Rails application boots and
+In this article, we traced how a Rails application boots and
 initializes when we run `bin/rails server`.
 
 We have seen the key steps in the initialization process and how
