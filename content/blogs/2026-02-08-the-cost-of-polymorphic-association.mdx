@@ -1,0 +1,241 @@
+---
+title: 'The Real Cost of Polymorphic Association'
+description: 'Understanding the hidden costs and trade-offs of polymorphic associations in Rails.'
+publishedAt: '2026-02-08'
+author: 'Siddharth Shringi'
+tags: ['Ruby on Rails']
+image: '/Images/blog/2026-02-08-the-cost-of-polymorphic-association/cover2.webp'
+ogImage: '/Images/blog/2026-02-08-the-cost-of-polymorphic-association/og-image2.png'
+---
+
+I have read about polymorphism multiple times but every time when it comes to use them, I forget the actual use-case of it and how to implement them.
+
+Also I never asked the questions like when do we use it? Why is it a better choice? Are there any scenarios where Polymorphic association might not be good idea?
+
+In this article we are going to discuss how to understand the use of polymorphic association and also what are the downside of using it. So that we can get better idea of trade-offs that comes with it.
+
+# Introduction
+
+Let's think of a scenario where we are building a learning platform where:
+
+- Quiz can have comment.
+- Lesson can have comment.
+- Post can have comments.
+
+What are the ways, we can implement these relationship?
+
+- **First approach** - We will create separate comment tables or each model.
+
+```plaintext
+Quiz -> QuizComments(id, text)
+Lesson -> LessonComments(id, text)
+Post -> PostComments(id, text)
+```
+
+If we notice here that all comments table _**share same data**_. That mean the child model behaves the same regardless of parent model.
+But we are creating duplicate tables with different names. We are voilating DRY principle.
+
+Let's think of some other way to implement these associations.
+
+- **Second approach**, let's create one single table which belongs to all three parents.
+
+To implement this relationship, we will create an comment table where `quiz_id`, `lesson_id` and `post_id` will be foreign_key.
+
+| id  | text                | quiz_id | lesson_id | post_id |
+| --- | ------------------- | ------- | --------- | ------- |
+| 1   | "comment on quiz"   | 1       | Null      | NULL    |
+| 2   | "comment on lesson" | NULL    | 1         | NULL    |
+| 3   | "comment on post"   | NULL    | NULL      | 1       |
+
+But there is also a catch in this, now as number of parents grows in number, the table will grow horizontally and it will not be efficient solution.
+This approach becomes messy and doesn't scale well.
+
+So what can we do here. That's where Polymorphic association comes to help.
+
+# Polymorphic Association
+
+The core idea behind Polymorphic Association is two columns(type and id). In this case comments belongs to something polymorphic.
+
+Let's understand by table.
+
+| id  | text                | commentable_type | commentable_id |
+| --- | ------------------- | ---------------- | -------------- |
+| 1   | "comment on quiz"   | Quiz             | 1              |
+| 2   | "comment on lesson" | Lesson           | 1              |
+| 3   | "comment on post"   | Post             | 1              |
+
+In the above table a row represents that a comment belongs to certain type with id x. For example first row says that the comment with id 1 belongs to Quiz with id 1 and so on.
+
+Here the foreign_key commentable_id can points to multiple table based on commentable_type.
+
+So `Polymorphic Association` is an ideal choice where one model belongs to different types of other model given child model behaves the same regardless of parent type.
+
+# Model Setup
+
+```ruby
+#Comment model
+
+class Comment < ApplicationRecord
+  belongs_to :commentable, polymorphic: true
+end
+
+# Quiz model
+
+class Quiz < ApplicationRecord
+  has_many :comments, as: :commentable
+end
+
+
+# Lesson model
+
+class Lesson < ApplicationRecord
+  has_many :comments, as: :commentable
+end
+
+# Post model
+
+class Post < ApplicationRecord
+  has_many :comments, as: :commentable
+end
+```
+
+That `as: :commentable` must match the name in belongs_to.
+
+# Migrations
+
+```ruby
+create_table :comments do |t|
+  t.text :body
+  t.references :commentable, polymorphic: true, null: false
+  t.timestamps
+end
+```
+
+Here Rails generates `commentable_type` and `commentable_id` column in comments table.
+
+```ruby
+Quiz.comments.create("This is a great quiz")
+Lesson.comments.create("This is a great lesson")
+Post.comments.create("This is great post")
+```
+
+In the above code Rails create a following record.
+
+| id  | text                   | commentable_type | commentable_id |
+| --- | ---------------------- | ---------------- | -------------- |
+| 1   | This is a great quiz   | Quiz             | 1              |
+| 2   | This is a great lesson | Lesson           | 1              |
+| 2   | This is a great post   | Post             | 1              |
+
+In Polymorphic Association:
+
+- A single foreign key column that can reference different tables.
+- It creates the type discriminator column which represent the parent model type.
+- The application/ORM logic that interprets these together.
+
+# The Cost
+
+## No Database Level Foreign-Key Constraint
+
+When we have normal foreign-key relationship
+
+```ruby
+comments.post_id = posts.id
+```
+
+The database can:
+
+- Enforce foreign key constraints
+- Prevent invalid references
+- Cascase deletes safely
+- Optimize joins better
+
+But in Polymorphic Association, because a single foreign-key column points to different tables, the database doesn't know which table is referenced.
+
+and due to this
+
+- The database can't enforce foreign key constraint
+- It can't prevent accidentally store invalid references.
+- Referential integrity is compromised.
+- We have to rely on application logic.
+
+> Referential integrity is the rule that guarantees those relationships stay correct. If one record points to another record, the database ensures that the referenced record actually exists.
+
+If data integrity matters deeply for your usecase then this is not idea choice.
+
+## Query Complexity Increases
+
+In Polymorphic Association, The more complex the query the more number of parent model.
+
+In normal association we simply join table like below.
+
+```sql
+JOIN posts ON posts.id = comments.post_id
+```
+
+in Polymorphic Association
+
+```sql
+JOIN posts
+  ON posts.id = comments.commentable_id
+  AND comments.commentable_type = 'Post'
+```
+
+Now we have to write the conditional query for each parent and thant makes the query long and complex.
+In small apps this is fine, but in a analytic heavy system, complex queries are harder to optimize.
+
+## Indexing Is More Generic
+
+**📌 Note**
+
+> We should alway add index in polymorphic association.
+
+```plaintext
+add_index :comments, [:commentable_type, :commentable_id]
+```
+
+This allows queries like:
+
+```sql
+WHERE commentable_type = 'Quiz'
+AND commentable_id = 10
+```
+
+to use the index efficiently.
+
+But despite that database cannot optimize as strongly as it can with normal foreign key because the relationship is not tied to single table.
+
+## Renaming is hard
+
+In Polymorphic Association, the parent model class names are stored as a string in type column.
+Suppose if we rename `Post` model to `Article`. then the database will still have comment records where:
+
+```ruby
+commentabel_type = "Post"
+```
+
+You will have to migrate the data manually, and there is subtle operational risk there.
+
+# When Polymorphic Association Is a Good Choice
+
+Polymorphic associations work well when:
+
+- The relationship is conceptually identical across parents
+- The child model behaves uniformly for all parent model.
+- If we want extensibility without altering schema.
+- The system is not heavily analytics-driven
+- Examples: attachments, likes, activity logs, comments.
+
+# When to Be Cautious
+
+We need to think and contemplate if
+
+- Strict database-level integrity is required.
+- The child model behaves uniformly for all parent model.
+- The system is reporting-heavy, It might require complex queries.
+- Tables will grow very large, because index size becomes large for large databases.
+
+Polymorphic associations are a powerful Rails feature that make it easy to share one child model across many parent models, but there is also some costs. They are optimize of Applicaton-level flexibility but they sacrifice database level integirty and structural explicitness. The right choice depends what your system values more.
+
+If you found this useful, feel free to share it, also If you spot something inaccurate
+or incomplete, I'd be glad to hear from you.
