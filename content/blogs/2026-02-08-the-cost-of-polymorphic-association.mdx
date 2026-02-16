@@ -1,11 +1,11 @@
 ---
 title: 'The Real Cost of Polymorphic Association'
 description: 'Understanding the hidden costs and trade-offs of polymorphic associations in Rails.'
-publishedAt: '2026-02-08'
+publishedAt: '2026-02-16'
 author: 'Siddharth Shringi'
 tags: ['Ruby on Rails', 'Backend']
-image: '/Images/blog/2026-02-08-the-cost-of-polymorphic-association/cover2.webp'
-ogImage: '/Images/blog/2026-02-08-the-cost-of-polymorphic-association/og-image2.png'
+image: '/Images/blog/2026-02-08-the-cost-of-polymorphic-association/cover.webp'
+ogImage: '/Images/blog/2026-02-08-the-cost-of-polymorphic-association/og-image.png'
 ---
 
 Polymorphism refers to the ability of something to take multiple forms.
@@ -66,6 +66,8 @@ tables or making the schema messy?. This is where a
 polymorphic association becomes useful.
 
 # Polymorphic Association
+
+![Rails Initialization Process](/Images/blog/2026-02-08-the-cost-of-polymorphic-association/polymorphic-association.webp)
 
 The core idea behind a polymorphic association is simple: instead of storing multiple foreign keys,
 we store two columns - `commentable_type` and `commentable_id`
