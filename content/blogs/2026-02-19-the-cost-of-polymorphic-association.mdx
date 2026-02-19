@@ -1,7 +1,7 @@
 ---
 title: 'The Real Cost of Polymorphic Association'
 description: 'Understanding the hidden costs and trade-offs of polymorphic associations in Rails.'
-publishedAt: '2026-02-16'
+publishedAt: '2026-02-19'
 author: 'Siddharth Shringi'
 tags: ['Ruby on Rails', 'Backend']
 image: '/Images/blog/2026-02-08-the-cost-of-polymorphic-association/cover.webp'
@@ -271,10 +271,10 @@ Polymorphic associations work well when:
 
 # When to Avoid Polymorphic Associations
 
-- Strict database integrity required (no FK/CASCADE)
-- Child behavior varies by parent (different callbacks)
-- Heavy analytics (type filtering kills index scans)
-- Large tables (composite indexes slow inserts)
+- Strict database-level integrity is required.
+- The child model does not behave uniformly for all parent models.
+- The system is analytic-heavy. It might require complex queries.
+- Very large tables may lead to large composite indexes, which can impact performance.
 
 Polymorphic associations are a powerful Rails feature that makes it easy
 to share one child model across many parent models, but there are also some costs.
