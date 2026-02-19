@@ -13,7 +13,7 @@ export default function Navbar() {
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 xl:px-10">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <div className="flex-shrink-0">
+          <div className="shrink-0">
             <motion.div
               className="inline-block relative cursor-pointer"
               initial="rest"
@@ -24,7 +24,7 @@ export default function Navbar() {
                 <Link href="/">Siddharth</Link>
               </span>
               <motion.div
-                className="absolute left-0 -bottom-1 h-[2px] bg-chart-3 dark:bg-chart-2"
+                className="absolute left-0 -bottom-1 h-0.5 bg-chart-3 dark:bg-chart-2"
                 variants={{
                   rest: { width: 0 },
                   hover: { width: '100%' },

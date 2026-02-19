@@ -1,0 +1,284 @@
+---
+title: 'The Real Cost of Polymorphic Association'
+description: 'Understanding the hidden costs and trade-offs of polymorphic associations in Rails.'
+publishedAt: '2026-02-19'
+author: 'Siddharth Shringi'
+tags: ['Ruby on Rails', 'Backend']
+image: '/Images/blog/2026-02-08-the-cost-of-polymorphic-association/cover.webp'
+ogImage: '/Images/blog/2026-02-08-the-cost-of-polymorphic-association/og-image.png'
+---
+
+Polymorphism refers to the ability of something to take multiple forms.
+In Rails, a polymorphic association allows one model to belong to different
+types of models through a single association.
+
+I've read about polymorphic associations many times and understood what
+they are in theory. But when deciding whether to use them or not,
+I lacked clear criteria for making that choice.
+
+In this article, we are going to explore the reasoning behind
+polymorphic associations and the trade-offs they introduce.
+
+# The Problem
+
+Let's think of a scenario where we are building a learning platform where:
+
+- A quiz can have comments.
+- A lesson can have comments.
+- A post can have comments.
+
+What are the ways we can implement these relationships?
+
+**1.** We will create separate comment tables for each model.
+
+```plaintext
+Quiz -> QuizComments(id, text)
+Lesson -> LessonComments(id, text)
+Post -> PostComments(id, text)
+```
+
+All three tables store identical data.
+The only difference here is the parent model.
+It's a schema duplication and unnecessary separation
+of identical behaviour.
+
+Let's consider alternative ways to implement these
+associations.
+
+**2.** Create a single table which belongs
+to all three parents. To implement this relationship, we will create
+a comment table where `quiz_id`, `lesson_id`, and `post_id`
+will be foreign keys.
+
+| id  | text                | quiz_id | lesson_id | post_id |
+| --- | ------------------- | ------- | --------- | ------- |
+| 1   | "comment on quiz"   | 1       | NULL      | NULL    |
+| 2   | "comment on lesson" | NULL    | 1         | NULL    |
+| 3   | "comment on post"   | NULL    | NULL      | 1       |
+
+While this approach avoids duplication,
+it introduces other issues. As the number of parent models grows,
+the table gains more foreign key columns, which will be `NULL`
+for any given row.
+
+This makes the schema rigid, and adding a new parent type will require
+schema change, and enforcing the foreign key constraint becomes complex.
+
+So how can we model this relationship without duplicating
+tables or making the schema messy?. This is where a
+polymorphic association becomes useful.
+
+# Polymorphic Association
+
+![Rails Initialization Process](/Images/blog/2026-02-08-the-cost-of-polymorphic-association/polymorphic-association.webp)
+
+The core idea behind a polymorphic association is simple: instead of storing multiple foreign keys,
+We store two columns - `commentable_type` and commentable_id.
+Together, these columns identify both:
+
+- the type of parent model.
+- And the specific record it belongs to.
+
+This denotes that the comment belongs to something polymorphic (_commentable:_ something that can take multiple forms).
+It means a comment belongs to something that can be a Quiz, Lesson, or Post.
+
+| id  | text                | commentable_type | commentable_id |
+| --- | ------------------- | ---------------- | -------------- |
+| 1   | "comment on quiz"   | Quiz             | 1              |
+| 2   | "comment on lesson" | Lesson           | 1              |
+| 3   | "comment on post"   | Post             | 1              |
+
+Each row stores the parent model's class name and the corresponding record id.
+This allows a single comment table to associate with multiple models.
+
+For example first row says that the comment with id 1 belongs to the quiz with id 1.
+The second row says the comment id 2 belongs to the lesson with id 1, and so on.
+
+A `polymorphic association` is useful when the child model behaves the same regardless
+of parent model type, but needs to belong to a different type of models.
+
+# Modeling the Relationship
+
+```ruby
+#Comment model
+
+class Comment < ApplicationRecord
+  belongs_to :commentable, polymorphic: true
+end
+
+# Quiz model
+
+class Quiz < ApplicationRecord
+  has_many :comments, as: :commentable
+end
+
+
+# Lesson model
+
+class Lesson < ApplicationRecord
+  has_many :comments, as: :commentable
+end
+
+# Post model
+
+class Post < ApplicationRecord
+  has_many :comments, as: :commentable
+end
+```
+
+The as: :commentable option must match the association name defined in belongs_to.
+
+# Migrations
+
+```ruby
+create_table :comments do |t|
+  t.text :text
+  t.references :commentable, polymorphic: true, null: false
+  t.timestamps
+end
+```
+
+Here, Rails generates `commentable_type` and `commentable_id` columns in the comments table.
+
+Let's see how Rails uses these columns when creating records.
+
+```ruby
+quiz.comments.create(text: "This is a great quiz")
+lesson.comments.create(text: "This is a great lesson")
+post.comments.create(text: "This is great post")
+```
+
+In the above code, Rails create a following record.
+
+| id  | text                   | commentable_type | commentable_id |
+| --- | ---------------------- | ---------------- | -------------- |
+| 1   | This is a great quiz   | Quiz             | 1              |
+| 2   | This is a great lesson | Lesson           | 1              |
+| 3   | This is a great post   | Post             | 1              |
+
+In a polymorphic association:
+
+- The relationship is represented by two columns:
+  `commentable_type` and `commentable_id`.
+- `commentable_type` acts as a type discriminator,
+  storing the name of the parent model (e.g., Quiz, Lesson, Post).
+- `commentable_id` stores the id of the associated parent record.
+
+Rails uses both values together to determine which model and which
+specific record the comment belongs to.
+
+Notice that this design does not use a traditional database-level foreign key.
+Rails resolves the association at the application layer.
+
+# The Cost
+
+## No Database Level Foreign-Key Constraint
+
+When we have a normal foreign-key relationship
+
+```ruby
+add_reference :comments, :post, foreign_key: true, on_delete: :cascade
+```
+
+This allows the database to enforce foreign key constraint, and this prevents invalid references and handle cascading deletes safely.
+Cascading deletes is a database feature that automatically deletes related records in child tables when a record in a parent table is deleted.
+
+In a polymorphic association, this is not possible. Since `commentable_id` can refer to different tables depending on `commentable_type`, the database cannot enforce a traditional foreign key constraint.
+Therefore, database-level cascading deletes won't work for polymorphic associations.
+
+As a result:
+
+- Referential integrity is not enforced at the database level.
+- Orphaned records can exist if parents are deleted outside Rails.
+
+> Referential integrity ensures that a record cannot reference a parent that does not exist.
+
+To prevent this, we must handle it at the application level.
+
+```ruby
+class Post < ApplicationRecord
+  has_many :comments, as: :commentable, dependent: :destroy
+end
+```
+
+When we delete a post:
+
+Rails finds all comments where `commentable_type = 'Post'` AND `commentable_id = [post.id]`,
+Rails deletes each comment (running any callbacks they might have)
+and then Rails deletes the post.
+
+Polymorphism gives us flexibility in Rails, but removes database-enforced safety.
+
+## Limited Database Optimization
+
+For performance, we should add a composite index on [:commentable_type, :commentable_id].
+
+```plaintext
+add_index :comments, [:commentable_type, :commentable_id]
+```
+
+```sql
+SELECT * FROM comments
+WHERE commentable_type = 'Post'
+AND commentable_id = 10
+```
+
+The composite index on [commentable_type, commentable_id] works well for lookups like above,
+but it has limitations. Since the index is sorted by `commentable_type` first, querying by `commentable_id` alone won't use it efficiently, and the database falls back to a full table scan.
+
+## Query Complexity Increases
+
+In a normal association, joining tables is straightforward:
+
+```sql
+JOIN posts ON posts.id = comments.post_id
+```
+
+in Polymorphic Association, the join must also filter by type.
+
+```sql
+JOIN posts
+  ON posts.id = comments.commentable_id
+  AND comments.commentable_type = 'Post'
+```
+
+Now we have to write an additional conditional query for each parent,
+since there is no foreign key, the join optimizations that the
+database normally applies in a standard association
+will not work in a polymorphic association.
+
+For simple applications, this is fine. In analytics-heavy systems, queries become more complex and harder to maintain.
+
+## Renaming is Hard
+
+In Polymorphic Association, the parent model class names are stored as a string in the type column.
+Suppose we rename the `Post` model to `Article`. Then the database will still have comment records where:
+
+```ruby
+commentable_type = "Post"
+```
+
+We will have to migrate the data manually, and this introduces operational risk,
+especially in production systems with large datasets.
+
+# When Polymorphic Association Is a Good Choice
+
+Polymorphic associations work well when:
+
+- The child model behaves uniformly for all parent models.
+- If we want extensibility without altering the schema.
+- Examples: attachments, likes, activity logs, comments.
+
+# When to Avoid Polymorphic Associations
+
+- Strict database-level integrity is required.
+- The child model does not behave uniformly for all parent models.
+- The system is analytic-heavy. It might require complex queries.
+- Very large tables may lead to large composite indexes, which can impact performance.
+
+Polymorphic associations are a powerful Rails feature that makes it easy
+to share one child model across many parent models, but there are also some costs.
+They provide application-level flexibility, but trade away database-level
+integrity.
+
+If you notice any inaccuracies, I welcome thoughtful feedback.
