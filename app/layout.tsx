@@ -21,6 +21,11 @@ const geist = Geist({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NODE_ENV === 'production'
+      ? 'https://siddharth-shringi.vercel.app'
+      : 'http://localhost:3000'
+  ),
   title: 'Siddharth Shringi',
   description: "Siddharth Shringi's Portfolio",
 };

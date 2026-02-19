@@ -13,7 +13,7 @@ In Rails, a polymorphic association allows one model to belong to different
 types of models through a single association.
 
 I've read about polymorphic associations many times and understood what
-they are in theory. But when deciding whether to use them,
+they are in theory. But when deciding whether to use them or not,
 I lacked clear criteria for making that choice.
 
 In this article, we are going to explore the reasoning behind
@@ -29,7 +29,7 @@ Let's think of a scenario where we are building a learning platform where:
 
 What are the ways we can implement these relationships?
 
-**First approach:** We will create separate comment tables for each model.
+**1.** We will create separate comment tables for each model.
 
 ```plaintext
 Quiz -> QuizComments(id, text)
@@ -45,7 +45,7 @@ of identical behaviour.
 Let's consider alternative ways to implement these
 associations.
 
-**Second approach:** Create a single table which belongs
+**2.** Create a single table which belongs
 to all three parents. To implement this relationship, we will create
 a comment table where `quiz_id`, `lesson_id`, and `post_id`
 will be foreign keys.
@@ -58,8 +58,11 @@ will be foreign keys.
 
 While this approach avoids duplication,
 it introduces other issues. As the number of parent models grows,
-the table expands horizontally, resulting in many NULL values.
-The database becomes messy and doesn't scale well.
+the table gains more foreign key columns, which will be `NULL`
+for any given row.
+
+This makes the schema rigid, and adding a new parent type will require
+schema change, and enforcing the foreign key constraint becomes complex.
 
 So how can we model this relationship without duplicating
 tables or making the schema messy?. This is where a
@@ -70,13 +73,14 @@ polymorphic association becomes useful.
 ![Rails Initialization Process](/Images/blog/2026-02-08-the-cost-of-polymorphic-association/polymorphic-association.webp)
 
 The core idea behind a polymorphic association is simple: instead of storing multiple foreign keys,
-we store two columns - `commentable_type` and `commentable_id`
+We store two columns - `commentable_type` and commentable_id.
 Together, these columns identify both:
 
 - the type of parent model.
 - And the specific record it belongs to.
 
-This denotes that comment belongs to something polymorphic (_commentable:_ something that can take multiple forms).
+This denotes that the comment belongs to something polymorphic (_commentable:_ something that can take multiple forms).
+It means a comment belongs to something that can be a Quiz, Lesson, or Post.
 
 | id  | text                | commentable_type | commentable_id |
 | --- | ------------------- | ---------------- | -------------- |
@@ -87,11 +91,11 @@ This denotes that comment belongs to something polymorphic (_commentable:_ somet
 Each row stores the parent model's class name and the corresponding record id.
 This allows a single comment table to associate with multiple models.
 
-For example first row says that the comment with id 1 belongs to Quiz with id 1.
-Second row says the comment id 2 belongs to Lesson with id 1 and so on.
+For example first row says that the comment with id 1 belongs to the quiz with id 1.
+The second row says the comment id 2 belongs to the lesson with id 1, and so on.
 
-A `polymorphic association` is useful when child model behaves the same regardless
-of parent model type, but needs to belong to different type of models.
+A `polymorphic association` is useful when the child model behaves the same regardless
+of parent model type, but needs to belong to a different type of models.
 
 # Modeling the Relationship
 
@@ -128,13 +132,13 @@ The as: :commentable option must match the association name defined in belongs_t
 
 ```ruby
 create_table :comments do |t|
-  t.text :body
+  t.text :text
   t.references :commentable, polymorphic: true, null: false
   t.timestamps
 end
 ```
 
-Here Rails generates `commentable_type` and `commentable_id` columns in comments table.
+Here, Rails generates `commentable_type` and `commentable_id` columns in the comments table.
 
 Let's see how Rails uses these columns when creating records.
 
@@ -144,7 +148,7 @@ lesson.comments.create(text: "This is a great lesson")
 post.comments.create(text: "This is great post")
 ```
 
-In the above code Rails create a following record.
+In the above code, Rails create a following record.
 
 | id  | text                   | commentable_type | commentable_id |
 | --- | ---------------------- | ---------------- | -------------- |
@@ -170,13 +174,13 @@ Rails resolves the association at the application layer.
 
 ## No Database Level Foreign-Key Constraint
 
-When we have normal foreign-key relationship
+When we have a normal foreign-key relationship
 
-```sql
-FOREIGN KEY (post_id) REFERENCES posts(id)
+```ruby
+add_reference :comments, :post, foreign_key: true, on_delete: :cascade
 ```
 
-This allows database to enforce foreign key constraint, and this prevent invalid references, and handle cascading deletes safely.
+This allows the database to enforce foreign key constraint, and this prevents invalid references and handle cascading deletes safely.
 Cascading deletes is a database feature that automatically deletes related records in child tables when a record in a parent table is deleted.
 
 In a polymorphic association, this is not possible. Since `commentable_id` can refer to different tables depending on `commentable_type`, the database cannot enforce a traditional foreign key constraint.
@@ -184,9 +188,12 @@ Therefore, database-level cascading deletes won't work for polymorphic associati
 
 As a result:
 
-- Referential integrity is not enforced at the database-level.
+- Referential integrity is not enforced at the database level.
 - Orphaned records can exist if parents are deleted outside Rails.
-- We must cleanup on application-level logic (e.g using dependent: :destroy).
+
+> Referential integrity ensures that a record cannot reference a parent that does not exist.
+
+To prevent this, we must handle it at the application level.
 
 ```ruby
 class Post < ApplicationRecord
@@ -194,14 +201,30 @@ class Post < ApplicationRecord
 end
 ```
 
-When you delete a post:
+When we delete a post:
+
 Rails finds all comments where `commentable_type = 'Post'` AND `commentable_id = [post.id]`,
 Rails deletes each comment (running any callbacks they might have)
 and then Rails deletes the post.
 
-Polymorphic associations trade database-level guarantees for application-level flexibility.
+Polymorphism gives us flexibility in Rails, but removes database-enforced safety.
 
-> Referential integrity is the rule that guarantees those relationships stay correct. If one record points to another record, the database ensures that the referenced record actually exists.
+## Limited Database Optimization
+
+For performance, we should add a composite index on [:commentable_type, :commentable_id].
+
+```plaintext
+add_index :comments, [:commentable_type, :commentable_id]
+```
+
+```sql
+SELECT * FROM comments
+WHERE commentable_type = 'Post'
+AND commentable_id = 10
+```
+
+The composite index on [commentable_type, commentable_id] works well for lookups like above,
+but it has limitations. Since the index is sorted by `commentable_type` first, querying by `commentable_id` alone won't use it efficiently, and the database falls back to a full table scan.
 
 ## Query Complexity Increases
 
@@ -219,43 +242,23 @@ JOIN posts
   AND comments.commentable_type = 'Post'
 ```
 
-Now we have to write additional conditional query for each parent and thant makes the query long and complex.
-In small apps this is fine, but in a analytic heavy system, complex queries are harder to optimize.
+Now we have to write an additional conditional query for each parent,
+since there is no foreign key, the join optimizations that the
+database normally applies in a standard association
+will not work in a polymorphic association.
 
-## Limited Database Optimization
+For simple applications, this is fine. In analytics-heavy systems, queries become more complex and harder to maintain.
 
-Rails automatically creates a composite index when we add this line in migration file.
+## Renaming is Hard
 
-```ruby
-t.references :commentable, polymorphic: true, null: false
-```
-
-We only need to add the index if we're adding polymorphic columns to an existing table.
-
-```plaintext
-add_index :comments, [:commentable_type, :commentable_id]
-```
-
-The index allows queries like below to execute efficiently.
-
-```sql
-SELECT * FROM comments
-WHERE commentable_type = 'Post'
-AND commentable_id = 10
-```
-
-But despite that the database query optimizer can't use the index as effectively with polymorphic associations compared to normal foreign keys reason being no referential integrity at database level.
-
-## Renaming is hard
-
-In Polymorphic Association, the parent model class names are stored as a string in type column.
-Suppose if we rename `Post` model to `Article`. then the database will still have comment records where:
+In Polymorphic Association, the parent model class names are stored as a string in the type column.
+Suppose we rename the `Post` model to `Article`. Then the database will still have comment records where:
 
 ```ruby
 commentable_type = "Post"
 ```
 
-You will have to migrate the data manually, and this introduces operational risk,
+We will have to migrate the data manually, and this introduces operational risk,
 especially in production systems with large datasets.
 
 # When Polymorphic Association Is a Good Choice
@@ -263,21 +266,19 @@ especially in production systems with large datasets.
 Polymorphic associations work well when:
 
 - The child model behaves uniformly for all parent models.
-- If we want extensibility without altering schema.
+- If we want extensibility without altering the schema.
 - Examples: attachments, likes, activity logs, comments.
 
-# When to Be Cautious
+# When to Avoid Polymorphic Associations
 
-- Strict database-level integrity is required.
-- The child model does not behaves uniformly for all parent models.
-- The system is analytic-heavy, It might require complex queries.
-- Very large tables may lead to large composite indexes, which can impact performance.
+- Strict database integrity required (no FK/CASCADE)
+- Child behavior varies by parent (different callbacks)
+- Heavy analytics (type filtering kills index scans)
+- Large tables (composite indexes slow inserts)
 
-Polymorphic associations are a powerful Rails feature that make it easy
+Polymorphic associations are a powerful Rails feature that makes it easy
 to share one child model across many parent models, but there are also some costs.
+They provide application-level flexibility, but trade away database-level
+integrity.
 
-They provide application-level flexibility, but they trade away database-level
-integrity and structural explicitness. The right choice depends on what your system values more.
-
-Thanks for reading this article and if you found this useful, feel free to share it,
-also If you find inaccuracies in explanation, I'd be glad to hear from you.
+If you notice any inaccuracies, I welcome thoughtful feedback.
