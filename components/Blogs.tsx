@@ -6,7 +6,6 @@ import { Badge } from '@/components/ui/badge';
 import { BlogListItem } from './BlogListItem';
 
 export default function Blogs({ posts }: { posts: PostMetadata[] }) {
-  console.log('Posts in Blogs component:', posts);
   return (
     <div className="flex flex-col gap-4">
       {posts.map((post) => (
