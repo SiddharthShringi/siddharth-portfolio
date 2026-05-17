@@ -11,8 +11,8 @@ export default function Projects() {
       <div className="mx-auto max-w-7xl ">
         <div className="my-5 mb-10">
           <div className="flex items-center space-x-2">
-            <Hammer className="h-5 w-5 text-foreground/80" />
-            <h1 className="text-xl text-foreground/80 font-semibold">Projects</h1>
+            <Hammer className="h-5 w-5" />
+            <h1 className="text-xl font-semibold">Projects</h1>
           </div>
           <Separator className="my-4 bg-foreground/20 h-0.5" />
         </div>

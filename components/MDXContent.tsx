@@ -5,7 +5,7 @@ import remarkGfm from 'remark-gfm';
 
 const rehypePrettyCodeOptions = {
   theme: {
-    dark: 'one-dark-pro',
+    dark: 'github-dark-dimmed',
     light: 'one-light',
   },
 };
