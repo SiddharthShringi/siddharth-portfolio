@@ -50,20 +50,16 @@ export default async function Image({ params }: { params: { slug: string } }) {
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="28"
-          height="28"
+          width="24"
+          height="24"
           viewBox="0 0 24 24"
           fill="none"
+          stroke="#34d399"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         >
-          <path d="M12 13v8" stroke="#34d399" strokeWidth="2" strokeLinecap="round" />
-          <path d="M12 3v3" stroke="#34d399" strokeWidth="2" strokeLinecap="round" />
-          <path
-            d="M18.172 6a2 2 0 0 1 1.414.586l2.06 2.06a1.207 1.207 0 0 1 0 1.708l-2.06 2.06a2 2 0 0 1-1.414.586H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1z"
-            stroke="#34d399"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
+          <path d="M17 3a2 2 0 0 1 2 2v15a1 1 0 0 1-1.496.868l-4.512-2.578a2 2 0 0 0-1.984 0l-4.512 2.578A1 1 0 0 1 5 20V5a2 2 0 0 1 2-2z" />
         </svg>
 
         <div
@@ -73,7 +69,7 @@ export default async function Image({ params }: { params: { slug: string } }) {
             letterSpacing: '-0.02em',
           }}
         >
-          Blog
+          Siddharth Shringi
         </div>
       </div>
 
