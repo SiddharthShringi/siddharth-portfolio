@@ -28,22 +28,25 @@ export async function generateMetadata({
     openGraph: {
       title: metadata.title,
       description: metadata.description,
-      images: metadata.ogImage
-        ? [
-            {
-              url: metadata.ogImage,
-              width: 1200,
-              height: 630,
-              alt: metadata.title,
-            },
-          ]
-        : [],
+      images: [
+        {
+          url: `/blog/${slug}/opengraph-image`,
+          width: 1200,
+          height: 630,
+          alt: metadata.title,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: metadata.title,
+      description: metadata.description,
     },
   };
 }
 
 export default async function Post({ params }: { params: { slug: string } }) {
-  const { slug } = await params;
+  const { slug } = params;
   const post = await getPostBySlug(slug);
 
   if (!post) {
@@ -56,45 +59,47 @@ export default async function Post({ params }: { params: { slug: string } }) {
   return (
     <section className="mx-auto max-w-4xl py-10">
       <div className="px-6 lg:px-8 xl:px-10">
-        <header className="mt-10 mb-2">
-          <p className="text-4xl font-extrabold font-sans text-pretty my-2 sm:my-2">{title}</p>
-          {publishedAt && readingTime && (
-            <div className="flex items-center pt-2 pb-4">
-              <div className="flex items-center text-chart-2">
-                <Calendar className="w-4 h-4" />
-                <p className="text-sm px-2">{formatDate(publishedAt)}</p>
-              </div>
-              <>
-                <span className="text-muted-foreground">•</span>
-                <span className="text-sm text-muted-foreground px-2">{readingTime}</span>
-              </>
-            </div>
-          )}
-        </header>
-        {/* Post Image */}
+        <div className="space-y-8">
+          <header className="space-y-3">
+            <h1 className="text-4xl font-extrabold font-sans text-pretty">{title}</h1>
 
-        {image && (
-          <AspectRatio ratio={16 / 9}>
-            <Image
-              src={image}
-              alt={title || 'Blog Post Image'}
-              fill
-              className="object-cover rounded-lg shadow-2xl"
-              priority
-            />
-          </AspectRatio>
-        )}
-        <main className="mx-auto max-w-4xl py-4 my-10">
-          <article
-            className="prose prose-lg prose-neutral 
-              dark:prose-invert tracking-wide 
-              [&>p:first-of-type::first-letter]:font-bold
-              [&>p:first-of-type::first-letter]:text-3xl
-              sm:[&>p:first-of-type::first-letter]:text-4xl"
-          >
-            <MDXContent source={content} />
-          </article>
-        </main>
+            {publishedAt && readingTime && (
+              <div className="flex items-center gap-2 text-sm">
+                <div className="flex items-center gap-2 text-chart-2">
+                  <Calendar className="h-4 w-4" />
+                  <span>{formatDate(publishedAt)}</span>
+                </div>
+
+                <span className="text-muted-foreground">•</span>
+
+                <span className="text-muted-foreground">{readingTime}</span>
+              </div>
+            )}
+          </header>
+
+          {image && (
+            <AspectRatio ratio={16 / 9}>
+              <Image
+                src={image}
+                alt={title || 'Blog Post Image'}
+                fill
+                className="rounded-lg object-cover shadow-2xl"
+                priority
+              />
+            </AspectRatio>
+          )}
+
+          <main>
+            <article
+              className="prose prose-lg prose-neutral tracking-wide dark:prose-invert
+            [&>p:first-of-type::first-letter]:text-3xl
+            [&>p:first-of-type::first-letter]:font-bold
+            sm:[&>p:first-of-type::first-letter]:text-4xl"
+            >
+              <MDXContent source={content} />
+            </article>
+          </main>
+        </div>
       </div>
     </section>
   );

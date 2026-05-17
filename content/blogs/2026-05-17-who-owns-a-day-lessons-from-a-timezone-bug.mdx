@@ -1,0 +1,181 @@
+---
+title: 'Who Owns a Day? Lessons From a Timezone Bug'
+description: 'Common bug when dealing with timezon change showing date and time'
+publishedAt: '2026-05-17'
+author: 'Siddharth Shringi'
+tags: ['Ruby on Rails', 'Next.js']
+---
+
+I was working on my portfolio project WorkNotes, a time-tracking
+and note-taking app built with Ruby on Rails and Next.js.
+Users can create work sessions and add notes to those work sessions.
+Each work session has a `started_at` and `ended_at` field
+which are stored in `UTC` timezone in the database.
+
+One of the features I implemented was to group work sessions by date.
+
+For example
+
+```ruby
+Today
+- Work Session 1
+
+Yesterday
+- Work Session 1
+- Work Session 2
+
+14 May 2026
+- Work Session 1
+```
+
+To implement this feature, I was using `started_at` field to group work sessions by date.
+
+```ruby
+// app/controllers/work_sessions_controller.rb
+
+  def index
+    @grouped_work_sessions = current_user.work_sessions
+                                .includes(:project)
+                                .order(started_at: :desc)
+                                .group_by { |session|   session.started_at.to_date }
+  end
+
+```
+
+But I noticed something visually wrong on the frontend. Especially with this example:
+
+```js {7,12}
+grouped_work_sessions = [
+    {
+        "date": "2026-05-06",
+        "sessions": [
+            {
+                "id": 50,
+                "started_at": "2026-05-06T18:32:08.612Z",
+                "ended_at": "2026-05-06T18:32:29.074Z",
+                ...
+            },
+            {
+                "id": 49,
+                "started_at": "2026-05-06T10:33:32.631Z",
+                "ended_at": "2026-05-06T10:37:06.229Z",
+                ...
+            }
+        ]
+    },
+        ...
+            ...
+                ...
+]
+```
+
+The data was ordered correctly in UTC, but on the UI,
+`May 6, 12:02 AM` was appearing before `May 6, 4:03 PM`, which looked like a broken sort to the user.
+
+This created confusion.
+
+# Root Cause
+
+The feature has three parts:
+
+1. Ordering data by `started_at` (descending).
+2. Grouping data by date using `started_at`.
+3. Displaying data on the frontend.
+
+`started_at` and `ended_at` are stored in **UTC** in the database.
+Data is ordered and grouped by UTC date, but displayed on the
+frontend in the user's **local timezone** via `new Date()`.
+
+This creates a mismatch. For example:
+
+```js
+new Date('2026-05-06T18:32:08.612Z'); // Thu May 07 2026 00:02:08 GMT+0530 (IST)
+new Date('2026-05-06T10:33:32.631Z'); // Wed May 06 2026 16:03:32 GMT+0530 (IST)
+```
+
+The first session starts on **May 6 in UTC**,
+but falls on **May 7 in IST**.
+Since grouping uses the UTC date, both sessions are
+grouped under **May 6**,
+even though the first one should appear
+under **May 7** for IST users.
+
+# Who Owns a Day?
+
+The real question isn't just a timezone fix — it's about defining
+what a "day" means in the product.
+Is it a UTC calendar day, or the user's local calendar day?
+
+There isn't one universally correct answer here.
+It depends on the application and user expectations.
+
+Some systems intentionally group data by UTC date for consistency across regions.
+
+For WorkNotes, grouping by the user's local calendar day matched user expectations better than grouping by UTC day.
+
+### UTC
+
+UTC (Coordinated Universal Time), a universal time reference that doesn't change with location or season. Timestamps are stored in UTC so there's one consistent source of truth.
+
+```plaintext
+Example: "2026-05-06T18:32:08.612Z"
+
+- `2026-05-06` → May 6, 2026
+- `T18:32:08` → 6:32 PM
+- `Z` → UTC
+```
+
+A UTC timestamp represents an exact moment in time.
+But a day is a human concept that depends on timezone.
+
+### Local Timezone
+
+A local timezone is location dependent. India uses `Asia/Kolkata` (UTC +5:30), New York uses `America/New_York` (UTC -4:00).
+
+The same UTC timestamp converts differently for each timezone:
+
+| Timezone        | Local Time           |
+| --------------- | -------------------- |
+| UTC             | 2026-05-06 18:32     |
+| IST (UTC +5:30) | **2026-05-07** 00:02 |
+| EST (UTC -4:00) | 2026-05-06 14:32     |
+
+Notice that IST rolls over to the **next day** which is exactly where the grouping bug comes from.
+
+# The Solution
+
+The fix is to group sessions by `started_at` converted to the user's local timezone, not UTC.
+
+### Step 1 — Store the User's Timezone
+
+Add a `timezone` column to the users table (defaulting to `"UTC"`), and update it on the frontend when the app boots:
+
+```js
+// On app boot, sync timezone if it has changed
+if (user.timezone !== Intl.DateTimeFormat().resolvedOptions().timeZone) {
+  api.patch('/user', { timezone: Intl.DateTimeFormat().resolvedOptions().timeZone });
+}
+```
+
+### Step 2 — Group by Local Date
+
+Use `in_time_zone` with the stored timezone before grouping:
+
+```ruby
+# app/controllers/work_sessions_controller.rb
+def index
+    @grouped_work_sessions = current_user.work_sessions
+                                .includes(:project)
+                                .order(started_at: :desc)
+                                .group_by { |session|   session.started_at.in_time_zone(current_user.timezone ).to_date }
+end
+```
+
+This ensures each session is grouped under the correct local date.
+
+The bug itself was simple, but it taught me important destinctions:
+
+- Timestamps represents exact moments in time.
+- While a calendar days depends on timezone.
+
+Handling time correctly in software depends on understanding these concepts and making intentional decisions about how to define a "day" in the context of the application.
