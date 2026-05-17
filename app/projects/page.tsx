@@ -1,18 +1,20 @@
 import React from 'react';
 import projects from '@/lib/data/projects';
 import Link from 'next/link';
+import { Separator } from '@/components/ui/separator';
 import { Project } from '@/lib/types/project';
+import { Hammer } from 'lucide-react';
 
 export default function Projects() {
   return (
-    <section className="mx-auto max-w-7xl">
-      <div className="px-4 sm:px-6 lg:px-8 xl:px-10 mb-6">
-        <div className="mx-5 py-5 text-center">
-          <h1 className="text-5xl text-chart-3 dark:text-chart-2 font-bold">Projects</h1>
-          <p className="text-muted-foreground py-2">
-            Projects and work across different areas of software and learning
-          </p>
-          <div className="border-t my-2"></div>
+    <section className="px-4 sm:px-6 lg:px-8 xl:px-10">
+      <div className="mx-auto max-w-7xl ">
+        <div className="mt-5 mb-10">
+          <div className="flex items-center space-x-2">
+            <Hammer className="h-5 w-5" />
+            <h1 className="text-xl text-foreground font-semibold">Projects</h1>
+          </div>
+          <Separator className="my-4 bg-foreground/20 h-0.5" />
         </div>
         <main className="py-4 space-y-8">
           <div className="grid gap-6 md:grid-cols-3">

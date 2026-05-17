@@ -11,7 +11,7 @@ export default function Blogs({ posts }: { posts: PostMetadata[] }) {
     <div className="flex flex-col gap-4">
       {posts.map((post) => (
         <div className="py-2" key={post.slug}>
-          <Link href={`/blog/${post.slug}`} className="flex flex-col gap-2 py-2 transition">
+          <Link href={`/blog/${post.slug}`} className="flex flex-col gap-2">
             {/* Mobile Index */}
             <div className="flex flex-col justify-start gap-2 md:hidden">
               <h2 className="text-2xl font-semibold font-sans text-foreground hover:text-chart-2 transition-colors cursor-pointer!">
