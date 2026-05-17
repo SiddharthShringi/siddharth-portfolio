@@ -14,7 +14,7 @@ export default function Introduction() {
           transition={{ duration: 0.8 }}
           className="text-center sm:text-left"
         >
-          <h1 className="text-4xl md:text-6xl font-geist font-bold text-chart-3 dark:text-chart-2 leading-tight mb-6">
+          <h1 className="text-4xl md:text-6xl font-geist font-bold text-chart-2 leading-tight mb-6">
             Siddharth Shringi
           </h1>
 
