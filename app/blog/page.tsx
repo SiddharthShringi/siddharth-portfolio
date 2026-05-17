@@ -12,16 +12,16 @@ async function Blog() {
       <div className="mx-auto max-w-7xl">
         <div className="my-5">
           <div className="flex items-center space-x-2">
-            <PenLine className="h-5 w-5 text-foreground/80" />
-            <h1 className="text-xl text-foreground/80 font-semibold">Writings</h1>
+            <PenLine className="h-5 w-5" />
+            <h1 className="text-xl font-semibold">Writings</h1>
           </div>
           <Separator className="my-4 bg-foreground/20 h-0.5" />
         </div>
         <Blogs posts={posts} />
         <div className="my-5">
           <div className="flex items-center space-x-2">
-            <BookText className="h-5 w-5 text-foreground/80" />
-            <h1 className="text-xl text-foreground/80 font-semibold">Publications</h1>
+            <BookText className="h-5 w-5" />
+            <h1 className="text-xl font-semibold">Publications</h1>
           </div>
           <Separator className="my-4 bg-foreground/20 h-0.5" />
         </div>
