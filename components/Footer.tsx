@@ -3,7 +3,7 @@ import { Linkedin, Github, Mail } from 'lucide-react';
 
 export default function Footer() {
   return (
-    <footer className="bg-background my-10">
+    <footer className="bg-background my-10 px-4 sm:px-6 lg:px-8 xl:px-10">
       <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center text-sm text-muted-foreground">
         {/* Left side */}
         <p>&copy; 2025 Siddharth Shringi</p>
