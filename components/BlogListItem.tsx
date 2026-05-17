@@ -10,7 +10,7 @@ export function BlogListItem({ post }: { post: PostMetadata }) {
     <article className="group space-y-2">
       <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
         {publishedAt && (
-          <div className="flex items-center gap-1.5 text-chart-2">
+          <div className="flex items-center gap-1.5 text-chart-2 font-stretch-semi-expanded">
             <Calendar className="h-3.5 w-3.5" />
             <span>{formatDate(publishedAt)}</span>
           </div>
@@ -43,7 +43,7 @@ export function BlogListItem({ post }: { post: PostMetadata }) {
       </div>
 
       <div className="space-y-1">
-        <h2 className="text-lg font-semibold tracking-tight transition-colors group-hover:text-foreground/80">
+        <h2 className="text-lg font-semibold text-foreground/80 tracking-tight transition-colors group-hover:text-foreground">
           {title}
         </h2>
 

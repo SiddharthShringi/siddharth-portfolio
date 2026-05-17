@@ -21,7 +21,7 @@ export default function Navbar() {
               animate="rest"
             >
               <span className="text-xl font-geist font-bold text-foreground">
-                <Link href="/">Siddharth Shringi</Link>
+                <Link href="/">Siddharth</Link>
               </span>
               <motion.div
                 className="absolute left-0 -bottom-1 h-0.5 bg-chart-3 dark:bg-chart-2"

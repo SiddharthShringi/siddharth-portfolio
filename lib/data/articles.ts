@@ -55,6 +55,24 @@ const articles: Article[] = [
     publicationLink: 'https://www.bigbinary.com/',
     link: 'https://www.bigbinary.com/blog/rails-6-1-adds-support-for-belongs_to-to-has_many-inversing',
   },
+  {
+    title: 'Let’s Make Command Line Interface In Python',
+    publication: 'Medium',
+    publicationLink: 'https://medium.com/',
+    link: 'https://medium.com/@siddharthshringi/lets-make-command-line-interface-5f48c276441',
+  },
+  {
+    title: 'How Community Can Help You In Learning',
+    publication: 'Medium',
+    publicationLink: 'https://medium.com/',
+    link: 'https://medium.com/@siddharthshringi/how-community-can-help-you-in-learning-e31568d5705',
+  },
+  {
+    title: 'How I Made My First Django App',
+    publication: 'Medium',
+    publicationLink: 'https://medium.com/',
+    link: 'https://medium.com/@siddharthshringi/how-i-made-my-first-django-app-4ede65c9b17f',
+  },
 ];
 
 export default articles;

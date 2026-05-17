@@ -60,10 +60,14 @@ export default async function Post({ params }: { params: { slug: string } }) {
           <p className="text-4xl font-extrabold font-sans text-pretty my-2 sm:my-2">{title}</p>
           {publishedAt && readingTime && (
             <div className="flex items-center pt-2 pb-4">
-              <Calendar className="w-4 h-4 text-muted-foreground" />
-              <p className="text-sm text-muted-foreground px-2">
-                {formatDate(publishedAt)} • {readingTime}
-              </p>
+              <div className="flex items-center text-chart-2">
+                <Calendar className="w-4 h-4" />
+                <p className="text-sm px-2">{formatDate(publishedAt)}</p>
+              </div>
+              <>
+                <span className="text-muted-foreground">•</span>
+                <span className="text-sm text-muted-foreground px-2">{readingTime}</span>
+              </>
             </div>
           )}
         </header>
