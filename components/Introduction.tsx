@@ -1,37 +1,39 @@
 import React from 'react';
 import * as motion from 'motion/react-client';
 import { Button } from './ui/button';
-import { Download } from 'lucide-react';
+import { Download, MapPin } from 'lucide-react';
 import Socials from './Socials';
 import Link from 'next/link';
 import Image from 'next/image';
 
+const stack = ['Ruby on Rails', 'React', 'Next.js', 'PostgreSQL', 'TypeScript'];
+
 export default function Introduction() {
   return (
-    <section className="px-4 sm:px-6 lg:px-8 xl:px-10">
+    <section className="px-4 sm:px-6 lg:px-8 xl:px-10 mt-10 sm:mt-20">
       <div className="container mx-auto max-w-7xl">
-        <div className="flex flex-col lg:flex-row-reverse justify-between lg:justify-end items-center lg:items-start gap-10 sm:gap-12 mt-10 sm:mt-20">
-          {/* Image */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8 }}
-            className="shrink-0"
-          >
-            <div className="w-32 h-32 sm:w-40 sm:h-40 lg:w-56 lg:h-56 text-center rounded-full overflow-hidden bg-muted border border-border">
-              <Image
-                src="/profile.jpg"
-                alt="Siddharth Shringi"
-                width={224}
-                height={224}
-                className="w-full h-full object-cover"
-                priority
-              />
-            </div>
-          </motion.div>
-
+        <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-10 sm:gap-12">
           {/* Text */}
-          <div className="flex flex-col gap-8 sm:gap-10 max-w-2xl">
+          <div className="flex flex-col gap-8 sm:gap-10 max-w-2xl w-full">
+            {/* Mobile image — above text - Add Profile Image Below  */}
+            {/* <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8 }}
+              className="flex lg:hidden"
+            >
+              <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full overflow-hidden bg-muted border border-border">
+                <Image
+                  src="/profile.jpg"
+                  alt="Siddharth Shringi"
+                  width={128}
+                  height={128}
+                  className="w-full h-full object-cover"
+                  priority
+                />
+              </div>
+            </motion.div> */}
+
             {/* Hero */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -55,11 +57,28 @@ export default function Introduction() {
               </p>
             </motion.div>
 
+            {/* Stack */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.15 }}
+              className="flex flex-wrap gap-2"
+            >
+              {stack.map((tech) => (
+                <span
+                  key={tech}
+                  className="text-xs md:text-sm px-3 py-1 rounded-full border border-border text-muted-foreground"
+                >
+                  {tech}
+                </span>
+              ))}
+            </motion.div>
+
             {/* CTA */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
               className="flex flex-col sm:flex-row items-start sm:items-center gap-6"
             >
               <Link
@@ -76,7 +95,39 @@ export default function Introduction() {
 
               <Socials />
             </motion.div>
+
+            {/* Footer info */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.45 }}
+              className="flex flex-col gap-2 text-sm text-muted-foreground"
+            >
+              <div className="flex items-center gap-1.5">
+                <MapPin className="h-3.5 w-3.5" />
+                <span>Bangalore, India · Open to remote & hybrid opportunities</span>
+              </div>
+            </motion.div>
           </div>
+
+          {/* Desktop image — right side - Add Profile Image Below */}
+          {/* <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8 }}
+            className="hidden lg:flex shrink-0"
+          >
+            <div className="w-56 h-56 xl:w-64 xl:h-64 rounded-full overflow-hidden bg-muted border border-border">
+              <Image
+                src="/profile.jpg"
+                alt="Siddharth Shringi"
+                width={256}
+                height={256}
+                className="w-full h-full object-cover"
+                priority
+              />
+            </div>
+          </motion.div> */}
         </div>
       </div>
     </section>

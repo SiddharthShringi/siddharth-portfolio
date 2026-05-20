@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import { navItems } from '@/lib/constant';
 import Link from 'next/link';
 import ThemeToggle from './ThemeToggle';
@@ -20,8 +19,10 @@ export default function Navbar() {
               whileHover="hover"
               animate="rest"
             >
-              <span className="text-xl font-geist font-bold text-foreground">
-                <Link href="/">Siddharth</Link>
+              <span className="text-xl font-jet-brains-mono font-bold text-foreground">
+                <Link href="/">
+                  siddharth<span className="text-chart-2 font-bold">.</span>
+                </Link>
               </span>
               <motion.div
                 className="absolute left-0 -bottom-1 h-0.5 bg-chart-3 dark:bg-chart-2"

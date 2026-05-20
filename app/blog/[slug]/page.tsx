@@ -61,7 +61,7 @@ export default async function Post({ params }: { params: { slug: string } }) {
       <div className="px-6 lg:px-8 xl:px-10">
         <div className="space-y-8">
           <header className="space-y-3">
-            <h1 className="text-4xl font-extrabold font-sans text-pretty">{title}</h1>
+            <h1 className="text-4xl font-extrabold font-serif text-pretty">{title}</h1>
 
             {publishedAt && readingTime && (
               <div className="flex items-center gap-2 text-sm">

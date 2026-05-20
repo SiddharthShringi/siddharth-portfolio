@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Inter, Playfair_Display, Geist } from 'next/font/google';
+import { Inter, Playfair_Display, Geist, JetBrains_Mono, Outfit, Lora } from 'next/font/google';
 import './globals.css';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import Navbar from '@/components/Navbar';
@@ -10,6 +10,11 @@ const inter = Inter({
   subsets: ['latin'],
 });
 
+const lora = Lora({
+  variable: '--font-lora',
+  subsets: ['latin'],
+});
+
 const playfairDisplay = Playfair_Display({
   variable: '--font-playfair-display',
   subsets: ['latin'],
@@ -17,6 +22,16 @@ const playfairDisplay = Playfair_Display({
 
 const geist = Geist({
   variable: '--font-geist',
+  subsets: ['latin'],
+});
+
+const jetBrainsMono = JetBrains_Mono({
+  variable: '--font-jet-brains-mono',
+  subsets: ['latin'],
+});
+
+const outfit = Outfit({
+  variable: '--font-outfit',
   subsets: ['latin'],
 });
 
@@ -38,7 +53,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${inter.variable} ${playfairDisplay.variable} ${geist.variable} antialiased`}
+        className={`${inter.variable} ${lora.variable} ${outfit.variable} ${jetBrainsMono.variable} ${playfairDisplay.variable} ${geist.variable} antialiased`}
       >
         <ThemeProvider
           attribute="class"
@@ -48,7 +63,7 @@ export default function RootLayout({
         >
           <div className="min-h-screen flex flex-col">
             <Navbar />
-            <div className="flex-1 container mx-auto overflow-hidden">{children}</div>
+            <div className="flex-1 overflow-hidden">{children}</div>
             <Footer />
           </div>
         </ThemeProvider>
