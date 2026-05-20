@@ -19,7 +19,7 @@ export default function Navbar() {
               whileHover="hover"
               animate="rest"
             >
-              <span className="text-xl font-jet-brains-mono font-bold text-foreground">
+              <span className="text-lg sm:text-xl font-jet-brains-mono font-bold text-foreground">
                 <Link href="/">
                   siddharth<span className="text-chart-2 font-bold">.</span>
                 </Link>
@@ -39,7 +39,7 @@ export default function Navbar() {
           <div className="hidden md:flex items-center space-x-8">
             {navItems.map((item, idx) => (
               <Link
-                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-color duration-200"
+                className="text-xs lg:text-sm font-medium tracking-wider text-muted-foreground hover:text-foreground transition-color duration-200"
                 href={item.href}
                 key={idx}
               >

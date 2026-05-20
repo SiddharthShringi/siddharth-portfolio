@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Inter, Playfair_Display, Geist, JetBrains_Mono, Outfit, Lora } from 'next/font/google';
+import { Inter, Geist, JetBrains_Mono, Outfit, Lora } from 'next/font/google';
 import './globals.css';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import Navbar from '@/components/Navbar';
@@ -12,11 +12,6 @@ const inter = Inter({
 
 const lora = Lora({
   variable: '--font-lora',
-  subsets: ['latin'],
-});
-
-const playfairDisplay = Playfair_Display({
-  variable: '--font-playfair-display',
   subsets: ['latin'],
 });
 
@@ -53,7 +48,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${inter.variable} ${lora.variable} ${outfit.variable} ${jetBrainsMono.variable} ${playfairDisplay.variable} ${geist.variable} antialiased`}
+        className={`${inter.variable} ${lora.variable} ${outfit.variable} ${jetBrainsMono.variable} ${geist.variable} antialiased`}
       >
         <ThemeProvider
           attribute="class"
