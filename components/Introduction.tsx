@@ -6,7 +6,7 @@ import Socials from './Socials';
 import Link from 'next/link';
 import Image from 'next/image';
 
-const stack = ['Ruby on Rails', 'React', 'Next.js', 'PostgreSQL', 'TypeScript'];
+const stack = ['Ruby', 'Ruby on Rails', 'PostgreSQL', 'RSpec', 'React', 'Next.js', 'TypeScript'];
 
 export default function Introduction() {
   return (
@@ -52,8 +52,8 @@ export default function Introduction() {
               <p className="text-base md:text-lg text-foreground/80 leading-relaxed">
                 Software engineer with 5+ years building production web applications with Ruby on
                 Rails and React. I have shipped features for e-commerce and logistics SaaS
-                platforms, had articles featured in Ruby Weekly, and I write tests, set up CI/CD
-                pipelines, and use AI tools as part of my everyday workflow.
+                platforms, had articles featured in Ruby Weekly, and experienced in testing, CI/CD,
+                and AI-assisted development workflows.
               </p>
             </motion.div>
 
