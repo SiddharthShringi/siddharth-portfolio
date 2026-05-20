@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import { navItems } from '@/lib/constant';
 import Link from 'next/link';
 import ThemeToggle from './ThemeToggle';
@@ -20,8 +19,10 @@ export default function Navbar() {
               whileHover="hover"
               animate="rest"
             >
-              <span className="text-xl font-geist font-bold text-foreground">
-                <Link href="/">Siddharth</Link>
+              <span className="text-lg sm:text-xl font-jet-brains-mono font-bold text-foreground">
+                <Link href="/">
+                  siddharth<span className="text-chart-2 font-bold">.</span>
+                </Link>
               </span>
               <motion.div
                 className="absolute left-0 -bottom-1 h-0.5 bg-chart-3 dark:bg-chart-2"
@@ -38,7 +39,7 @@ export default function Navbar() {
           <div className="hidden md:flex items-center space-x-8">
             {navItems.map((item, idx) => (
               <Link
-                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-color duration-200"
+                className="text-xs lg:text-sm font-medium tracking-wider text-muted-foreground hover:text-foreground transition-color duration-200"
                 href={item.href}
                 key={idx}
               >

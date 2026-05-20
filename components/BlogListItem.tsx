@@ -8,10 +8,10 @@ export function BlogListItem({ post }: { post: PostMetadata }) {
 
   return (
     <article className="group space-y-2">
-      <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
+      <div className="flex flex-wrap items-center gap-2 text-xs md:text-sm text-muted-foreground">
         {publishedAt && (
           <div className="flex items-center gap-1.5 text-chart-2 font-stretch-semi-expanded">
-            <Calendar className="h-3.5 w-3.5" />
+            <Calendar className="h-3 w-3 md:h-3.5 md:w-3.5" />
             <span>{formatDate(publishedAt)}</span>
           </div>
         )}
@@ -32,7 +32,7 @@ export function BlogListItem({ post }: { post: PostMetadata }) {
                 <Badge
                   key={tag}
                   variant="secondary"
-                  className="rounded-md px-2 py-1 text-[11px] font-normal uppercase"
+                  className="rounded-md px-1.5 py-0.5 md:px-2 md:py-1 text-[10px] md:text-[11px] font-normal uppercase"
                 >
                   {tag}
                 </Badge>
@@ -43,12 +43,14 @@ export function BlogListItem({ post }: { post: PostMetadata }) {
       </div>
 
       <div className="space-y-1">
-        <h2 className="text-lg font-semibold text-foreground/80 tracking-tight transition-colors group-hover:text-foreground">
+        <h2 className="text-lg md:text-xl lg:text-2xl font-semibold text-foreground/90 tracking-tight transition-colors group-hover:text-foreground">
           {title}
         </h2>
 
         {description && (
-          <p className="max-w-2xl text-sm leading-6 text-muted-foreground">{description}</p>
+          <p className="max-w-2xl text-xs md:text-sm leading-5 md:leading-6 text-muted-foreground">
+            {description}
+          </p>
         )}
       </div>
     </article>
