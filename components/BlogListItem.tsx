@@ -18,15 +18,14 @@ export function BlogListItem({ post }: { post: PostMetadata }) {
 
         {readingTime && (
           <>
-            <span className="text-muted-foreground/50">•</span>
+            <span className="text-muted-foreground/50 text-xl">•</span>
             <span className="text-muted-foreground">{readingTime}</span>
           </>
         )}
 
         {tags && tags.length > 0 && (
           <>
-            <span className="text-muted-foreground/50">•</span>
-
+            <span className="text-muted-foreground/50 text-xl">•</span>
             <div className="flex flex-wrap gap-1.5">
               {tags.map((tag) => (
                 <Badge
