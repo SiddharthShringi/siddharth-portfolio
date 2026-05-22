@@ -6,7 +6,9 @@ export default function Footer() {
     <footer className="bg-background/80 border-t border-border/50 px-4 sm:px-6 lg:px-8 xl:px-1 py-4 sm:py-0">
       <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center text-sm text-muted-foreground h-16">
         {/* Left side */}
-        <p>&copy; 2025 Siddharth Shringi</p>
+        <p>
+          <b>&copy;</b> {new Date().getFullYear()} Siddharth Shringi
+        </p>
 
         {/* Right side */}
         <div className="flex gap-4 mt-4 sm:mt-0">
