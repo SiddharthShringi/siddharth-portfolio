@@ -152,11 +152,39 @@
   }
   body {
     @apply bg-background text-foreground font-outfit;
-    background-image: radial-gradient(circle, oklch(0 0 0 / 0.12) 1.2px, transparent 1.2px);
-    background-size: 22px 22px;
+    background-image:
+      repeating-linear-gradient(
+        0deg,
+        oklch(0 0 0 / 0.03) 0px,
+        oklch(0 0 0 / 0.03) 1px,
+        transparent 1px,
+        transparent 4px
+      ),
+      repeating-linear-gradient(
+        90deg,
+        oklch(0 0 0 / 0.03) 0px,
+        oklch(0 0 0 / 0.03) 1px,
+        transparent 1px,
+        transparent 4px
+      );
+    background-size: 4px 4px;
   }
   .dark body {
-    background-image: radial-gradient(circle, oklch(1 0 0 / 0.09) 1.2px, transparent 1.2px);
+    background-image:
+      repeating-linear-gradient(
+        0deg,
+        oklch(1 0 0 / 0.03) 0px,
+        oklch(1 0 0 / 0.03) 1px,
+        transparent 1px,
+        transparent 4px
+      ),
+      repeating-linear-gradient(
+        90deg,
+        oklch(1 0 0 / 0.03) 0px,
+        oklch(1 0 0 / 0.03) 1px,
+        transparent 1px,
+        transparent 4px
+      );
   }
 }
 

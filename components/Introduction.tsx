@@ -107,7 +107,7 @@ export default function Introduction() {
             >
               <div className="flex items-center gap-1.5">
                 <MapPin className="h-3.5 w-3.5" />
-                <span>Bangalore, India · Open to remote & hybrid opportunities</span>
+                <span>Open to remote, hybrid, and relocation opportunities</span>
               </div>
             </motion.div>
           </div>
