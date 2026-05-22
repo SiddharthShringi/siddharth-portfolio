@@ -50,10 +50,12 @@ export default function Introduction() {
               </p>
 
               <p className="text-base md:text-lg text-foreground/80 leading-relaxed">
-                Software engineer with 5+ years building production web applications with Ruby on
-                Rails and React. I have shipped features for e-commerce and logistics SaaS
-                platforms, had articles featured in Ruby Weekly, and experienced in testing, CI/CD,
-                and AI-assisted development workflows.
+                Software engineer with 5+ years building production web applications with{' '}
+                <span className="font-medium text-foreground">Ruby on Rails</span> and{' '}
+                <span className="font-medium text-foreground">React</span>. I have shipped features
+                for e-commerce and logistics SaaS platforms, had articles featured in{' '}
+                <span className="font-medium text-foreground">Ruby Weekly</span>, and have
+                experience with testing, CI/CD, and AI-assisted development workflows.
               </p>
             </motion.div>
 
@@ -67,7 +69,7 @@ export default function Introduction() {
               {stack.map((tech) => (
                 <span
                   key={tech}
-                  className="text-xs md:text-sm px-3 py-1 rounded-full border border-border text-muted-foreground"
+                  className="text-xs md:text-sm px-3 py-1 rounded-full border border-border tracking-wide text-muted-foreground"
                 >
                   {tech}
                 </span>

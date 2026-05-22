@@ -22,7 +22,7 @@ export default function Projects() {
         <div className="py-2 sm:py-4 grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
           {projects.map((p: Project) => (
             <div
-              className="rounded-2xl border p-4 sm:p-5 flex flex-col"
+              className="rounded-2xl border p-4 sm:p-5 flex flex-col bg-background/30 hover:bg-background/70 transition-colors"
               key={`project-${p.title}-${p.links[0]?.url}`}
             >
               <h2 className="mt-2 sm:mt-4 text-base sm:text-lg lg:text-xl font-semibold text-chart-2">
