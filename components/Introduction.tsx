@@ -1,7 +1,7 @@
 import React from 'react';
 import * as motion from 'motion/react-client';
 import { Button } from './ui/button';
-import { Download, MapPin } from 'lucide-react';
+import { Download, RadioTower } from 'lucide-react';
 import Socials from './Socials';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -106,8 +106,8 @@ export default function Introduction() {
               className="flex flex-col gap-2 text-sm text-muted-foreground"
             >
               <div className="flex items-center gap-1.5">
-                <MapPin className="h-3.5 w-3.5" />
-                <span>Open to remote, hybrid, and relocation opportunities</span>
+                <RadioTower className="h-4 w-4" />
+                <span>#OpenToWork</span>
               </div>
             </motion.div>
           </div>
