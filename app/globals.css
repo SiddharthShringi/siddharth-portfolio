@@ -152,39 +152,21 @@
   }
   body {
     @apply bg-background text-foreground font-outfit;
-    background-image:
-      repeating-linear-gradient(
-        0deg,
-        oklch(0 0 0 / 0.03) 0px,
-        oklch(0 0 0 / 0.03) 1px,
-        transparent 1px,
-        transparent 4px
-      ),
-      repeating-linear-gradient(
-        90deg,
-        oklch(0 0 0 / 0.03) 0px,
-        oklch(0 0 0 / 0.03) 1px,
-        transparent 1px,
-        transparent 4px
-      );
-    background-size: 4px 4px;
   }
-  .dark body {
-    background-image:
-      repeating-linear-gradient(
-        0deg,
-        oklch(1 0 0 / 0.03) 0px,
-        oklch(1 0 0 / 0.03) 1px,
-        transparent 1px,
-        transparent 4px
-      ),
-      repeating-linear-gradient(
-        90deg,
-        oklch(1 0 0 / 0.03) 0px,
-        oklch(1 0 0 / 0.03) 1px,
-        transparent 1px,
-        transparent 4px
-      );
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.16;
+    background-image: url('/fabric.svg');
+    background-repeat: repeat;
+    background-size: 150px 150px;
+  }
+  .dark body::before {
+    background-image: url('/noise.svg');
+    opacity: 0.085;
   }
 }
 
