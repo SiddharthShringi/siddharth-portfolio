@@ -57,16 +57,18 @@ export default async function Post({ params }: { params: { slug: string } }) {
   const { title, publishedAt, image, readingTime } = metadata;
 
   return (
-    <section className="mx-auto max-w-4xl py-10">
-      <div className="px-6 lg:px-8 xl:px-10">
-        <div className="space-y-8">
+    <section className="mx-auto max-w-4xl py-6 sm:py-10">
+      <div className="px-4 sm:px-6 lg:px-8 xl:px-10">
+        <div className="space-y-5 sm:space-y-8">
           <header className="space-y-3">
-            <h1 className="text-4xl font-extrabold font-serif text-pretty">{title}</h1>
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold font-serif text-pretty leading-tight">
+              {title}
+            </h1>
 
             {publishedAt && readingTime && (
-              <div className="flex items-center gap-2 text-sm">
+              <div className="flex items-center gap-2 text-base sm:text-sm">
                 <div className="flex items-center gap-2 text-chart-2">
-                  <Calendar className="h-4 w-4" />
+                  <Calendar className="h-4 w-4 shrink-0" />
                   <span>{formatDate(publishedAt)}</span>
                 </div>
 
@@ -91,10 +93,12 @@ export default async function Post({ params }: { params: { slug: string } }) {
 
           <main>
             <article
-              className="prose prose-lg prose-neutral tracking-wide dark:prose-invert
-            [&>p:first-of-type::first-letter]:text-3xl
-            [&>p:first-of-type::first-letter]:font-bold
-            sm:[&>p:first-of-type::first-letter]:text-4xl"
+              className="prose prose-base sm:prose-lg prose-neutral tracking-wide dark:prose-invert
+                prose-p:text-base sm:prose-p:text-lg
+                prose-headings:text-xl sm:prose-headings:text-2xl
+                [&>p:first-of-type::first-letter]:text-2xl
+                [&>p:first-of-type::first-letter]:font-bold
+                sm:[&>p:first-of-type::first-letter]:text-4xl"
             >
               <MDXContent source={content} />
             </article>

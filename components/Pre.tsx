@@ -1,4 +1,3 @@
-// components/mdx/Pre.tsx
 import CopyButton from '@/components/CopyButton';
 import React from 'react';
 
@@ -22,9 +21,11 @@ export default function Pre({ children, ...props }: React.HTMLAttributes<HTMLPre
   const code = extractText(children);
 
   return (
-    <pre {...props} className={`${props.className ?? ''} relative group`}>
-      {children}
+    <div className="relative group">
       <CopyButton code={code} />
-    </pre>
+      <pre {...props} className={`${props.className ?? ''}`}>
+        {children}
+      </pre>
+    </div>
   );
 }
