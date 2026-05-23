@@ -152,39 +152,21 @@
   }
   body {
     @apply bg-background text-foreground font-outfit;
-    background-image:
-      repeating-linear-gradient(
-        0deg,
-        oklch(0 0 0 / 0.03) 0px,
-        oklch(0 0 0 / 0.03) 1px,
-        transparent 1px,
-        transparent 4px
-      ),
-      repeating-linear-gradient(
-        90deg,
-        oklch(0 0 0 / 0.03) 0px,
-        oklch(0 0 0 / 0.03) 1px,
-        transparent 1px,
-        transparent 4px
-      );
-    background-size: 4px 4px;
   }
-  .dark body {
-    background-image:
-      repeating-linear-gradient(
-        0deg,
-        oklch(1 0 0 / 0.03) 0px,
-        oklch(1 0 0 / 0.03) 1px,
-        transparent 1px,
-        transparent 4px
-      ),
-      repeating-linear-gradient(
-        90deg,
-        oklch(1 0 0 / 0.03) 0px,
-        oklch(1 0 0 / 0.03) 1px,
-        transparent 1px,
-        transparent 4px
-      );
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.16;
+    background-image: url('/fabric.svg');
+    background-repeat: repeat;
+    background-size: 150px 150px;
+  }
+  .dark body::before {
+    background-image: url('/noise.svg');
+    opacity: 0.085;
   }
 }
 
@@ -257,53 +239,4 @@ html.dark code > [data-line]::before {
 html.dark [data-highlighted-line] {
   background-color: rgba(100, 150, 255, 0.15);
   border-left: 2px solid rgb(100, 150, 255);
-}
-
-/* app/globals.css */
-
-/* Copy button styles */
-pre {
-  position: relative;
-}
-
-pre button[data-copy-button] {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  padding: 0.5rem 0.75rem;
-  border-radius: 0.375rem;
-  font-size: 0.75rem;
-  font-weight: 500;
-  background-color: rgba(55, 65, 81, 0.9);
-  color: #fff;
-  border: 1px solid rgba(75, 85, 99, 0.5);
-  cursor: pointer;
-  transition: all 0.2s;
-  opacity: 0;
-}
-
-pre:hover button[data-copy-button] {
-  opacity: 1;
-}
-
-pre button[data-copy-button]:hover {
-  background-color: rgba(75, 85, 99, 0.9);
-}
-
-pre button[data-copy-button]:active {
-  transform: scale(0.95);
-}
-
-/* Copied state */
-pre button[data-copy-button][data-copied] {
-  background-color: rgba(34, 197, 94, 0.9);
-  border-color: rgba(34, 197, 94, 0.5);
-}
-
-.dark pre button[data-copy-button] {
-  background-color: rgba(75, 85, 99, 0.9);
-}
-
-.dark pre button[data-copy-button]:hover {
-  background-color: rgba(107, 114, 128, 0.9);
 }

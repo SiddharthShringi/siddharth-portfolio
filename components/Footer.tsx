@@ -4,7 +4,7 @@ import { FaLinkedin, FaGithub } from 'react-icons/fa';
 
 export default function Footer() {
   return (
-    <footer className="bg-background/80 border-t border-border/50 px-4 sm:px-6 lg:px-8 xl:px-1 py-4 sm:py-0">
+    <footer className="border-t border-border/50 px-4 sm:px-6 lg:px-8 xl:px-1 py-4 sm:py-0">
       <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center text-sm text-muted-foreground h-16">
         {/* Left side */}
         <p>

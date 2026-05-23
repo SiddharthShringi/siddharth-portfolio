@@ -2,15 +2,18 @@ import { JSX } from 'react';
 import { MDXRemote, type MDXRemoteProps } from 'next-mdx-remote-client/rsc';
 import rehypePrettyCode from 'rehype-pretty-code';
 import remarkGfm from 'remark-gfm';
+import Pre from '@/components/Pre';
+
+const components = {
+  pre: Pre, // 👈 override the default pre
+};
 
 const rehypePrettyCodeOptions = {
   theme: {
-    dark: 'github-dark-dimmed',
+    dark: 'material-theme-darker',
     light: 'one-light',
   },
 };
-
-const components = {};
 
 export default function MDXContent(props: JSX.IntrinsicAttributes & MDXRemoteProps) {
   return (
