@@ -10,7 +10,7 @@ const components = {
 
 const rehypePrettyCodeOptions = {
   theme: {
-    dark: 'material-theme-darker',
+    dark: 'vesper',
     light: 'one-light',
   },
 };
