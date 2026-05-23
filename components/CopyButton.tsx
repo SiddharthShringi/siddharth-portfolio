@@ -1,4 +1,3 @@
-// components/CopyButton.tsx
 'use client';
 
 import { useState } from 'react';
@@ -18,7 +17,7 @@ export default function CopyButton({ code }: { code: string }) {
       onClick={handleCopy}
       data-copy-button
       data-copied={copied || undefined}
-      className="absolute top-2 right-2 p-1.5 rounded-md opacity-0 group-hover:opacity-100 transition-all duration-200 bg-muted hover:bg-muted-foreground/20 text-muted-foreground hover:text-foreground cursor-pointer"
+      className="absolute top-2 right-2 p-1.5 rounded-md opacity-100 md:opacity-0 group-hover:opacity-100 transition-all duration-200 bg-muted hover:bg-muted-foreground/20 text-muted-foreground hover:text-foreground cursor-pointer"
       aria-label="Copy code"
     >
       {copied ? <Check size={14} /> : <Copy size={14} />}
