@@ -11,8 +11,8 @@ function extractText(children: React.ReactNode): string {
     return children.map(extractText).join('');
   }
 
-  if (typeof children === 'object' && 'props' in children) {
-    return extractText((children as React.ReactElement).props?.children);
+  if (React.isValidElement<{ children?: React.ReactNode }>(children)) {
+    return extractText(children.props.children);
   }
 
   return '';
