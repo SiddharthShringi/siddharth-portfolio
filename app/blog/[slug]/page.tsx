@@ -1,9 +1,10 @@
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getPostBySlug } from '@/lib/posts';
-import { Calendar } from 'lucide-react';
+import { Calendar, ArrowLeft } from 'lucide-react';
 import MDXContent from '@/components/MDXContent';
 import { formatDate } from '@/lib/utils';
 import { AspectRatio } from '@radix-ui/react-aspect-ratio';
@@ -60,6 +61,13 @@ export default async function Post({ params }: { params: { slug: string } }) {
     <section className="mx-auto max-w-4xl py-6 sm:py-10">
       <div className="px-4 sm:px-6 lg:px-8 xl:px-10">
         <div className="space-y-5 sm:space-y-8">
+          <Link
+            href="/blog"
+            className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors duration-200 md:hidden"
+          >
+            <ArrowLeft className="h-4 w-4" />
+            Back to Blog
+          </Link>
           <header className="space-y-3">
             <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold font-serif text-pretty leading-tight">
               {title}
