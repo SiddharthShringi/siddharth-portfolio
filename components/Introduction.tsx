@@ -41,7 +41,7 @@ export default function Introduction() {
               transition={{ duration: 0.8 }}
               className="flex flex-col gap-3 sm:gap-4"
             >
-              <h1 className="text-4xl md:text-6xl font-geist font-bold text-chart-2 leading-tight">
+              <h1 className="text-4xl md:text-6xl font-bold text-chart-2 leading-tight">
                 Siddharth Shringi
               </h1>
 

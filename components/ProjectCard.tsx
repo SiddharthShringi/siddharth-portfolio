@@ -1,11 +1,11 @@
 import Link from 'next/link';
-import { FaGithub } from 'react-icons/fa';
 import { ExternalLink } from 'lucide-react';
 import { Project, ProjectLink } from '@/lib/types/project';
+import { GitHubIcon } from './icons/SocialIcon';
 
 const LINK_ICONS: Record<string, React.ReactNode> = {
   live: <ExternalLink className="h-4 w-4" />,
-  github: <FaGithub className="h-4 w-4" />,
+  github: <GitHubIcon className="h-4 w-4" />,
 };
 
 const MAX_STACK = 4;

@@ -3,6 +3,7 @@ import { MDXRemote, type MDXRemoteProps } from 'next-mdx-remote-client/rsc';
 import rehypePrettyCode from 'rehype-pretty-code';
 import remarkGfm from 'remark-gfm';
 import Pre from '@/components/Pre';
+import Image from 'next/image';
 
 const components = {
   pre: Pre,
@@ -11,6 +12,21 @@ const components = {
       <table>{children}</table>
     </div>
   ),
+  img: ({ src, alt }: { src?: string; alt?: string }) => {
+    if (!src) return null;
+    return (
+      <span className="block relative w-full aspect-video my-4">
+        <Image
+          src={src}
+          alt={alt || ''}
+          width={0}
+          height={0}
+          sizes="100vw"
+          className="w-full h-auto rounded-lg my-4"
+        />
+      </span>
+    );
+  },
 };
 
 const rehypePrettyCodeOptions = {
