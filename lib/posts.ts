@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import readingTime from 'reading-time';
+import { cache } from 'react';
 
 const blogsDirectory = path.join(process.cwd(), 'content/blogs');
 
@@ -57,15 +58,13 @@ export async function getPostMetadata(fileName: string): Promise<PostMetadata> {
   return metadata;
 }
 
-export async function getPostBySlug(slug: string): Promise<Post | null> {
+export const getPostBySlug = cache(async (slug: string): Promise<Post | null> => {
   try {
     return await parsePost(`${slug}.mdx`);
-  } catch (error) {
-    console.error(`Error reading post with slug ${slug}:`, error);
-
+  } catch {
     return null;
   }
-}
+});
 
 export async function getAllPosts(limit?: number): Promise<PostMetadata[]> {
   const fileNames = await fs.promises.readdir(blogsDirectory);
