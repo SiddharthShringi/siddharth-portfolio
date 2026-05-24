@@ -7,7 +7,6 @@ import { getPostBySlug } from '@/lib/posts';
 import { Calendar, ArrowLeft } from 'lucide-react';
 import MDXContent from '@/components/MDXContent';
 import { formatDate } from '@/lib/utils';
-import { AspectRatio } from '@radix-ui/react-aspect-ratio';
 
 export async function generateMetadata({
   params,
@@ -88,15 +87,16 @@ export default async function Post({ params }: { params: { slug: string } }) {
           </header>
 
           {image && (
-            <AspectRatio ratio={16 / 9}>
+            <div className="relative aspect-video w-full overflow-hidden rounded-lg shadow-2xl bg-muted">
               <Image
                 src={image}
                 alt={title || 'Blog Post Image'}
                 fill
-                className="rounded-lg object-cover shadow-2xl"
+                sizes="(max-width: 768px) 100vw, 896px"
+                className="object-cover"
                 priority
               />
-            </AspectRatio>
+            </div>
           )}
 
           <main>

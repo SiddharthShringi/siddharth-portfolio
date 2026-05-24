@@ -1,22 +1,12 @@
 import type { Metadata } from 'next';
-import { Inter, Geist, JetBrains_Mono, Outfit, Lora } from 'next/font/google';
+import { JetBrains_Mono, Outfit, Lora } from 'next/font/google';
 import './globals.css';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
-const inter = Inter({
-  variable: '--font-inter',
-  subsets: ['latin'],
-});
-
 const lora = Lora({
   variable: '--font-lora',
-  subsets: ['latin'],
-});
-
-const geist = Geist({
-  variable: '--font-geist',
   subsets: ['latin'],
 });
 
@@ -47,9 +37,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${inter.variable} ${lora.variable} ${outfit.variable} ${jetBrainsMono.variable} ${geist.variable} antialiased`}
-      >
+      <body className={`${lora.variable} ${outfit.variable} ${jetBrainsMono.variable} antialiased`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

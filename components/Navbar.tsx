@@ -1,5 +1,3 @@
-'use client';
-
 import { navItems } from '@/lib/constant';
 import Link from 'next/link';
 import ThemeToggle from './ThemeToggle';
