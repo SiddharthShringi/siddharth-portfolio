@@ -5,7 +5,12 @@ import remarkGfm from 'remark-gfm';
 import Pre from '@/components/Pre';
 
 const components = {
-  pre: Pre, // 👈 override the default pre
+  pre: Pre,
+  table: ({ children }: { children: React.ReactNode }) => (
+    <div className="overflow-x-auto">
+      <table>{children}</table>
+    </div>
+  ),
 };
 
 const rehypePrettyCodeOptions = {
