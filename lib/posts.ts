@@ -15,6 +15,7 @@ export type PostMetadata = {
   title?: string;
   description?: string;
   publishedAt?: string;
+  showToc?: boolean;
   slug?: string;
   author?: string;
   tags?: string[];
