@@ -1,0 +1,133 @@
+---
+title: 'Understanding Rack and its Middlewares: Building a Mini Web App'
+description: 'Understanding the role of Rack in Ruby web development, its protocol, and how to build a mini web application using Rack.'
+publishedAt: '2026-05-24'
+author: 'Siddharth Shringi'
+tags: ['Ruby', 'Rack']
+---
+
+In this article, we are going to understand how Rack fit in HTTP request
+response cycle, why it was introduced and what problem does it solve.
+What are Rack middlewares and their usecase.
+This article will also explain in brief about web-severs, web-frameworks,
+how they talk to each other and in the end we are going to build our
+own mini framework that can handle http request and send http response.
+
+A web framework needs to communicate with web server in order to get the request from the client and send response from the client.
+
+In the context of Ruby, there are different web servers ( like Puma, Unicorn or Thin) and web frameworks(Like Rails, Sinatra, Hanami) are there.
+
+# 1. The Problem
+
+Rack solves a specific issue in HTTP request response lifecycle. To understand Rack, we need to go back in the world where Rack doesn't exist.
+
+Before Rack was introduced, web servers and web frameworks were often incompatible or tightly coupled.
+
+It means that if we are building a web server, we had to manually write code to interface with every application or framework it might support, such as Rails, Sinatra or even plain Ruby script.
+
+On the other side, if we are building framework, we had to write custom handlers for every web server we wanted to support.
+
+This scenario created a complexity in both side, where creating a new server or a framework will require major integration work. This introduced lot of code duplication, because framework essentially are performing same tasks.
+
+![Before Rack Example](/Images/blog/2026-05-24-rack-on-rails/before-rack.webp)
+
+We can see in the image 1, the complexity of web servers working with web frameworks.
+
+# 2. Understanding Rack
+
+To solve this complexity and issues, there was an need of an solution which can untangle these complexities.
+
+That's where Rack comes in the picture. According to documentation definition - **Rack** is a minimal, modular, and adaptable **interface** designed to unify how Ruby web servers, web frameworks, and middleware communication.
+
+Basically Rack is a protocol which defines a specific architecture that any Ruby object or class must follow to be `Rack-compliant`.
+
+## The Rack Protocol
+
+### For Rack Application
+
+Any framework or application has to respond to call method in order to be Rack Compliant.
+
+Let's understand this.
+
+It means to be Rack compliant, the Ruby object should respond to call method.
+
+- A call method takes one argument - `env`
+- An `env` is an hash contains environment data about incoming request and server.
+- And the `call` method returns an array of three specific values
+  1.  Status Code **(Integer) **e.g. 200, 402
+  2.  Headers **(Hash)**
+  3.  Response Body **(Enumerable)**
+
+A very simple example of Rack compliant object can be like this:
+
+```ruby
+class MyRackApp
+  def call(env)
+    [200, { 'Content-Type' => 'text/plain' }, ['Hello, World!']]
+  end
+end
+```
+
+### For Rack Server
+
+The necessary condition for web-server to be Rack compliant is that it must proactively look for a Ruby object( Web Application or Framework) and **invoke its** **call** **method**.
+
+To do that Rack-Compliant web server must have a `run` method which takes a Rack application as an argument and calls its `call` method when a request is received.
+
+![After Rack Example](/Images/blog/2026-05-24-rack-on-rails/after-rack.webp)
+
+This protocol solves code duplication of complicated connection for every web sever and web framework.
+
+# 3. The Rack gem and Middleware
+
+We've understood the Rack protocol - It is a set of rules that allows web server and web application to communicate with each other.
+
+The Rack gem is a Ruby library which provides infrastructure needed to build application that follows Rack protocol. It ships with a collection of build-in **middlewares**.
+
+## What are middlewares?
+
+A Rack middleware is a component that sits between the web server and the web application.
+
+It catches the request before it reaches the application, and/or the response before it is sent back to the client.
+
+It is a Rack-compliant object, means it can respond to `call` method but instead of returning the final response, it calls the next `call` method of middleware in the chain.
+
+There are some functionalities which can be implemented in each web application, or framework like logging, authentication, and session management.
+
+Without middlewares the application itself has to handle them. This led to problems like code duplication.
+
+With middlewares, we can implement these functionalities in a modular way, and reuse them across different applications and frameworks.
+
+![After Rack Example](/Images/blog/2026-05-24-rack-on-rails/middleware.webp)
+
+Here are some of the middlewares provided by Rack gem:
+
+- **Rack::Files:** Another component used for serving static files.
+- **Rack::Session:** A component used for managing user sessions.
+- **Rack::Logger:** A component used for logging request and response data.
+- **Rack::MethodOverride:** Supports PUT and DELETE HTTP methods by allowing the method to be overridden if the params[:_method] is set
+
+Every Rack middleware is a Rack application, but not every Rack application is a Rack middleware.
+So structurally, a middleware is itself a valid Rack application. The difference is intent and behaviour - a middleware holds a reference to the next layer and calls it, whereas a plain Rack application does not.
+
+You can see the entire list of middlewares provided by Rack gem [here](https://github.com/rack/rack/tree/main/lib/rack)
+
+## Custom Middleware
+
+We can also create our own custom middleware by creating a class that responds to `call` method. Let's create a simple middleware that logs the request path and method. We will use this middleware in our mini web application later.
+
+```ruby
+class RequestLogger
+  def initialize(app)
+    @app = app
+  end
+
+  def call(env)
+    request = Rack::Request.new(env)
+    puts "Received #{request.request_method} request for #{request.path}"
+    @app.call(env) # Call the next middleware or application
+  end
+end
+```
+
+# 4.Building a mini web app using Rack
