@@ -23,7 +23,7 @@ export default function Pre({ children, ...props }: React.HTMLAttributes<HTMLPre
   return (
     <div className="relative group">
       <CopyButton code={code} />
-      <pre {...props} className={`${props.className ?? ''}`}>
+      <pre {...props} className={`overflow-x-auto max-w-full ${props.className ?? ''}`}>
         {children}
       </pre>
     </div>

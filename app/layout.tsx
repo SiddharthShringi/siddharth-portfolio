@@ -47,7 +47,7 @@ export default function RootLayout({
           <div className="bg-[url('/fabric.svg')] dark:bg-[url('/noise.svg')] opacity-12.5 fixed overflow-auto inset-0 pointer-events-none z-1000"></div>
           <div className="min-h-screen flex flex-col">
             <Navbar />
-            <div className="flex-1 overflow-hidden">{children}</div>
+            <div className="flex-1">{children}</div>
             <Footer />
           </div>
         </ThemeProvider>

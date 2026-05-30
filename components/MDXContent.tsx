@@ -2,6 +2,7 @@ import { JSX } from 'react';
 import { MDXRemote, type MDXRemoteProps } from 'next-mdx-remote-client/rsc';
 import rehypePrettyCode from 'rehype-pretty-code';
 import remarkGfm from 'remark-gfm';
+import rehypeSlug from 'rehype-slug';
 import Pre from '@/components/Pre';
 import Image from 'next/image';
 
@@ -43,7 +44,7 @@ export default function MDXContent(props: JSX.IntrinsicAttributes & MDXRemotePro
       options={{
         mdxOptions: {
           remarkPlugins: [remarkGfm],
-          rehypePlugins: [[rehypePrettyCode, rehypePrettyCodeOptions]],
+          rehypePlugins: [rehypeSlug, [rehypePrettyCode, rehypePrettyCodeOptions]],
         },
         ...props.options,
       }}
