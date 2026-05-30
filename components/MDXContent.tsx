@@ -23,7 +23,7 @@ const components = {
           width={0}
           height={0}
           sizes="100vw"
-          className="w-full h-auto rounded-lg my-4"
+          className="w-full max-w-3xl h-auto rounded-lg my-4"
         />
       </span>
     );

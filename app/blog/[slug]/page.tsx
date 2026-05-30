@@ -66,7 +66,7 @@ export default async function Post({ params }: { params: { slug: string } }) {
   return (
     <section className="px-4 sm:px-6 lg:px-8 xl:px-10 my-6 sm:my-10">
       <div className="mx-auto max-w-7xl">
-        <div className="flex flex-col xl:flex-row gap-6 lg:gap-8 xl:gap-12">
+        <div className="flex flex-col xl:flex-row xl:justify-between gap-6 lg:gap-8 xl:gap-12">
           <main className="w-full min-w-0 xl:max-w-4xl">
             <div className="space-y-5 sm:space-y-6 lg:space-y-8">
               {/* Back Button */}
@@ -118,7 +118,7 @@ export default async function Post({ params }: { params: { slug: string } }) {
               )}
 
               <article
-                className="prose prose-base max-w-none sm:prose-lg prose-neutral wrap-break-word tracking-wide dark:prose-invert
+                className="prose prose-base max-w-3xl sm:prose-lg prose-neutral wrap-break-word tracking-wide dark:prose-invert
               prose-p:text-base sm:prose-p:text-lg
               prose-headings:scroll-mt-24
               prose-headings:text-xl sm:prose-headings:text-2xl

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Heading } from '@/lib/types/toc';
-import { BookText } from 'lucide-react';
+import { BookText, BookMarked } from 'lucide-react';
 import clsx from 'clsx';
 
 export function TableOfContents({ headings }: { headings: Heading[] }) {
@@ -32,7 +32,7 @@ export function TableOfContents({ headings }: { headings: Heading[] }) {
   return (
     <nav className="border-l p-4 mb-8">
       <div className="mb-4 flex items-center gap-2">
-        <BookText className="w-6 h-6 text-chart-2" />
+        <BookMarked className="w-6 h-6 text-chart-2" />
         <h2 className="text-lg lg:text-xl font-semibold mb-1 text-foreground/70">Contents</h2>
       </div>
 
