@@ -60,7 +60,7 @@ export default async function Post({ params }: { params: { slug: string } }) {
   }
 
   const { metadata, content } = post;
-  const { title, publishedAt, image, readingTime } = metadata;
+  const { title, publishedAt, showToc, image, readingTime } = metadata;
   const headings = extractHeadings(content);
 
   return (
@@ -111,7 +111,7 @@ export default async function Post({ params }: { params: { slug: string } }) {
               )}
 
               {/* Mobile + Tablet TOC */}
-              {headings.length > 0 && (
+              {showToc && (
                 <div className="xl:hidden">
                   <TableOfContents headings={headings} />
                 </div>
@@ -120,6 +120,7 @@ export default async function Post({ params }: { params: { slug: string } }) {
               <article
                 className="prose prose-base max-w-none sm:prose-lg prose-neutral wrap-break-word tracking-wide dark:prose-invert
               prose-p:text-base sm:prose-p:text-lg
+              prose-headings:scroll-mt-24
               prose-headings:text-xl sm:prose-headings:text-2xl
               [&>p:first-of-type::first-letter]:text-2xl
               [&>p:first-of-type::first-letter]:font-bold
@@ -130,7 +131,7 @@ export default async function Post({ params }: { params: { slug: string } }) {
             </div>
           </main>
 
-          {headings.length > 0 && (
+          {showToc && (
             <aside className="hidden xl:block w-64 shrink-0">
               <div className="sticky top-24">
                 <TableOfContents headings={headings} />

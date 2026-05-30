@@ -1,17 +1,34 @@
 import { Heading } from '@/lib/types/toc';
+import { BookText } from 'lucide-react';
 
 export function TableOfContents({ headings }: { headings: Heading[] }) {
   return (
     <nav className="border-l p-4 mb-8">
-      <h2 className="font-semibold mb-3">Table of Contents</h2>
+      <div className="mb-4 flex items-center gap-2">
+        <BookText className="w-6 h-6 text-chart-2" />
+        <h2 className="text-lg lg:text-xl font-semibold mb-1 text-foreground/70">Contents</h2>
+      </div>
 
-      <ul className="space-y-2 text-sm">
+      <ul className="space-y-2">
         {headings.map((heading) => (
           <li
             key={heading.id}
-            className={heading.level === 1 ? '' : heading.level === 2 ? 'ml-4' : 'ml-8'}
+            className={`
+        flex items-start gap-2
+        ${heading.level === 1 ? '' : heading.level === 2 ? 'ml-4' : 'ml-8'}
+      `}
           >
-            <a href={`#${heading.id}`} className="text-muted-foreground hover:text-foreground">
+            <span
+              className={`
+                mt-2 shrink-0 rounded-full
+                ${heading.level === 1 ? 'h-1.5 w-1.5 bg-foreground/60' : 'h-1.5 w-1.5 border border-foreground/60'}
+              `}
+            />
+
+            <a
+              href={`#${heading.id}`}
+              className="text-sm text-foreground/70 hover:text-foreground transition-colors"
+            >
               {heading.text}
             </a>
           </li>
