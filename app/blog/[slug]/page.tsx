@@ -79,7 +79,7 @@ export default async function Post({ params }: { params: { slug: string } }) {
               </Link>
               {/* Header */}
               <header className="space-y-3">
-                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold font-serif text-pretty leading-tight">
+                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-pretty leading-tight">
                   {title}
                 </h1>
 
@@ -111,7 +111,7 @@ export default async function Post({ params }: { params: { slug: string } }) {
               )}
 
               {/* Mobile + Tablet TOC */}
-              {showToc && (
+              {showToc && headings.length > 4 && (
                 <div className="xl:hidden">
                   <TableOfContents headings={headings} />
                 </div>
@@ -131,7 +131,7 @@ export default async function Post({ params }: { params: { slug: string } }) {
             </div>
           </main>
 
-          {showToc && (
+          {showToc && headings.length > 4 && (
             <aside className="hidden xl:block w-64 shrink-0">
               <div className="sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto">
                 <TableOfContents headings={headings} />

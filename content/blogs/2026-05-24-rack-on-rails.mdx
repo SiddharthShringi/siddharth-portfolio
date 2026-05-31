@@ -1,9 +1,10 @@
 ---
-title: 'Understanding Rack and its Middlewares: Building a Mini Web App'
+title: 'Rack and its Middlewares: Building a Mini Web App'
 description: 'Understanding the role of Rack in Ruby web development, its protocol, and how to build a mini web application using Rack.'
 publishedAt: '2026-05-24'
 author: 'Siddharth Shringi'
 tags: ['Ruby', 'Rack']
+showToc: true
 ---
 
 In this article, we are going to understand how Rack fit in HTTP request
@@ -63,7 +64,7 @@ A very simple example of Rack compliant object can be like this:
 ```ruby
 class MyRackApp
   def call(env)
-    [200, { 'Content-Type' => 'text/plain' }, ['Hello, World!']]
+    [200, { 'content-type' => 'text/plain' }, ['Hello, World!']]
   end
 end
 ```
@@ -129,5 +130,10 @@ class RequestLogger
   end
 end
 ```
+
+Let's understand what is this middleware is doing:
+
+- First, we defined the custom middleware class `RequestLogger`, which will log the information about incoming request.
+- Next, we initialize the app, this line means passing the request to next middleware or application in the chain.
 
 # 4.Building a mini web app using Rack
