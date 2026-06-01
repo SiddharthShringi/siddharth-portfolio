@@ -79,12 +79,12 @@ export default async function Post({ params }: { params: { slug: string } }) {
               </Link>
               {/* Header */}
               <header className="space-y-3">
-                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold font-serif text-pretty leading-tight">
+                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-pretty leading-tight">
                   {title}
                 </h1>
 
                 {publishedAt && readingTime && (
-                  <div className="flex items-center gap-2 text-base sm:text-sm">
+                  <div className="flex items-center gap-2 text-sm sm:text-base">
                     <div className="flex items-center gap-2 text-chart-2">
                       <Calendar className="h-4 w-4 shrink-0" />
                       <span>{formatDate(publishedAt)}</span>
@@ -111,7 +111,7 @@ export default async function Post({ params }: { params: { slug: string } }) {
               )}
 
               {/* Mobile + Tablet TOC */}
-              {showToc && (
+              {showToc && headings.length > 4 && (
                 <div className="xl:hidden">
                   <TableOfContents headings={headings} />
                 </div>
@@ -131,10 +131,12 @@ export default async function Post({ params }: { params: { slug: string } }) {
             </div>
           </main>
 
-          {showToc && (
-            <aside className="hidden xl:block w-64 shrink-0">
-              <div className="sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto">
-                <TableOfContents headings={headings} />
+          {showToc && headings.length > 4 && (
+            <aside className="hidden xl:block w-74 shrink-0">
+              <div className="sticky top-24">
+                <div className="max-h-[calc(100vh-8rem)] overflow-y-auto">
+                  <TableOfContents headings={headings} />
+                </div>
               </div>
             </aside>
           )}

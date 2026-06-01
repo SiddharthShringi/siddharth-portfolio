@@ -147,7 +147,7 @@ Notice that IST rolls over to the **next day** which is exactly where the groupi
 
 The fix is to group sessions by `started_at` converted to the user's local timezone, not UTC.
 
-### Step 1 — Store the User's Timezone
+## Step 1 — Store the User's Timezone
 
 Add a `timezone` column to the users table (defaulting to `"UTC"`), and update it on the frontend when the app boots:
 
@@ -158,7 +158,7 @@ if (user.timezone !== Intl.DateTimeFormat().resolvedOptions().timeZone) {
 }
 ```
 
-### Step 2 — Group by Local Date
+## Step 2 — Group by Local Date
 
 Use `in_time_zone` with the stored timezone before grouping:
 

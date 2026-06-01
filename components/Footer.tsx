@@ -24,6 +24,7 @@ export default function Footer() {
             href="https://www.linkedin.com/in/siddharthshringi/"
             target="_blank"
             rel="noopener noreferrer"
+            className="hover:text-foreground cursor-pointer"
           >
             <LinkedInIcon className="w-6 h-6 transition-transform duration-300 hover:scale-125 cursor-pointer" />
           </Link>
