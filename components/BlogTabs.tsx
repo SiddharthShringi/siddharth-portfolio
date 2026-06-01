@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Blogs from '@/components/Blogs';
 import Publications from '@/components/Publications';
-import { BookText, Pencil } from 'lucide-react';
+import { BookText, NotebookPen } from 'lucide-react';
 import { PostMetadata } from '@/lib/posts';
 import { cn } from '@/lib/utils';
 
@@ -22,10 +22,10 @@ export default function BlogTabs({ posts }: BlogTabsProps) {
             onClick={() => setActiveTab('writings')}
             className={cn(
               'flex items-center gap-2 pb-2 pr-2 border-b-2 transition-colors cursor-pointer',
-              activeTab === 'writings' ? 'border-chart-2' : 'border-transparent'
+              activeTab === 'writings' ? 'border-foreground/80' : 'border-transparent'
             )}
           >
-            <Pencil className="h-4 w-4" />
+            <NotebookPen className="h-5 w-5 text-chart-2" />
             <span className="text-lg sm:text-xl font-medium">Writings</span>
           </button>
 
@@ -33,10 +33,10 @@ export default function BlogTabs({ posts }: BlogTabsProps) {
             onClick={() => setActiveTab('publications')}
             className={cn(
               'flex items-center gap-2 pb-2 pr-2 border-b-2 transition-colors cursor-pointer',
-              activeTab === 'publications' ? 'border-chart-2' : 'border-transparent'
+              activeTab === 'publications' ? 'border-foreground/80' : 'border-transparent'
             )}
           >
-            <BookText className="h-4 w-4" />
+            <BookText className="h-5 w-5 text-chart-2" />
             <span className="text-lg sm:text-xl font-medium">Publications</span>
           </button>
         </div>

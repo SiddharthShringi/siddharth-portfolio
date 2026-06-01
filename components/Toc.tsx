@@ -36,7 +36,7 @@ export function TableOfContents({ headings }: { headings: Heading[] }) {
         <h2 className="text-lg lg:text-xl font-semibold mb-1 text-foreground/70">Contents</h2>
       </div>
 
-      <ul className="space-y-2">
+      <ul className="space-y-2 ml-2">
         {headings.map((heading) => (
           <li
             key={heading.id}

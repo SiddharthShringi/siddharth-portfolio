@@ -133,8 +133,10 @@ export default async function Post({ params }: { params: { slug: string } }) {
 
           {showToc && headings.length > 4 && (
             <aside className="hidden xl:block w-64 shrink-0">
-              <div className="sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto">
-                <TableOfContents headings={headings} />
+              <div className="sticky top-24">
+                <div className="max-h-[calc(100vh-8rem)] overflow-y-auto">
+                  <TableOfContents headings={headings} />
+                </div>
               </div>
             </aside>
           )}
