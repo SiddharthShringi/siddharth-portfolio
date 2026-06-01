@@ -41,7 +41,7 @@ export default function BlogTabs({ posts }: BlogTabsProps) {
           </button>
         </div>
 
-        <div className="mt-6">
+        <div className="mt-3">
           {activeTab === 'writings' && <Blogs posts={posts} />}
           {activeTab === 'publications' && <Publications />}
         </div>

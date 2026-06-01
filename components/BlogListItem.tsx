@@ -8,7 +8,7 @@ export function BlogListItem({ post }: { post: PostMetadata }) {
 
   return (
     <article className="group space-y-2 hover:bg-muted/40 rounded-md px-2 py-3 transition-colors">
-      <div className="flex flex-wrap items-center gap-2 text-xs md:text-sm text-muted-foreground">
+      <div className="flex flex-wrap items-center gap-2 text-sm md:text-base text-muted-foreground">
         {publishedAt && (
           <div className="flex items-center gap-1.5 text-chart-2 font-stretch-semi-expanded">
             <Calendar className="h-3 w-3 md:h-3.5 md:w-3.5" />
@@ -42,7 +42,7 @@ export function BlogListItem({ post }: { post: PostMetadata }) {
       </div>
 
       <div className="space-y-1">
-        <h2 className="text-lg md:text-xl lg:text-2xl font-medium leading-snug text-foreground/90 tracking-wide transition-colors group-hover:text-foreground">
+        <h2 className="text-lg sm:text-xl font-medium leading-snug text-foreground/90 tracking-wide transition-colors group-hover:text-foreground">
           {title}
         </h2>
 

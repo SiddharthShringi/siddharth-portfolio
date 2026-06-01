@@ -19,7 +19,7 @@ export default function Publications() {
                 </div>
 
                 <div className="group mt-1 block">
-                  <p className="text-base md:text-lg lg:text-xl font-semibold leading-snug transition-colors text-foreground/90 group-hover:text-foreground wrap-break-word line-clamp-2">
+                  <p className="text-lg sm:text-xl font-medium leading-snug transition-colors text-foreground/90 group-hover:text-foreground wrap-break-word line-clamp-2">
                     {article.title}
                   </p>
                 </div>
