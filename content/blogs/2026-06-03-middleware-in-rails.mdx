@@ -1,0 +1,29 @@
+---
+title: 'Writing Middleware in Rails'
+description: 'Understanding Rack middleware and how to configure it in a Rails application.'
+publishedAt: '2026-06-03'
+author: 'Siddharth Shringi'
+tags: ['Ruby', 'Rack', 'Ruby on Rails']
+showToc: true
+---
+
+<Callout title="Prerequisite">
+  This article is the continuation of [Understaning
+  Rack](https://siddharth-shringi.vercel.app/blog/2026-06-02-rack-on-rails) article. In that article
+  we understood about The Rack Protocol, how middleware fits into request-response cycle and build a
+  small Rack application.
+</Callout>
+
+# 1. Introduction
+
+This article context is about using middleware in Rails framework. Please read the above article to understand more about Rack.
+
+Let's start. A middleware is any component or library or module that works as an assistant to accomplish some task in request-response cycle but not directly involved in execution.
+
+In Ruby on Rails, middleware is implemented using Rack, which is a modular interface for developing web applications in Ruby.
+
+Read this to know more about Rack middleware and how to write our own custom middleware.
+
+In this article, we will learn how to write custom and third-party middleware in Rails and how to configure them in our application.
+
+# 2. Why do we use Custom or Third Party Middleware
