@@ -1,4 +1,4 @@
-import { Lightbulb } from 'lucide-react';
+import { Sparkle } from 'lucide-react';
 
 interface Props {
   title?: string;
@@ -8,13 +8,25 @@ interface Props {
 export function Callout({ title = 'Note', children }: Props) {
   console.log(title);
   return (
-    <div className="my-8 rounded-xl border border-gray-200/60 border-l-4 border-l-gray-500  bg-gray-50/40 px-5 py-4 dark:border-gray-950/40 dark:bg-gray-950/10 dark:border-l-gray-400">
-      <div className="flex items-start gap-3">
-        <Lightbulb className="h-7 w-7 shrink-0 text-gray-500 dark:text-gray-400 mt-1.5" />
+    <div className="my-8 flex gap-3 sm:gap-5">
+      {/* Accent */}
+      <div className="w-0.5 shrink-0 rounded-full bg-cyan-400" />
+
+      {/* Content */}
+      <div className="min-w-0 flex-1">
+        <div className="mb-2 sm:mb-3 flex items-center gap-2">
+          <Sparkle className="h-4 w-4 shrink-0 text-cyan-600" />
+
+          <span className="text-[11px] sm:text-xs font-semibold uppercase tracking-[0.18em] sm:tracking-[0.2em] text-cyan-600">
+            {title}
+          </span>
+        </div>
+
         <div
-          className="mt-2 text-sm leading-7 text-foreground
+          className="
         [&>p:first-child]:mt-0
-        [&>p:last-child]:mb-0"
+        [&>p:last-child]:mb-0
+      "
         >
           {children}
         </div>

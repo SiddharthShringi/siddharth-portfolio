@@ -1,7 +1,7 @@
 ---
 title: 'Writing Middleware in Rails'
 description: 'Understanding Rack middleware and how to configure it in a Rails application.'
-publishedAt: '2026-06-03'
+publishedAt: '2026-06-30'
 author: 'Siddharth Shringi'
 tags: ['Ruby', 'Rack', 'Ruby on Rails']
 showToc: true
@@ -27,12 +27,13 @@ In this article, we will learn how to write custom and third-party middleware in
 Since Rails is built on top of Rack, it is itself a Rack application. Its entry point is the config.ru file, where Rails.application — a Rack-compliant object — is handed off to the Rack server to begin handling requests.
 
 ```ruby
+# config.ru
 require_relative "config/environment"
 run Rails.application
 Rails.application.load_server
 ```
 
-![Rails Middleware](/Images/blog/2026-06-03-middleware-in-rails/rails-middleware.webp)
+![Rails Middleware](/Images/blog/2026-06-30-middleware-in-rails/rails-middleware.webp)
 
 Rails uses middleware extensively to process requests before they reach controllers.
 
@@ -151,7 +152,7 @@ After this if we inspect the middleware stack by running `bin/rails middleware`,
 
 ## Custom middleware
 
-To add custom middleware to the Rails middleware stack, use `config.middleware` in config/application.rb. The `.use` method appends it to the end of the stack. For example, if we have a custom middleware called `MyCustomMiddleware`, we can add it to the stack like this:
+To add custom middleware to the Rails middleware stack, use `config.middleware` in `config/application.rb`. The `.use` method appends it to the end of the stack. For example, if we have a custom middleware called `MyCustomMiddleware`, we can add it to the stack like this:
 
 ```ruby
 # config/application.rb
@@ -184,21 +185,23 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
 end
 ```
 
-This configuration is usually placed inside initializer folder. Rails doesn't forbid us to put it in `config/applicaiton.rb` file but soon it becomes a giant file full of unrelated configuration.
+This configuration is usually placed inside initializer folder. Rails doesn't prevent us to put it in `config/applicaiton.rb` file but soon it becomes a giant file full of unrelated configuration.
 
-Instead, if we put it in initializers, each library gets its own configuration file.This is much easier to find and maintain the code.
+Instead, if we put it in initializers folder, each library gets its own configuration file. This is much easier to find and maintain the code.
 
-Also Initializers are best place for them because, Initializers run after Rails and all gems are loaded, but before the app starts accepting requests.
+Also Initializers are best place for them because, Initializers run after Rails and all gems are loaded, but before the app starts accepting requests. So any configuration that needs to be done for a gem should be done in an initializer.
 
 <Callout>
   At this point, Rails is fully loaded, Gems are available, environment specific settings are
   applied. This makes Initializers safe place to configure external gems.
 </Callout>
 
-# Summary:
+# Summary
 
 - Rails is a Rack application.
 - Requests pass through a middleware stack before reaching controllers.
 - Middleware can inspect or modify requests and responses.
 - Rails ships with many built-in middleware.
-- You can add, remove, reorder, or replace middleware.
+- We can add, remove, reorder, or replace middleware.
+- Custom middleware can be added to the stack using `config.middleware` in `config/application.rb`.
+- Third-party middleware can also be added using `config.middleware`, but it's best practice to place their configuration in the `config/initializers` folder for better organization and maintainability.
