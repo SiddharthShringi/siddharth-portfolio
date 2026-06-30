@@ -30,7 +30,7 @@ export function TableOfContents({ headings }: { headings: Heading[] }) {
   }, []);
 
   return (
-    <nav className="border-l-2 border-l-foreground/20 px-4 pb-4 mb-8">
+    <nav className="border-l-2 border-l-foreground/30 px-4 pb-4 mb-8">
       <div className="mb-4 flex items-center gap-2">
         <BookMarked className="w-6 h-6 text-chart-2" />
         <h2 className="text-lg lg:text-xl font-semibold mb-1 text-foreground/70">Contents</h2>

@@ -55,7 +55,7 @@ repeatedly across different servers and frameworks.
 
 The diagram below illustrates the problem before Rack was introduced.
 
-![Before Rack Example](/Images/blog/2026-05-24-rack-on-rails/before-rack.webp)
+![Before Rack Example](/Images/blog/2026-06-02-rack-on-rails/before-rack.webp)
 
 # 2. Understanding Rack
 
@@ -102,7 +102,7 @@ end
 For a web server to be Rack-compatible,
 it must know how to invoke a Rack application's call method.
 
-![After Rack Example](/Images/blog/2026-05-24-rack-on-rails/after-rack.webp)
+![After Rack Example](/Images/blog/2026-06-02-rack-on-rails/after-rack.webp)
 
 Rack is not a web server or a framework.
 It is a protocol that defines how the two communicate.
@@ -138,7 +138,7 @@ leading to duplicated code and reduced reusability.
 Middleware allows these concerns to be implemented in a modular way and
 reused across different applications and frameworks.
 
-![After Rack Example](/Images/blog/2026-05-24-rack-on-rails/middleware.webp)
+![After Rack Example](/Images/blog/2026-06-02-rack-on-rails/middleware.webp)
 
 The Rack gem includes several built-in middleware components, such as:
 
@@ -154,7 +154,11 @@ a middleware is just another Rack application because it follows the same Rack p
 
 More precisely, middleware is usually a Rack application wrapper.
 It receives another Rack application during initialization and
-behaves like a Rack application itself by responding to the call method.
+behaves like a Rack application itself by responding to the `call` method.
+
+While plain Rack app (say, a Sinatra or Rails app sitting at the end of the stack)
+doesn't wrap anything. It terminates the chain rather
+than forwarding through it, so it isn't middleware.
 
 You can find the full list of middleware included in the
 Rack gem in the [Rack source code repository](https://github.com/rack/rack/tree/main/lib/rack)
@@ -426,7 +430,7 @@ use RequestLogger
 run MyRackApp.new
 ```
 
-![Rack Application Structure](/Images/blog/2026-05-24-rack-on-rails/myRackApp.webp)
+![Rack Application Structure](/Images/blog/2026-06-02-rack-on-rails/myRackApp.webp)
 
 Let's restart our application and see the changes using curl.
 
@@ -480,6 +484,13 @@ before returning responses to the client.
 
 If you want to explore more about Rack and its capabilities,
 you can check out the official documentation and source code on GitHub.
+
+<Callout>
+  Once we understand Rack, It helps us in understanding Rails Initialization Process. You can read
+  about it in this
+  [article](https://siddharth-shringi.vercel.app/blog/2026-02-08-rails-initialization-process).
+
+</Callout>
 
 # References
 

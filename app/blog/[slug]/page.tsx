@@ -111,7 +111,7 @@ export default async function Post({ params }: { params: { slug: string } }) {
               )}
 
               {/* Mobile + Tablet TOC */}
-              {showToc && headings.length > 4 && (
+              {showToc && (
                 <div className="xl:hidden">
                   <TableOfContents headings={headings} />
                 </div>
@@ -131,10 +131,10 @@ export default async function Post({ params }: { params: { slug: string } }) {
             </div>
           </main>
 
-          {showToc && headings.length > 4 && (
-            <aside className="hidden xl:block w-74 shrink-0">
+          {showToc && (
+            <aside className="hidden xl:block w-78 shrink-0">
               <div className="sticky top-24">
-                <div className="max-h-[calc(100vh-8rem)] overflow-y-auto">
+                <div className="max-h-[calc(100vh-16rem)] overflow-y-auto">
                   <TableOfContents headings={headings} />
                 </div>
               </div>
