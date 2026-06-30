@@ -72,7 +72,7 @@ export default async function Post({ params }: { params: { slug: string } }) {
               {/* Back Button */}
               <Link
                 href="/blog"
-                className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors duration-200"
+                className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors duration-200 md:hidden"
               >
                 <ArrowLeft className="h-4 w-4" />
                 Back to Blog
@@ -111,7 +111,7 @@ export default async function Post({ params }: { params: { slug: string } }) {
               )}
 
               {/* Mobile + Tablet TOC */}
-              {showToc && headings.length > 4 && (
+              {showToc && (
                 <div className="xl:hidden">
                   <TableOfContents headings={headings} />
                 </div>
@@ -131,7 +131,7 @@ export default async function Post({ params }: { params: { slug: string } }) {
             </div>
           </main>
 
-          {showToc && headings.length > 4 && (
+          {showToc && (
             <aside className="hidden xl:block w-78 shrink-0">
               <div className="sticky top-24">
                 <div className="max-h-[calc(100vh-16rem)] overflow-y-auto">
