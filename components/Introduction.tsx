@@ -12,27 +12,27 @@ export default function Introduction() {
   return (
     <section className="px-4 sm:px-6 lg:px-8 xl:px-10 mt-10 sm:mt-20">
       <div className="container mx-auto max-w-7xl">
-        <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-10 sm:gap-12">
-          {/* Text */}
-          <div className="flex flex-col gap-8 sm:gap-10 max-w-2xl w-full">
-            {/* Mobile image — above text - Add Profile Image Below  */}
-            {/* <motion.div
+        <div className="flex flex-col lg:flex-row lg:items-start gap-10 sm:gap-20 lg:gap-32">
+          {/* Left Content */}
+          <div className="flex-1 flex flex-col gap-8 sm:gap-10 max-w-2xl">
+            {/* Mobile Image */}
+            <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8 }}
-              className="flex lg:hidden"
+              className="flex justify-center lg:hidden"
             >
-              <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full overflow-hidden bg-muted border border-border">
+              <div className="w-44 h-44 sm:w-52 sm:h-52 rounded-full overflow-hidden border border-border bg-muted shadow-lg">
                 <Image
-                  src="/profile.jpg"
+                  src="/profile.webp"
                   alt="Siddharth Shringi"
-                  width={128}
-                  height={128}
+                  width={176}
+                  height={176}
                   className="w-full h-full object-cover"
                   priority
                 />
               </div>
-            </motion.div> */}
+            </motion.div>
 
             {/* Hero */}
             <motion.div
@@ -91,14 +91,15 @@ export default function Introduction() {
               >
                 <Button className="group flex items-center gap-2" size="lg">
                   <span>Resume / CV</span>
-                  <Download className="text-xl transition-transform group-hover:translate-y-1" />
+
+                  <Download className="transition-transform group-hover:translate-y-1" />
                 </Button>
               </Link>
 
               <Socials />
             </motion.div>
 
-            {/* Footer info */}
+            {/* Footer */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -112,24 +113,24 @@ export default function Introduction() {
             </motion.div>
           </div>
 
-          {/* Desktop image — right side - Add Profile Image Below */}
-          {/* <motion.div
+          {/* Desktop Image */}
+          <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8 }}
-            className="hidden lg:flex shrink-0"
+            className="hidden lg:flex shrink-0 self-start -ml-4"
           >
-            <div className="w-56 h-56 xl:w-64 xl:h-64 rounded-full overflow-hidden bg-muted border border-border">
+            <div className="w-72 h-72 xl:w-72 xl:h-72 rounded-full overflow-hidden border border-border bg-muted shadow-md">
               <Image
-                src="/profile.jpg"
+                src="/profile.webp"
                 alt="Siddharth Shringi"
-                width={256}
-                height={256}
+                width={320}
+                height={320}
                 className="w-full h-full object-cover"
                 priority
               />
             </div>
-          </motion.div> */}
+          </motion.div>
         </div>
       </div>
     </section>
