@@ -1,5 +1,5 @@
 import articles from '@/lib/data/articles';
-import { BookOpen, BookOpenText, ExternalLink, Newspaper } from 'lucide-react';
+import { BookOpen, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
 
 export default function Publications() {

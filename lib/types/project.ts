@@ -8,5 +8,5 @@ export type Project = {
   title: string;
   description: string;
   stack: string[];
-  links: ProjectLink[];
+  links?: ProjectLink[];
 };

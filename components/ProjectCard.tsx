@@ -11,7 +11,9 @@ const LINK_ICONS: Record<string, React.ReactNode> = {
 const MAX_STACK = 4;
 
 export default function ProjectCard({ p }: { p: Project }) {
-  const visibleLinks = p.links.filter((l: ProjectLink) => l.type === 'live' || l.type === 'github');
+  const visibleLinks = (p.links || []).filter(
+    (l: ProjectLink) => l.type === 'live' || l.type === 'github'
+  );
   const visibleStack = p.stack.slice(0, MAX_STACK);
   const extraStack = p.stack.length - MAX_STACK;
 
