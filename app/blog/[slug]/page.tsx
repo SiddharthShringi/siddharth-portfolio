@@ -79,7 +79,7 @@ export default async function Post({ params }: { params: { slug: string } }) {
               </Link>
               {/* Header */}
               <header className="space-y-3">
-                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-pretty leading-tight">
+                <h1 className="text-3xl lg:text-4xl font-extrabold text-pretty leading-tight">
                   {title}
                 </h1>
 
