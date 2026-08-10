@@ -9,9 +9,11 @@ import { cn } from '@/lib/utils';
 
 interface BlogTabsProps {
   posts: PostMetadata[];
+  tags: string[];
+  activeTag: string | undefined;
 }
 
-export default function BlogTabs({ posts }: BlogTabsProps) {
+export default function BlogTabs({ posts, tags, activeTag }: BlogTabsProps) {
   const [activeTab, setActiveTab] = useState<'writings' | 'publications'>('writings');
 
   return (
@@ -42,7 +44,7 @@ export default function BlogTabs({ posts }: BlogTabsProps) {
         </div>
 
         <div className="mt-3">
-          {activeTab === 'writings' && <Blogs posts={posts} />}
+          {activeTab === 'writings' && <Blogs posts={posts} tags={tags} activeTag={activeTag} />}
           {activeTab === 'publications' && <Publications />}
         </div>
       </div>

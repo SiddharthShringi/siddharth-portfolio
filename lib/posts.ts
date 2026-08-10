@@ -76,3 +76,11 @@ export async function getAllPosts(limit?: number): Promise<PostMetadata[]> {
 
   return limit ? sortedPosts.slice(0, limit) : sortedPosts;
 }
+
+export async function getAllTags(): Promise<string[]> {
+  const posts = await getAllPosts();
+
+  const allTags = posts.flatMap((post) => post.tags ?? []);
+
+  return Array.from(new Set(allTags)).sort();
+}
