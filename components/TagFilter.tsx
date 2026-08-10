@@ -1,5 +1,3 @@
-'use client';
-
 import Link from 'next/link';
 
 function TagFilter({ tags, activeTag }: { tags: string[]; activeTag: string | undefined }) {
