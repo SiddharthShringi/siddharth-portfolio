@@ -121,7 +121,7 @@ export default async function Image({ params }: { params: { slug: string } }) {
         </div>
 
         {/* Website */}
-        <span>siddharth-shringi.vercel.app</span>
+        <span>siddharthshringi.com</span>
       </div>
     </div>,
     size

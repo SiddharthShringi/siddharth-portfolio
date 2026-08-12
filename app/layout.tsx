@@ -22,9 +22,7 @@ const outfit = Outfit({
 
 export const metadata: Metadata = {
   metadataBase: new URL(
-    process.env.NODE_ENV === 'production'
-      ? 'https://siddharth-shringi.vercel.app'
-      : 'http://localhost:3000'
+    process.env.NODE_ENV === 'production' ? 'https://siddharthshringi.com' : 'http://localhost:3000'
   ),
   title: 'Siddharth Shringi',
   description: "Siddharth Shringi's Portfolio",
