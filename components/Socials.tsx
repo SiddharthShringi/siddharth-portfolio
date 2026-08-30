@@ -4,7 +4,7 @@ import { GitHubIcon, LinkedInIcon, GmailIcon } from './icons/SocialIcon';
 
 export default function Socials() {
   return (
-    <div className="flex space-x-6 justify-center sm:justify-start">
+    <div className="sm:flex space-x-6 justify-center sm:justify-start hidden">
       <Link href="https://github.com/SiddharthShringi" target="_blank" rel="noopener noreferrer">
         <GitHubIcon className="w-6 h-6 transition-transform duration-300 hover:scale-125 cursor-pointer" />
       </Link>
