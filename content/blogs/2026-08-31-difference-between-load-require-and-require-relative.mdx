@@ -1,0 +1,132 @@
+---
+title: 'Difference between load, require, and require_relative in Ruby'
+description: 'A handy note on when to use load, require, and require_relative in Ruby.'
+publishedAt: '2026-08-31'
+author: 'Siddharth Shringi'
+tags: ['Ruby', 'Programming', '100DaysToOffload']
+showToc: false
+---
+
+Ruby provides a few different ways to load code from other files.
+In this article, we are going to explore three methods: load, require, and require_relative
+and understand when to use each of them.
+
+This article is Post #6 of the 100 Days to Offload challenge.
+
+Now, before moving forward, we need to know about these two global variables provided by the Ruby process.
+
+1. **$LOAD_PATH**
+
+- It is a global variable that contains the list of directories Ruby searches when using `require`.
+
+2. **$LOADED_FEATURES**
+
+- It is a global variable that contains the files or libraries/gems that Ruby has already loaded using `require`.
+
+<Callout>
+We can look for global variables in irb using `global_variables`, and in Pry we can also use `ls -g`.
+
+Then we can check both global variables that are arrays using the `puts` command.
+`puts $LOAD_PATH` and `puts $LOADED_FEATURES`.
+
+</Callout>
+
+## require
+
+`require` is used when we want to load files once during the lifetime of a Ruby process.
+
+When we use `require`, the following things can happen conceptually:
+
+- Ruby checks in the **$LOADED_FEATURES** array if the file or library has already been loaded or not.
+  - If loaded, do nothing.
+  - Else Ruby searches the required file in the **$LOAD_PATH** array.
+    - If found, then the file is loaded & added to the $LOADED_FEATURES array.
+    - If not found, then Ruby raises a LoadError.
+
+### Uses:
+
+We use `require` to load _library_ or _gem_. For example:
+
+```ruby
+require "json"
+```
+
+or
+
+```ruby
+require "rails"
+```
+
+<Callout>
+
+We may also use `require` to load our own project files, but those files should be in the
+**$LOAD_PATH** array. It creates a dependency on **$LOAD_PATH** in order to use `require` to load
+our own project files.
+
+</Callout>
+
+To load files from our own project, we use `require_relative`.
+
+## require_relative
+
+`require_relative` is similar to `require`, but there is a subtle difference.
+This method is useful to require files relative to the file containing the require_relative call without having to change **$LOAD_PATH**.
+
+### Uses:
+
+- Use `require_relative` to load files from our own project.
+
+For example, we have a file structure like this:
+
+```bash
+project/
+  ├── app/
+  │   └── hello.rb
+  └── main.rb
+```
+
+Then in `main.rb` we can use `require_relative` to load `hello.rb` like this:
+
+```ruby
+require_relative "app/hello"
+```
+
+<Callout>
+
+When building a gem, we conventionally put Ruby code in the lib directory. So when the gem is
+used, the lib directory is added to **$LOAD_PATH** and we can use `require` to load files from the
+gem.
+
+</Callout>
+
+## Load
+
+The `load` method is the least used method to load a file.
+It is useful in irb/pry to reload files we are working on.
+
+This method loads a file every time we call it.
+
+Unlike `require` and `require_relative`, the `load` method does not check **$LOADED_FEATURES** to see if the file is already loaded.
+
+That's why `require` loads the file only once, but the `load` method loads files every time we call it.
+
+Another difference between `load` and `require` is with `load`
+we provide the complete file name with extension like .rb, but with `require`, the file extension is not required.
+
+for example
+
+```ruby
+load "app/hello.rb"
+
+
+require "app/hello"
+```
+
+This was a small concept but worth learning.
+This will be helpful to know when working with gems or projects in Ruby.
+
+The main thing I'll remember is:
+
+- Use `require` and `require_relative` to load files once during the lifetime of a Ruby process.
+- Use `require_relative` to load files relative to the current file.
+- `load` is useful to reload files we are working on in irb/pry.
