@@ -1,0 +1,447 @@
+---
+title: 'Ruby Blocks, Procs, and Lambdas'
+description: 'A first-principles understanding of how Ruby passes, stores, and executes code blocks using Procs and Lambdas.'
+publishedAt: '2026-10-21'
+author: 'Siddharth Shringi'
+tags: ['100DaysToOffload', 'Ruby']
+showToc: true
+---
+
+# Introduction
+
+In this article, we are going to explore what Ruby blocks are.
+Also going to understand why we need procs and lambdas.
+
+# Ruby Blocks
+
+Let's understand why Ruby has blocks.
+Imagine we have a list of numbers, and we want to print each one.
+How do we do that without any tools provided by Ruby?
+
+We are going to write our own loop:
+
+```ruby
+
+numbers = [1, 2, 3, 4]
+
+i = 0
+while i < numbers.length
+  puts numbers[i]
+  i +=1
+end
+
+```
+
+This will do the job,
+but what if now we want another list which contains this list's number \* 2.
+For that, we will have to write another loop.
+
+```ruby
+
+i = 0
+
+doubled = []
+
+while i < numbers.length
+  doubled << numbers[i] * 2
+  i +=1
+end
+
+```
+
+We can see repetitive code here.
+So it is against the DRY principle.
+What can we do here now?
+What if we could hand a chunk of code to a method and say:
+Run this chunk whenever you need to: **That chunk of code is called a block**.
+
+Ruby has a built-in method called `each` that takes a block
+and runs it for each element in the array.
+Let's see this in an example by creating our own each method:
+
+```ruby {4}
+
+def ruby_each(array)
+  i = 0
+
+  while i < array.length
+    yield array[i]
+    i += 1
+  end
+end
+
+```
+
+**Yield Keyword:**
+
+- We can see the `yield` keyword here.
+  It is responsible for running a code block that has been handed to a method.
+  It means pause and run this code block right here, right now.
+- We can use the `yield` keyword multiple times,
+  and it will run the code block every time.
+- `yield` can also take any number of arguments,
+  then pass these arguments to the block.
+
+Let's see this in action:
+
+```ruby
+
+ruby_each([1, 2, 3]) { |n| puts n }
+# Output: 1 2 3
+
+doubled = []
+ruby_each([1, 2, 3]) { |n| doubled << n * 2 }
+p doubled
+
+# Output: [2, 4, 6]
+
+```
+
+Now what happens if we call `yield`
+and nobody provided a block to the method?
+In that case, Ruby will raise an error: "no block given".
+To be safe , we can ask first with the `block_given?` method.
+
+```ruby
+
+def greet
+  if block_given?
+    yield
+  else
+    puts "No block given, still Hi!"
+  end
+end
+
+greet { puts "Hello I'm a block" }
+#Output: Hello I'm a block
+
+greet
+#Output: No block given, still Hi!
+
+```
+
+<Callout title="Note">
+
+One thing to note is that a code block is not a method argument.
+When we provide a block,
+we are not sending a code block as a method argument.
+We are simply providing a block to a method, which is a thing in itself.
+
+It sits outside the parentheses;
+it is not in the parameter list,
+and each method call can get at most one block.
+
+</Callout>
+
+A quick summary of blocks:
+
+- Blocks are simple code syntax that carries a bit of logic for later use.
+- Blocks are similar to anonymous functions.
+- Blocks can be defined in two ways:
+  1.  using {}
+  2.  do...end
+- Blocks can take multiple arguments.
+- Argument names are defined between two pipe |a, b...| characters.
+
+## The Problem with normal blocks
+
+Blocks are wonderful, but there is a problem: these blocks can't be reused.
+We'll have to write the same block multiple times because we can't save it in a variable.
+
+**But why can't we save them in a variable?**
+
+Because a block is not a Ruby object that we can directly assign to a variable.
+
+So to make a block reusable,
+we need to turn a block into an object so that we can store it in a variable,
+and that's where the concept of Proc is introduced.
+
+# Proc
+
+A Proc is a way to define blocks and then store them in a variable.
+These block objects are created using the `Proc` class.
+
+```ruby
+
+upcase_proc = Proc.new { |x| x.upcase }
+
+puts upcase_proc.call("ruby")
+
+#Output: RUBY
+
+```
+
+Here we handed a block to Proc.new, and it gave us back an object.
+This object comes with many built-in methods.
+In the above example, we can check them with `upcase_proc.methods`.
+
+Now, to execute the code block,
+we can do it with the built-in `call` method as above.
+
+## Understanding `&` special syntax
+
+This character does two things:
+
+### 1. Turn Block to Proc (inside a method definition)
+
+```ruby
+
+def call_a_block(str, &block)
+
+ block.call(str)
+
+end
+
+
+
+puts call_a_block("ruby") { |x| x.upcase }
+
+#Output: RUBY
+
+```
+
+When we call the `call_a_block` method and provide a block.
+But we want to use this block by name.
+To do that, we put `&` in front of the last parameter.
+
+The `&` tells ruby to take this attached block,
+turn it into a Proc object,
+and give it to me under the name "block".
+We can name it anything like a variable name - `&blk`, `&uppercase`, etc.
+
+Now the block is a Proc object,
+so that `block.call` will work and it will give output like "RUBY".
+
+### 2. Turn Proc to Block (inside a method call)
+
+Now imagine a situation where we already have a Proc object.
+
+```ruby
+
+my_proc = Proc.new { |x| x.upcase }
+
+```
+
+But now we want to use it with methods that expect a block.
+For example, `map`.
+
+For this, we can again use `&` but on the calling side.
+
+```ruby
+
+%w{ ruby rails }.map(&my_proc)
+
+```
+
+Here `&` means the reverse: "Take this Proc and unwrap it back into a block for this method."
+
+But we have seen the following map syntax as well:
+
+```ruby
+
+["a", "b"].map(&:upcase)   # => ["A", "B"]
+
+```
+
+### `&:symbol` How does it work?
+
+The `&` operator converts a Proc object into a block when it is passed to a method.
+If the object is not already a Proc,
+Ruby calls `to_proc` on the object to convert it into a Proc.
+
+A symbol has a built-in `to_proc` method. So `map(&:upcase)` secretly becomes:
+
+```ruby
+
+["hello", "world"].map { |word| word.upcase }
+
+```
+
+## Proc as a closure
+
+Every Proc is a closure. This means it has access to variables
+that were in scope when the Proc was defined,
+even if the Proc is called outside that scope.
+
+Think of a Proc carrying a backpack wherever it goes.
+
+This backpack contains the surrounding environment:
+
+- Reference to local variables that were in scope when the Proc was defined.
+- The self object, which tells the Proc,
+  which object it belongs to and whose instance variables and instance methods it can access.
+
+```ruby
+
+class Person
+  def initialize(name)
+    @name = name
+  end
+
+  def greet
+    Proc.new { puts "Hello #{@name}" }
+  end
+end
+
+person = Person.new("Siddharth")
+my_proc = person.greet
+my_proc.call
+# Output: Hello Siddharth
+```
+
+## Proc Behavior
+
+Let's see how a Proc behaves with respect to the `return` statement and arguments.
+
+### How does Proc handle the return statement?
+
+-  `return` inside a proc doesn't mean leave the proc;
+  it means leave the method it was written in.
+  So the code after the proc will not even execute.
+
+```ruby
+
+def run_proc
+  my_proc = Proc.new { return "from proc" }
+  my_proc.call
+  "after proc"   # never reached
+end
+
+puts run_proc
+# Output: from proc
+
+```
+
+- Here, the method run_proc will not return "after_proc",
+  because the proc's return statement already returned from the method.
+- Think of a Proc as more like pasted code.
+  A Proc’s `return` goes back to **where the Proc was born**, not where it is called.
+
+### Procs do not care about the number of arguments
+
+- A proc is different from a method with respect to how they handle arguments.
+  A proc does not care about whether the right number of arguments are passed or not.
+
+- A proc with one argument can be called with any number of arguments, including none.
+
+```ruby
+my_proc = Proc.new { |x| puts x }
+puts my_proc.call
+# Output:
+
+
+puts my_proc.call(1,2,3,4)
+# Output: 1
+# The rest arguments are thrown away.
+
+```
+
+# Lambda
+
+Let's first understand what problem lambda is solving.
+We want a small, reusable function that we can save in a variable,
+pass to other methods, and use it again and again.
+
+But look at the options that we already have:
+
+- A block: It can't be saved at all in a variable.
+- A `def` method is not an object either, and it can't carry a backpack (execution context).
+- A Proc solves both; it can be saved in a variable and also a closure. But it behaves like pasted code.
+  Means `return` escapes the whole method and do not care about arguments.
+
+So, there comes `Lambda`:
+It is a saved object, remembers its surroundings,
+and behaves like a real function. Means:
+
+- It is strict about arguments.
+- `return` only leaves itself.
+
+**A lambda is a different type of proc object. It has its own flavour.**
+
+There are two ways to define a lambda.
+
+```ruby
+
+square = lambda { |n| n * n }
+
+# OR
+
+# This one is a stabby lambda
+square = -> (n) { n * n }
+
+```
+
+Now Let's check what this object is:
+
+```ruby
+
+square.class  # Proc
+
+square.lambda? # true
+
+square.call(3) # 9
+
+```
+
+**Let's call it with the wrong number of arguments:**
+
+```ruby
+
+square.call(1,2,3)
+# Output: wrong number of arguments (given 3, expected 1) (ArgumentError)
+
+```
+
+**Also, lambda returns from itself, not from the enclosing method:**
+
+```ruby
+
+def some_method
+  num = lambda { return 1 }
+  num.call
+  puts "after lambda"   # this runs!
+  2
+end
+
+# Output:
+# after lambda
+# 2
+
+```
+
+**It also works as a closure because it is also a Proc object:**
+
+```ruby
+
+def multiply_by(x)
+
+ -> (n) { n * x }
+
+end
+multiply_by_2 = multiply_by(2)
+
+puts multiply_by_2.call(4)
+
+# Output: 8
+
+```
+
+# Summary
+
+**Proc:**
+
+- It is an object.
+- It is a closure, it remembers its surroundings.
+- Do not care about given arguments.
+- `return` leaves the method where the proc was defined.
+- It works more like pasted code.
+
+**Lambda:**
+
+- It is a Proc object but with its own flavour.
+- It is also a closure.
+- It will raise an error when the wrong number of arguments is passed.
+- `return` will only leave the lambda itself, not the method it was defined in.
+
+I hope this article gives you a clear understanding of blocks,
+Proc, and lambda from first-principles thinking.
