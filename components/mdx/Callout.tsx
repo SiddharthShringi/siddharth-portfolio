@@ -1,4 +1,4 @@
-import { Bookmark, Info, StickyNote } from 'lucide-react';
+import { StickyNote } from 'lucide-react';
 
 interface Props {
   title?: string;

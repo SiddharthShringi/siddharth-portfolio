@@ -3,8 +3,8 @@ import { MDXRemote, type MDXRemoteProps } from 'next-mdx-remote-client/rsc';
 import rehypePrettyCode from 'rehype-pretty-code';
 import remarkGfm from 'remark-gfm';
 import rehypeSlug from 'rehype-slug';
-import Pre from '@/components/Pre';
-import { Callout } from '@/components/Callout';
+import Pre from '@/components/mdx/Pre';
+import { Callout } from '@/components/mdx/Callout';
 import Image from 'next/image';
 
 const components = {
