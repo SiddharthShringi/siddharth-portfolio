@@ -1,0 +1,240 @@
+---
+title: 'Ruby Method Objects: How do we store a method in a variable?'
+description: "In Ruby, putting a method in a variable runs it immediately. Let's understand how method objects help in holding that method for later."
+publishedAt: '2026-10-30'
+author: 'Siddharth Shringi'
+tags: ['100DaysToOffload', 'Ruby']
+showToc: true
+---
+
+In Ruby, methods are not objects by default, but there is a way
+we can change a method into an object.
+
+But the first question is:
+
+# Why would we want to convert a method into an object?
+
+So we can store them in a variable and pass them around.
+Let's understand this:
+
+But what problem are we solving by storing a method in a variable?
+
+Let's say we have the methods below:
+
+```ruby
+def greet
+  puts "Hello there!"
+end
+
+def say_bye
+  puts "Good Bye!"
+end
+```
+
+A method is a name given to a piece of behaviour.
+When we call these methods, Ruby executes the behaviour.
+
+These methods already have a name,
+so whenever we want to use them, we can call them.
+
+**Why do we need to store them in a variable then?**
+
+Suppose we are building a notification system, where we have to send notifications at a certain time. Sometimes we want to greet a user, and sometimes we want to send a goodbye notification.
+
+So how do we implement this with our current knowledge? Using `IF/ELSE` conditions or `switch/case`.
+
+```ruby
+def send_notification(user_action)
+  if user_action == :greet
+    greet
+  elsif user_action == :leave
+    say_bye
+  end
+end
+```
+
+But as the type of notification increases, the number of conditions will also increase and make this method bulky.
+
+But what if there were a way where we can just pass the behaviour we want to execute and later, when we want, we could execute it.
+
+Let's try with the current setup. Let's try to store a method into a variable.
+
+```ruby
+notification = greet
+```
+
+What Ruby does is execute the `greet` method immediately and save the result in the variable, not the behaviour of the method.
+
+It reveals two things here:
+
+1. Calling a method means executing a behaviour.
+2. Holding a reference to a method means being able to refer to that method's behaviour without executing it yet.
+
+We would like to achieve the second thing; to achieve that, we would need to convert a method into an object so that the variable can refer to it.
+
+And later we can pass that method's **behaviour** and call it later when we want to call it.
+
+# How do we convert a method into an object?
+
+Let's see how we can do it.
+
+```ruby
+def greet
+  puts "Hello!"
+end
+
+say_hello = method(:greet)
+```
+
+Here, `method(:greet)` gives us a `Method` object that refers to the behaviour of the `greet` method. `say_hello` variable holds that method object.
+
+Now when we want to call it, we can do it like this:
+
+```ruby
+say_hello.call
+```
+
+Let's do it with our `send_notification` method
+
+```ruby
+def send_notification(action)
+  action.call
+end
+
+send_notification(method(:greet))
+send_notification(method(:say_bye))
+
+```
+
+Now with the help of method objects, we can:
+
+- Pass methods around; one method can have other methods behaviour.
+- Choose methods dynamically. A program can decide **at runtime** which method to execute.
+
+<Callout title="note">
+  In Ruby, methods don't present themselves as object unless we ask for it.
+</Callout>
+
+# Owner Method
+
+Let's see one more example of this behaviour:
+
+```ruby {10}
+class Person
+  def talk
+    puts "Hello there!"
+  end
+end
+
+person = Person.new
+p_talk = person.method(:talk)
+
+p_talk.owner
+# Person
+```
+
+First, we can see that the `method` is called on `person`, an instance of `Person`, because talk is an instance method.
+
+Here we can see the `owner` method. It answers which class or module wrote this method.
+
+**A few other methods:**
+
+```ruby
+p_talk.receiver # person ( the object it is attached to.)
+
+p_talk.arity # 0 (takes no argument)
+
+p_talk.source_location # file and line.
+```
+
+<Callout title="note">
+  Here, it looks obvious, but in a heavy Rails app, where a model consists of multiple gems and
+  modules, the `owner` method can tell where that particular method came from.
+</Callout>
+
+Now, let's understand one more concept of `bound` and `unbound` method objects with the help of the above example.
+
+# Bound and Unbound Method Object
+
+In the above example, the `p_talk` method object is a bound Method object.
+It is bound to the `Person` class's instance `person`. It means that Ruby remembers that the `p_talk` method object came from `person`.
+
+Now what if we want to detach this method from instance `person` and attach it to some other object?
+
+That's where the concept of `unbind` and `bind` comes into the picture.
+
+```ruby {5,6}
+class Animal < Person
+end
+
+dog = Animal.new
+unbound = p_talk.unbind # detach this from instance p
+unbound.bind(dog).call # attach it to the dog object, which is an instance of Animal, and then run it.
+```
+
+Here, we used the `unbind` method to detach the `p_talk` method object from the instance `person`.
+In the next line, first we attached that `unbound` method object to the `dog` object, which is an instance of the `Animal` class and then we ran it.
+
+<Callout title="note">
+  **The Binding Rule:** An unbound method obtained from a class can only be bound to an instance of that class or subclass.
+
+Since Ruby 2.0, an unbound method obtained from a module can be bound to any object.
+
+</Callout>
+
+## instance_method
+
+There is one more way to get hold of an unbound method object directly without having to call unbind on a bound method object.
+
+```ruby
+unbound = Person.instance_method(:talk)
+```
+
+Now we can use `bind` to bind this method object to any instance of `Person` or subclass of `Person`.
+
+# Usage
+
+Now the question comes: why would we want to run a method on a different object?
+
+Imagine a scenario where a child class overrides a method, but we want to run the parent class's method.
+
+How will we do that?
+
+Let's see below:
+
+```ruby
+
+class Parent
+  def greet
+    puts "Hello, I'm a Parent."
+  end
+end
+
+class Child < Parent
+  def greet
+    puts "Hello, I'm a Child"
+  end
+end
+
+child_a = Child.new
+child_a.greet
+# Hello, I'm a Child
+```
+
+Now if we want this `child_a` instance to run `Parent` class's `greet` method, then we will run it like this:
+
+```ruby
+unbound = Parent.instance_method(:greet)
+unbound.bind(child_a).call
+# Hello, I'm a Parent
+```
+
+# Summary
+
+In Ruby, methods are not objects by default, but we can convert them into objects so that we can store them in a variable and pass them around.
+
+We can use the `owner` method to find which class or module wrote that method.
+
+A bound method object is attached to a specific object (its receiver). We can unbind it and bind it to another instance of the same class or its subclass.
+
+I hope this article will help you understand the concept of a method as an object in a better way.
