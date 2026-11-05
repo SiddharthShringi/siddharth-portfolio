@@ -38,7 +38,7 @@ My personal portfolio website showcasing my professional experience, projects, a
 Clone the repository:
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/siddharth-portfolio.git
+git clone https://github.com/SiddharthShringi/siddharth-portfolio.git
 ```
 
 Navigate to the project directory:
