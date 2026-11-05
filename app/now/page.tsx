@@ -1,86 +1,142 @@
-interface NowSectionProps {
-  title: string;
-  children: React.ReactNode;
-}
+import * as motion from 'motion/react-client';
+import { StickyNote } from '@/components/now/StickyNote';
+import { NoteItem, NoteFooter } from '@/components/now/NoteHeader';
+import { CircleSmall } from 'lucide-react';
 
-function NowSection({ title, children }: NowSectionProps) {
+export default function NowPage() {
   return (
-    <section className="rounded-xl border-l-2 border-accent-foreground/20 p-4 dark:border-accent sm:p-5">
-      <h2 className="mb-3 text-xl font-bold sm:mb-4 sm:text-2xl">{title}</h2>
-      <ul className="list-disc space-y-2 pl-5 text-base leading-7 sm:text-lg sm:leading-8">
-        {children}
-      </ul>
-    </section>
-  );
-}
+    <main className="mx-auto max-w-5xl px-6 py-12">
+      <h1 className="text-2xl font-bold tracking-tight sm:text-3xl md:text-4xl">
+        What I&apos;m Doing Now
+      </h1>
+      <p className="italic text-muted-foreground">Last updated:</p>
+      <p className="text-chart-2">September 9th, 2026</p>
+      <p className="text-base leading-7 sm:text-lg sm:leading-8">
+        Right now, I&apos;m focused on writing, reading, building WorkNotes, staying active, and
+        finding my next role. I&apos;m trying to keep things simple: learn, write, build, and share
+        the work.
+      </p>
 
-export default function Now() {
-  return (
-    <section className="my-6 px-4 sm:my-10 sm:px-6 lg:px-8 xl:px-10">
-      <div className="mx-auto max-w-7xl">
-        <div className="max-w-3xl">
-          {/* Header */}
-          <h1 className="text-2xl font-bold tracking-tight sm:text-3xl md:text-4xl">
-            What I&apos;m Doing Now
-          </h1>
+      {/* 3 tall notes */}
+      <div className="mt-12 grid grid-cols-1 gap-9 md:grid-cols-3">
+        <motion.div
+          initial={{ scale: 1 }}
+          whileHover={{
+            scale: 1.1,
+            y: -10,
+            zIndex: 10,
+            x: -10,
+          }}
+          transition={{
+            type: 'spring',
+            stiffness: 260,
+            damping: 18,
+          }}
+        >
+          <StickyNote
+            tapePosition={25}
+            tilt="-rotate-2"
+            tapeTilt="-rotate-3"
+            tapeColor="bg-chart-2/70"
+            className="min-h-104"
+          >
+            <h2 className="mb-4 text-2xl font-semibold">Writing</h2>
+            <ul className="space-y-4">
+              <NoteItem
+                icon={<CircleSmall className="h-4 w-4 text-chart-2" />}
+                chip="8 / 100 posts"
+              >
+                Continuing my 100 Days to Offload challenge.
+              </NoteItem>
+              <NoteItem
+                icon={<CircleSmall className="h-4 w-4 text-chart-2" />}
+                chip="Drafting #1 · SQLite in WebAssembly"
+              >
+                Write at least 2 technical articles this month.
+              </NoteItem>
+            </ul>
+            <NoteFooter left="Format: Field Journal" right="4.2k words" />
+          </StickyNote>
+        </motion.div>
+        <motion.div
+          initial={{ scale: 1 }}
+          whileHover={{
+            scale: 1.1,
+            y: -10,
+            zIndex: 10,
+          }}
+          transition={{
+            type: 'spring',
+            stiffness: 260,
+            damping: 18,
+          }}
+        >
+          <StickyNote
+            tapePosition={40}
+            tilt="rotate-1"
+            tapeTilt="rotate-2"
+            tapeColor="bg-chart-1/70"
+            className="min-h-104"
+          >
+            {/* Learning content goes here */}
+            <h2 className="mb-4 text-2xl font-semibold">Learning</h2>
+            <ul className="space-y-4">
+              <NoteItem
+                icon={<CircleSmall className="h-4 w-4 text-chart-1" />}
+                chip="8 / 100 posts"
+              >
+                Currently reading &quot;The Well-Grounded Rubyist and Ruby Deep Dive.
+              </NoteItem>
+              <NoteItem
+                icon={<CircleSmall className="h-4 w-4" />}
+                chip="Drafting #1 · SQLite in WebAssembly"
+              >
+                Write at least 2 technical articles this month.
+              </NoteItem>
+            </ul>
+          </StickyNote>
+        </motion.div>
 
-          <div className="my-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm font-semibold sm:my-4 sm:text-base">
-            <p className="italic text-muted-foreground">Last updated:</p>
-            <p className="text-chart-2">September 9th, 2026</p>
-          </div>
-
-          <header>
-            <p className="text-base leading-7 sm:text-lg sm:leading-8">
-              Right now, I&apos;m focused on writing, reading, building WorkNotes, staying active,
-              and finding my next role. I&apos;m trying to keep things simple: learn, write, build,
-              and share the work.
-            </p>
-          </header>
-
-          {/* Sections */}
-          <div className="mt-6 space-y-3 sm:mt-8 sm:space-y-4">
-            <NowSection title="Writing">
-              <li>
-                Continuing my{' '}
-                <a
-                  href="https://100daystooffload.com/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="underline underline-offset-4 hover:text-foreground"
-                >
-                  100 Days to Offload
-                </a>{' '}
-                challenge; wrote 8 blogs last month.
-              </li>
-              <li>Write at least 2 technical articles this month.</li>
-              <li>Continue journaling through free writing.</li>
-            </NowSection>
-
-            <NowSection title="Learning">
-              <li>
-                Currently reading <em>The Well-Grounded Rubyist</em>, <em>Ruby Deep Dive</em>.
-              </li>
-              <li>Taking a SQL course to sharpen my database fundamentals.</li>
-              <li>Working through system design concepts and case studies.</li>
-            </NowSection>
-
-            <NowSection title="WorkNotes">
-              <li>
-                <span className="font-medium">WorkNotes</span> is a productivity tool for tracking
-                work sessions and keeping notes for each session.
-              </li>
-              <li>
-                This month, I&apos;m working on a <span className="font-medium">Reports</span>{' '}
-                feature for daily and weekly summaries.
-              </li>
-              <li>
-                Experimenting with AI to generate a daily timesheet from work-session notes and
-                associate entries with projects.
-              </li>
-            </NowSection>
-          </div>
-        </div>
+        <motion.div
+          initial={{ scale: 1 }}
+          whileHover={{
+            scale: 1.1,
+            y: -10,
+            zIndex: 10,
+            x: 10,
+          }}
+          transition={{
+            type: 'spring',
+            stiffness: 260,
+            damping: 18,
+          }}
+        >
+          <StickyNote
+            tapePosition={70}
+            tilt="-rotate-3"
+            tapeTilt="-rotate-2"
+            tapeColor="bg-chart-4/70"
+            className="min-h-104"
+          >
+            {/* WorkNotes content goes here */}
+            <h2 className="mb-4 text-2xl font-semibold">WorkNotes</h2>
+            <ul className="space-y-4">
+              <NoteItem
+                icon={<CircleSmall className="h-4 w-4 text-chart-1" />}
+                chip="8 / 100 posts"
+              >
+                Currently reading &quot;The Well-Grounded Rubyist and Ruby Deep Dive.
+              </NoteItem>
+              <NoteItem
+                icon={<CircleSmall className="h-4 w-4" />}
+                chip="Drafting #1 · SQLite in WebAssembly"
+              >
+                Write at least 2 technical articles this month.
+              </NoteItem>
+            </ul>
+          </StickyNote>
+        </motion.div>
       </div>
-    </section>
+    </main>
   );
 }
