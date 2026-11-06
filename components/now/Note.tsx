@@ -72,3 +72,28 @@ export function NoteFooter({ left, right }: NoteFooterProps) {
     </footer>
   );
 }
+
+type NoteSubsectionProps = {
+  title: string;
+  description: string;
+  headingColor: string;
+  icon?: ReactNode;
+};
+
+export function NoteSubsection({ title, description, headingColor, icon }: NoteSubsectionProps) {
+  return (
+    <li className="space-y-1.5">
+      <div className="flex items-center gap-2">
+        {icon && (
+          <span className={`shrink-0 ${headingColor}`} aria-hidden="true">
+            {icon}
+          </span>
+        )}
+
+        <h3 className={`text-sm font-medium ${headingColor} sm:text-base`}>{title}</h3>
+      </div>
+
+      <p className="text-sm leading-6 text-muted-foreground sm:leading-7">{description}</p>
+    </li>
+  );
+}

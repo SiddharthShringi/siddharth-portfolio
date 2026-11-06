@@ -1,8 +1,8 @@
 import * as motion from 'motion/react-client';
-import { CircleSmall } from 'lucide-react';
+import { BookOpen, CircleSmall, Clapperboard, Dumbbell } from 'lucide-react';
 
 import { StickyNote } from '@/components/now/StickyNote';
-import { NoteItem, NoteFooter } from '@/components/now/Note';
+import { NoteItem, NoteSubsection } from '@/components/now/Note';
 
 const notes = [
   {
@@ -14,18 +14,18 @@ const notes = [
     iconColor: 'text-chart-2',
     items: [
       {
-        chip: '8 / 100 posts',
-        description: 'Continuing my 100 Days to Offload challenge.',
+        chip: '100 Days to Offload',
+        description: 'Writing and publishing about anything that catches my curiosity.',
       },
       {
-        chip: 'Drafting · SQLite in WebAssembly',
-        description: 'Write at least 2 technical articles this month.',
+        chip: 'Technical writing',
+        description: 'Writing about Ruby and Rails topics as I learn and explore their internals.',
+      },
+      {
+        chip: 'Journaling',
+        description: 'Making time for 10-thought dumps and free writing.',
       },
     ],
-    footer: {
-      left: 'Field Journal',
-      right: '4.2k words',
-    },
   },
   {
     title: 'Learning',
@@ -36,12 +36,17 @@ const notes = [
     iconColor: 'text-chart-1',
     items: [
       {
-        chip: 'Currently reading',
-        description: 'The Well-Grounded Rubyist and Ruby Deep Dive.',
+        chip: 'System design',
+        description: 'Exploring system design and software architecture.',
       },
       {
-        chip: 'Technical practice',
-        description: 'Strengthening my understanding of SQL and backend systems.',
+        chip: 'Ruby & Rails internals',
+        description: 'Going deeper into how Ruby and Rails work under the hood.',
+      },
+      {
+        chip: 'Open source',
+        description:
+          'Looking to get involved in open-source projects and make my first contributions.',
       },
     ],
   },
@@ -54,51 +59,47 @@ const notes = [
     iconColor: 'text-chart-4',
     items: [
       {
+        chip: 'Done',
+        description:
+          'Nearly done with the MVP of WorkNotes. Recently completed the daily reports feature.',
+      },
+      {
         chip: 'Current focus',
-        description: 'Building the daily report experience.',
+        description: 'Implementing PDF report exports using background jobs.',
       },
       {
         chip: 'Next up',
-        description: 'Implementing PDF export with background jobs.',
+        description: 'Exploring ways to integrate AI into WorkNotes.',
       },
     ],
   },
 ];
 
-const notes2 = [
+const hobbies = [
   {
-    title: 'WorkNotes-2',
+    title: 'WorkNotes',
     tapePosition: 70,
     tilt: '-rotate-2',
-    tapeTilt: '-rotate-3',
-    tapeColor: 'bg-chart-3/70',
-    iconColor: 'text-chart-3',
-    items: [
-      {
-        chip: 'Current focus',
-        description: 'Building the daily report experience.',
-      },
-      {
-        chip: 'Next up',
-        description: 'Implementing PDF export with background jobs.',
-      },
-    ],
-  },
-  {
-    title: 'DAS Score',
-    tapePosition: 70,
-    tilt: 'rotate-1',
     tapeTilt: '-rotate-2',
-    tapeColor: 'bg-chart-5/70',
-    iconColor: 'text-chart-5',
-    items: [
+    tapeColor: 'bg-chart-4/70',
+    iconColor: 'text-chart-4',
+    subsections: [
       {
-        chip: 'Current focus',
-        description: 'Building the daily report experience.',
+        title: 'Fitness',
+        description:
+          'Staying consistent with 3-4 workouts a week, experimenting with kettlebells and making room for yoga.',
+        icon: <Dumbbell className="h-4 w-4" />,
       },
       {
-        chip: 'Next up',
-        description: 'Implementing PDF export with background jobs.',
+        title: 'Reading',
+        description:
+          'Exploring Hindi literature. Currently reading works by Harishankar Parsai and Kashinath Singh.',
+        icon: <BookOpen className="h-4 w-4" />,
+      },
+      {
+        title: 'Watching',
+        description: 'Just started watching Severance.',
+        icon: <Clapperboard className="h-4 w-4" />,
       },
     ],
   },
@@ -121,19 +122,20 @@ export default function NowPage() {
 
         <div className="flex items-center gap-2 text-sm">
           <span className="text-muted-foreground">Last updated</span>
-          <time dateTime="2026-09-09" className="font-medium text-chart-2">
-            September 9, 2026
+
+          <time dateTime="2026-11-06" className="font-medium text-chart-2">
+            November 6, 2026
           </time>
         </div>
 
         <p className="text-base leading-8 text-muted-foreground sm:text-lg">
-          Right now, I&apos;m focused on writing, reading, building WorkNotes, staying active, and
-          finding my next role. I&apos;m trying to keep things simple: learn, write, build, and
-          share the work.
+          Right now, I&apos;m focused on writing, learning, building WorkNotes, and finding my next
+          role. Outside of that, I&apos;m trying to stay active, explore new interests, and make
+          time for things that have nothing to do with work.
         </p>
       </header>
 
-      {/* Sticky notes */}
+      {/* First row: Writing, Learning, WorkNotes */}
       <section
         aria-label="Things I'm currently working on"
         className="mt-14 grid grid-cols-1 items-stretch gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-7"
@@ -142,23 +144,18 @@ export default function NowPage() {
           <motion.div
             key={note.title}
             className="relative h-full"
-            initial={{ opacity: 0, y: 12, scale: 1 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{
               duration: 0.4,
               delay: index * 0.1,
             }}
             whileHover={{
-              scale: 1.1,
+              scale: 1.08,
               y: -10,
               zIndex: 10,
             }}
-            whileFocus={{
-              scale: 1.12,
-            }}
-            whileTap={{
-              scale: 0.99,
-            }}
+            whileTap={{ scale: 0.99 }}
             style={{ transformOrigin: 'center center' }}
           >
             <StickyNote
@@ -171,9 +168,8 @@ export default function NowPage() {
               <div className="mb-6">
                 <h2 className="text-2xl font-semibold tracking-tight">{note.title}</h2>
               </div>
-
               <ul className="flex-1 space-y-6">
-                {note.items.map((item) => (
+                {note.items?.map((item) => (
                   <NoteItem
                     key={item.chip}
                     icon={<CircleSmall className="mt-0.5 h-4 w-4" aria-hidden="true" />}
@@ -184,40 +180,31 @@ export default function NowPage() {
                   </NoteItem>
                 ))}
               </ul>
-
-              {note.footer && <NoteFooter left={note.footer.left} right={note.footer.right} />}
             </StickyNote>
           </motion.div>
         ))}
       </section>
 
-      {/* Sticky notes grid - 2 */}
-
       <section
-        aria-label="Things I'm currently working on"
-        className="mt-14 grid grid-cols-1 items-stretch gap-x-8 gap-y-12 sm:grid-cols-2"
+        aria-label="hobbies and interests"
+        className="mt-14 flex justify-center items-center"
       >
-        {notes2.map((note, index) => (
+        {hobbies.map((note, index) => (
           <motion.div
             key={note.title}
             className="relative h-full"
-            initial={{ opacity: 0, y: 12, scale: 1 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{
               duration: 0.4,
               delay: index * 0.1,
             }}
             whileHover={{
-              scale: 1.1,
+              scale: 1.08,
               y: -10,
               zIndex: 10,
             }}
-            whileFocus={{
-              scale: 1.12,
-            }}
-            whileTap={{
-              scale: 0.99,
-            }}
+            whileTap={{ scale: 0.99 }}
             style={{ transformOrigin: 'center center' }}
           >
             <StickyNote
@@ -230,17 +217,15 @@ export default function NowPage() {
               <div className="mb-6">
                 <h2 className="text-2xl font-semibold tracking-tight">{note.title}</h2>
               </div>
-
               <ul className="flex-1 space-y-6">
-                {note.items.map((item) => (
-                  <NoteItem
-                    key={item.chip}
-                    icon={<CircleSmall className="mt-0.5 h-4 w-4" aria-hidden="true" />}
-                    iconColor={note.iconColor}
-                    chip={item.chip}
-                  >
-                    {item.description}
-                  </NoteItem>
+                {note.subsections.map((item) => (
+                  <NoteSubsection
+                    key={item.title}
+                    title={item.title}
+                    description={item.description}
+                    headingColor={note.iconColor}
+                    icon={item.icon}
+                  />
                 ))}
               </ul>
             </StickyNote>
