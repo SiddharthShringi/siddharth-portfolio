@@ -2,7 +2,7 @@ import * as motion from 'motion/react-client';
 import { BookOpen, CircleSmall, Clapperboard, Dumbbell } from 'lucide-react';
 
 import { StickyNote } from '@/components/now/StickyNote';
-import { NoteItem, NoteSubsection } from '@/components/now/Note';
+import { NoteItem, NoteSubsection, NoteLink } from '@/components/now/Note';
 
 const notes = [
   {
@@ -77,12 +77,12 @@ const notes = [
 
 const hobbies = [
   {
-    title: 'WorkNotes',
-    tapePosition: 70,
-    tilt: '-rotate-2',
+    title: 'Beyond the desk',
+    tapePosition: 35,
+    tilt: 'rotate-3',
     tapeTilt: '-rotate-2',
-    tapeColor: 'bg-chart-4/70',
-    iconColor: 'text-chart-4',
+    tapeColor: 'bg-chart-3/70',
+    iconColor: 'text-chart-3',
     subsections: [
       {
         title: 'Fitness',
@@ -185,14 +185,12 @@ export default function NowPage() {
         ))}
       </section>
 
-      <section
-        aria-label="hobbies and interests"
-        className="mt-14 flex justify-center items-center"
-      >
+      {/* Hobbies and interests */}
+      <section aria-label="Hobbies and interests" className="mt-16 flex justify-center">
         {hobbies.map((note, index) => (
           <motion.div
             key={note.title}
-            className="relative h-full"
+            className="relative mx-auto w-full max-w-xl"
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{
@@ -200,8 +198,8 @@ export default function NowPage() {
               delay: index * 0.1,
             }}
             whileHover={{
-              scale: 1.08,
-              y: -10,
+              scale: 1.03,
+              y: -5,
               zIndex: 10,
             }}
             whileTap={{ scale: 0.99 }}
@@ -212,12 +210,13 @@ export default function NowPage() {
               tilt={note.tilt}
               tapeTilt={note.tapeTilt}
               tapeColor={note.tapeColor}
-              className="h-full min-h-92"
+              className="h-fit w-full"
             >
               <div className="mb-6">
-                <h2 className="text-2xl font-semibold tracking-tight">{note.title}</h2>
+                <h2 className="text-xl font-semibold tracking-tight sm:text-2xl">{note.title}</h2>
               </div>
-              <ul className="flex-1 space-y-6">
+
+              <ul className="space-y-6 sm:space-y-7">
                 {note.subsections.map((item) => (
                   <NoteSubsection
                     key={item.title}
