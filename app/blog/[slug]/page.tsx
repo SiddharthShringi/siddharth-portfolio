@@ -122,7 +122,7 @@ export default async function Post({ params }: { params: Promise<{ slug: string 
                 <div className="relative aspect-video w-full overflow-hidden rounded-xl border border-border/50 bg-muted">
                   <Image
                     src={image}
-                    alt={title}
+                    alt={title ?? 'Blog post cover image'}
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1280px) 90vw, 896px"
                     className="object-cover"
