@@ -3,11 +3,12 @@ import Link from 'next/link';
 import ThemeToggle from './ThemeToggle';
 import MobileNavbar from './MobileNavbar';
 import * as motion from 'motion/react-client';
+import Container from '@/components/ui/Container';
 
 export default function Navbar() {
   return (
-    <nav className="sticky top-0 z-50 backdrop-blur-md px-4 sm:px-6 lg:px-8 xl:px-10">
-      <div className="container mx-auto max-w-7xl ">
+    <nav className="sticky top-0 z-50 backdrop-blur-md">
+      <Container>
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="shrink-0">
@@ -22,6 +23,7 @@ export default function Navbar() {
                   siddharth<span className="text-chart-2 font-bold">.</span>
                 </Link>
               </span>
+
               <motion.div
                 className="absolute left-0 -bottom-1 h-0.5 bg-chart-3 dark:bg-chart-2"
                 variants={{
@@ -37,7 +39,7 @@ export default function Navbar() {
           <div className="hidden md:flex items-center space-x-8">
             {navItems.map((item, idx) => (
               <Link
-                className="text-xs lg:text-sm font-medium tracking-wider text-muted-foreground hover:text-foreground transition-color duration-200"
+                className="text-xs lg:text-sm font-medium tracking-wider text-muted-foreground hover:text-foreground transition-colors duration-200"
                 href={item.href}
                 key={idx}
               >
@@ -46,10 +48,11 @@ export default function Navbar() {
             ))}
             <ThemeToggle />
           </div>
+
           {/* Mobile Navigation */}
           <MobileNavbar />
         </div>
-      </div>
+      </Container>
     </nav>
   );
 }
