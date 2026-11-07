@@ -2,11 +2,12 @@ import projects from '@/lib/data/projects';
 import { Project } from '@/lib/types/project';
 import { FolderKanban } from 'lucide-react';
 import ProjectCard from '@/components/ProjectCard';
+import Container from '@/components/ui/Container';
 
 export default function Projects() {
   return (
-    <section className="px-4 sm:px-6 lg:px-8 xl:px-10 my-6 sm:my-10">
-      <div className="mx-auto max-w-7xl">
+    <section className="my-6 sm:my-10">
+      <Container>
         {/* Section Header */}
         <div className="mb-6">
           <div className="inline-flex items-center gap-2 border-b-2 border-foreground/80 pb-2 pr-2">
@@ -24,7 +25,7 @@ export default function Projects() {
             ))}
           </div>
         )}
-      </div>
+      </Container>
     </section>
   );
 }

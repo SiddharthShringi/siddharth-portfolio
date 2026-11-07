@@ -1,3 +1,4 @@
+import { CornerDownRight } from 'lucide-react';
 import type { ReactNode } from 'react';
 
 type NoteItemProps = {
@@ -76,9 +77,17 @@ export function NoteSubsection({ title, description, headingColor, icon }: NoteS
         </h3>
       </div>
 
-      <p className="text-sm leading-6 text-card-foreground sm:text-base sm:leading-7">
-        {description}
-      </p>
+      <div className="flex items-start gap-2">
+        <span aria-hidden="true" className={`mt-1 shrink-0 ${headingColor}`}>
+          <CornerDownRight className="h-4 w-4" aria-hidden="true" />
+        </span>
+
+        <div className="min-w-0 space-y-2">
+          <p className="text-sm leading-6 text-card-foreground sm:text-base sm:leading-7">
+            {description}
+          </p>
+        </div>
+      </div>
     </li>
   );
 }

@@ -6,6 +6,7 @@ import Publications from '@/components/Publications';
 import { BookCheck, Pencil } from 'lucide-react';
 import { PostMetadata } from '@/lib/posts';
 import { cn } from '@/lib/utils';
+import Container from './ui/Container';
 
 interface BlogTabsProps {
   posts: PostMetadata[];
@@ -17,8 +18,8 @@ export default function BlogTabs({ posts, tags, activeTag }: BlogTabsProps) {
   const [activeTab, setActiveTab] = useState<'writings' | 'publications'>('writings');
 
   return (
-    <section className="my-6 sm:my-10 px-4 sm:px-6 lg:px-8 xl:px-10">
-      <div className="mx-auto max-w-7xl">
+    <section className="my-6 sm:my-10">
+      <Container>
         <div className="flex items-center gap-8">
           <button
             onClick={() => setActiveTab('writings')}
@@ -47,7 +48,7 @@ export default function BlogTabs({ posts, tags, activeTag }: BlogTabsProps) {
           {activeTab === 'writings' && <Blogs posts={posts} tags={tags} activeTag={activeTag} />}
           {activeTab === 'publications' && <Publications />}
         </div>
-      </div>
+      </Container>
     </section>
   );
 }
