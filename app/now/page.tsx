@@ -113,8 +113,8 @@ const hobbies = [
   {
     title: 'Beyond the desk',
     tapePosition: 35,
-    tilt: 'rotate-3',
-    tapeTilt: '-rotate-2',
+    tilt: '-rotate-3',
+    tapeTilt: 'rotate-2',
     tapeColor: 'bg-chart-3/70',
     iconColor: 'text-chart-3',
     subsections: [
@@ -128,7 +128,7 @@ const hobbies = [
         title: 'Reading',
         description: (
           <>
-            Exploring Hindi literature. currently with{' '}
+            Reading more Hindi literature lately. Enjoying the works of{' '}
             <NoteLink
               href="https://www.goodreads.com/author/show/4615204.Harishankar_Parsai"
               color="text-chart-3"
@@ -170,27 +170,23 @@ export default function NowPage() {
       {/* Page introduction */}
       <header className="max-w-2xl space-y-5">
         <div className="space-y-2">
-          <p className="text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">
-            A little life update
-          </p>
-
           <h1 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
             What I&apos;m Doing Now
           </h1>
         </div>
 
         <div className="flex items-center gap-2 text-sm">
-          <span className="text-muted-foreground">Last updated</span>
+          <span className="text-muted-foreground text-base">Last updated</span>
 
-          <time dateTime="2026-11-06" className="font-medium text-chart-2">
-            November 6, 2026
+          <time dateTime="2026-11-06" className="font-medium text-base text-chart-2">
+            November 7, 2026
           </time>
         </div>
 
         <p className="text-base leading-8 text-muted-foreground sm:text-lg">
-          Right now, I&apos;m focused on writing, learning, building WorkNotes, and finding my next
-          role. Outside of that, I&apos;m trying to stay active, explore new interests, and make
-          time for things that have nothing to do with work.
+          Right now, I&apos;m spending my time writing, understanding how things work under the
+          hood, and building WorkNotes. I&apos;m also discovering new interests, staying active, and
+          looking for my next professional opportunity.
         </p>
       </header>
 
@@ -211,7 +207,7 @@ export default function NowPage() {
             }}
             whileHover={{
               scale: 1.08,
-              y: -10,
+              y: -5,
               zIndex: 10,
             }}
             whileTap={{ scale: 0.99 }}
@@ -245,11 +241,11 @@ export default function NowPage() {
       </section>
 
       {/* Hobbies and interests */}
-      <section aria-label="Hobbies and interests" className="mt-16 flex justify-center">
+      <section aria-label="Hobbies and interests" className="mt-12 w-full sm:mt-16">
         {hobbies.map((note, index) => (
           <motion.div
             key={note.title}
-            className="relative mx-auto w-full max-w-xl"
+            className="relative w-full max-w-xl"
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{
@@ -257,12 +253,12 @@ export default function NowPage() {
               delay: index * 0.1,
             }}
             whileHover={{
-              scale: 1.03,
+              scale: 1.08,
               y: -5,
               zIndex: 10,
             }}
-            whileTap={{ scale: 0.99 }}
-            style={{ transformOrigin: 'center center' }}
+            whileTap={{ scale: 0.995 }}
+            style={{ transformOrigin: 'left center' }}
           >
             <StickyNote
               tapePosition={note.tapePosition}

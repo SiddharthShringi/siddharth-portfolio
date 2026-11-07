@@ -68,9 +68,7 @@ export function NoteSubsection({ title, description, headingColor, icon }: NoteS
 
         <h3
           className={`
-            font-semibold tracking-tight
-            text-base
-            sm:text-lg
+            text-xl font-semibold tracking-tight
             ${headingColor}
           `}
         >
