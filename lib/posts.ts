@@ -12,7 +12,7 @@ export type Post = {
 };
 
 export type PostMetadata = {
-  title?: string;
+  title: string;
   description?: string;
   publishedAt?: string;
   showToc?: boolean;
