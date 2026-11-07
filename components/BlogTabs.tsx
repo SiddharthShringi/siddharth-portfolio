@@ -28,7 +28,7 @@ export default function BlogTabs({ posts, tags, activeTag }: BlogTabsProps) {
     <section className="my-6 sm:my-10">
       <Container>
         {/* Tab Navigation */}
-        <div className="flex w-fit items-center gap-6 sm:gap-8">
+        <div className="flex w-fit items-center gap-5 sm:gap-8">
           {tabs.map(({ id, label, icon: Icon }) => {
             const isActive = activeTab === id;
 
@@ -37,20 +37,26 @@ export default function BlogTabs({ posts, tags, activeTag }: BlogTabsProps) {
                 key={id}
                 type="button"
                 onClick={() => setActiveTab(id)}
+                aria-pressed={isActive}
                 className={cn(
-                  'flex items-center gap-2 border-b-2 px-0 py-3',
-                  'text-sm font-medium transition-colors duration-200 sm:text-base',
+                  'inline-flex min-h-11 items-center gap-2 whitespace-nowrap',
+                  'border-b-2 px-0 py-2.5 sm:py-3',
+                  'text-sm font-medium tracking-tight transition-colors duration-200',
+                  'sm:text-base lg:text-lg',
+                  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4',
                   isActive
                     ? 'border-chart-2 text-foreground'
-                    : 'text-muted-foreground hover:text-foreground'
+                    : 'border-transparent text-muted-foreground hover:text-foreground'
                 )}
               >
                 <Icon
                   className={cn(
-                    'h-4 w-4 transition-colors duration-200',
+                    'h-4 w-4 shrink-0 transition-colors duration-200 sm:h-4.5 sm:w-4.5',
                     isActive ? 'text-chart-2' : 'text-muted-foreground'
                   )}
+                  strokeWidth={1.8}
                 />
+
                 {label}
               </button>
             );
