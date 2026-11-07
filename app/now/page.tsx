@@ -14,16 +14,40 @@ const notes = [
     iconColor: 'text-chart-2',
     items: [
       {
-        chip: '100 Days to Offload',
-        description: 'Writing and publishing about anything that catches my curiosity.',
+        chip: 'Curious logging',
+        description: (
+          <>
+            Writing down anything interesting that feels worth remembering, as a blog post or a
+            quick note. It&apos;s how I&apos;m doing the 100 Days to Offload challenge.
+          </>
+        ),
       },
       {
         chip: 'Technical writing',
-        description: 'Writing about Ruby and Rails topics as I learn and explore their internals.',
+        description: (
+          <>
+            Writing to understand how things work: Ruby, Rails, SQL, and database optimization. If
+            I&apos;m reading about it, I try to write about it. Check out my{' '}
+            <NoteLink href="https://siddharthshringi.com" color="text-chart-2">
+              blog
+            </NoteLink>{' '}
+            for more.
+          </>
+        ),
       },
       {
         chip: 'Journaling',
-        description: 'Making time for 10-thought dumps and free writing.',
+        description: (
+          <>
+            <NoteLink
+              href="https://siddharthshringi.com/blog/2026-08-24-some-more-journaling-ideas"
+              color="text-chart-2"
+            >
+              Free writing
+            </NoteLink>{' '}
+            to think things through.
+          </>
+        ),
       },
     ],
   },
@@ -36,12 +60,13 @@ const notes = [
     iconColor: 'text-chart-1',
     items: [
       {
-        chip: 'System design',
-        description: 'Exploring system design and software architecture.',
+        chip: 'Databases',
+        description: 'Taking the CS50 SQL course, learning how to optimize and scale databases.',
       },
       {
         chip: 'Ruby & Rails internals',
-        description: 'Going deeper into how Ruby and Rails work under the hood.',
+        description:
+          'Reading The Well-Grounded Rubyist and Ruby Deep Dive, and digging into how Rails works inside.',
       },
       {
         chip: 'Open source',
@@ -59,17 +84,26 @@ const notes = [
     iconColor: 'text-chart-4',
     items: [
       {
-        chip: 'Done',
-        description:
-          'Nearly done with the MVP of WorkNotes. Recently completed the daily reports feature.',
+        chip: '',
+        description: (
+          <>
+            <NoteLink href="https://worknotes.app" color="text-chart-4">
+              WorkNotes
+            </NoteLink>{' '}
+            is a productivity app I&apos;m building to track work sessions and take notes along the
+            way. Every project keeps its own sessions, and a daily report shows the hours spent on
+            each one with the notes beside them.
+          </>
+        ),
       },
       {
-        chip: 'Current focus',
-        description: 'Implementing PDF report exports using background jobs.',
+        chip: 'Currently working on',
+        description: 'Building PDF export feature for the daily report.',
       },
       {
         chip: 'Next up',
-        description: 'Exploring ways to integrate AI into WorkNotes.',
+        description:
+          'AI integration to turn sessions and notes into a timesheet for a freelance project.',
       },
     ],
   },
@@ -87,18 +121,43 @@ const hobbies = [
       {
         title: 'Fitness',
         description:
-          'Staying consistent with 3-4 workouts a week, experimenting with kettlebells and making room for yoga.',
+          'Trying to stay consistent with 3-4 workouts a week. Experimenting with kettlebells and yoga.',
         icon: <Dumbbell className="h-4 w-4" />,
       },
       {
         title: 'Reading',
-        description:
-          'Exploring Hindi literature. Currently reading works by Harishankar Parsai and Kashinath Singh.',
+        description: (
+          <>
+            Exploring Hindi literature. currently with{' '}
+            <NoteLink
+              href="https://www.goodreads.com/author/show/4615204.Harishankar_Parsai"
+              color="text-chart-3"
+            >
+              Harishankar Parsai
+            </NoteLink>{' '}
+            and{' '}
+            <NoteLink
+              href="https://www.goodreads.com/author/show/6536265.Kashinath_Singh"
+              color="text-chart-3"
+            >
+              Kashinath Singh
+            </NoteLink>
+            .
+          </>
+        ),
         icon: <BookOpen className="h-4 w-4" />,
       },
       {
         title: 'Watching',
-        description: 'Just started watching Severance.',
+        description: (
+          <>
+            Currently watching{' '}
+            <NoteLink href="https://www.imdb.com/title/tt11280740/" color="text-chart-3">
+              Severance
+            </NoteLink>
+            .
+          </>
+        ),
         icon: <Clapperboard className="h-4 w-4" />,
       },
     ],
@@ -107,7 +166,7 @@ const hobbies = [
 
 export default function NowPage() {
   return (
-    <main className="mx-auto w-full max-w-6xl px-5 py-12 sm:px-8 sm:py-16">
+    <main className="mx-auto w-full max-w-6xl px-5 py-5 sm:px-8 sm:py-8">
       {/* Page introduction */}
       <header className="max-w-2xl space-y-5">
         <div className="space-y-2">
