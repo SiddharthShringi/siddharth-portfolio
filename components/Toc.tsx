@@ -62,8 +62,8 @@ export function TableOfContents({ headings }: TableOfContentsProps) {
       aria-label="Table of contents"
       className="
         mb-8 rounded-lg border border-border/60 bg-muted/20 p-4
-        xl:mb-0 xl:rounded-none xl:border-0 xl:border-l-2
-        xl:border-l-foreground/20 xl:bg-transparent xl:py-0 xl:pr-0 xl:pl-4
+        sm:mb-0 sm:rounded-none sm:border-0 sm:border-l-2
+        sm:border-l-foreground/20 sm:bg-transparent sm:py-0 sm:pr-0 sm:pl-4
       "
     >
       {/* Heading */}
