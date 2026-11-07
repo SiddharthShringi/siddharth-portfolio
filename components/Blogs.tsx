@@ -15,15 +15,25 @@ export default function Blogs({
   const filteredPosts = activeTag ? posts.filter((post) => post.tags?.includes(activeTag)) : posts;
 
   return (
-    <div className="flex flex-col gap-4">
+    <div>
       <TagFilter tags={tags} activeTag={activeTag} />
-      {filteredPosts.map((post) => (
-        <div className="py-2" key={post.slug}>
-          <Link href={`/blog/${post.slug}`} className="flex flex-col gap-2">
-            <BlogListItem post={post} />
-          </Link>
+
+      {filteredPosts.length === 0 ? (
+        <p className="py-8 text-sm text-muted-foreground">No posts found for this tag.</p>
+      ) : (
+        <div className="mt-5 flex flex-col divide-y divide-border/60">
+          {filteredPosts.map((post) => (
+            <div key={post.slug} className="py-5 first:pt-2">
+              <Link
+                href={`/blog/${post.slug}`}
+                className="block rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              >
+                <BlogListItem post={post} />
+              </Link>
+            </div>
+          ))}
         </div>
-      ))}
+      )}
     </div>
   );
 }

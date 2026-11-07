@@ -29,7 +29,7 @@ const notes = [
           <>
             Writing to understand how things work: Ruby, Rails, SQL, and database optimization. If
             I&apos;m reading about it, I try to write about it. Check out my{' '}
-            <NoteLink href="https://siddharthshringi.com" color="text-chart-2">
+            <NoteLink href="https://siddharthshringi.com/blog" color="text-chart-2">
               blog
             </NoteLink>{' '}
             for more.
