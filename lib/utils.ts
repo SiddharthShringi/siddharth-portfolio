@@ -1,4 +1,5 @@
 import { clsx, type ClassValue } from 'clsx';
+import GithubSlugger from 'github-slugger';
 import { twMerge } from 'tailwind-merge';
 import { Heading } from './types/toc';
 
@@ -17,31 +18,38 @@ export function formatDate(dateString: string): string {
 
 export function extractHeadings(markdown: string): Heading[] {
   const headings: Heading[] = [];
+  const slugger = new GithubSlugger();
 
   let inCodeBlock = false;
+  let codeFence = '';
 
   for (const line of markdown.split('\n')) {
-    if (line.startsWith('```')) {
-      inCodeBlock = !inCodeBlock;
+    const fenceMatch = line.match(/^\s*(```+|~~~+)/);
+
+    if (fenceMatch) {
+      const fence = fenceMatch[1][0];
+
+      if (!inCodeBlock) {
+        inCodeBlock = true;
+        codeFence = fence;
+      } else if (fence === codeFence) {
+        inCodeBlock = false;
+      }
+
       continue;
     }
 
     if (inCodeBlock) continue;
 
-    const match = line.match(/^(#{1,6})\s+(.+)$/);
+    const match = line.match(/^(#{1,6})\s+(.+?)\s*#*\s*$/);
 
     if (!match) continue;
 
     const level = match[1].length;
     const text = match[2].trim();
 
-    const id = text
-      .toLowerCase()
-      .replace(/[^\w\s-]/g, '')
-      .replace(/\s+/g, '-');
-
     headings.push({
-      id,
+      id: slugger.slug(text),
       text,
       level,
     });

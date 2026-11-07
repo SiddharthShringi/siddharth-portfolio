@@ -3,34 +3,33 @@ import { BookOpen, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
 
 export default function Publications() {
+  if (articles.length === 0) {
+    return <p className="py-6 text-sm text-muted-foreground">No publications yet.</p>;
+  }
+
   return (
-    <div className="flex flex-col">
-      {articles.map((article, index: number) => (
-        <div
-          key={index}
-          className="py-3 px-2 transition-colors hover:bg-muted/40 rounded-md cursor-pointer"
+    <div className="divide-y divide-border/60">
+      {articles.map((article) => (
+        <Link
+          key={article.link}
+          href={article.link}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group flex items-start justify-between gap-4 rounded-md px-2 py-4 transition-colors hover:bg-muted/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:py-5"
         >
-          <Link href={article.link} target="_blank">
-            <div className="flex items-start justify-between gap-4 cursor-pointer">
-              <div className="min-w-0 flex-1">
-                <div className="inline-flex items-center gap-1.5 text-sm text-foreground/70">
-                  <BookOpen className="h-3.5 w-3.5 text-chart-2" />
-                  <span>{article.publication}</span>
-                </div>
-
-                <div className="group mt-1 block">
-                  <p className="text-lg sm:text-xl font-medium leading-snug transition-colors text-foreground/90 group-hover:text-foreground wrap-break-word line-clamp-2">
-                    {article.title}
-                  </p>
-                </div>
-              </div>
-
-              <div className="shrink-0 mt-1">
-                <ExternalLink className="h-3.5 w-3.5 md:h-4 md:w-4 text-muted-foreground/80 transition-colors hover:text-muted-foreground/50" />
-              </div>
+          <div className="min-w-0 flex-1">
+            <div className="mb-1 flex items-center gap-2 text-xs text-muted-foreground sm:text-sm">
+              <BookOpen className="h-3.5 w-3.5 shrink-0 text-chart-2" />
+              <span>{article.publication}</span>
             </div>
-          </Link>
-        </div>
+
+            <h3 className="text-base font-medium leading-relaxed text-foreground/90 transition-colors group-hover:text-chart-2 sm:text-lg">
+              {article.title}
+            </h3>
+          </div>
+
+          <ExternalLink className="mt-1 h-4 w-4 shrink-0 text-muted-foreground transition-colors group-hover:text-chart-2" />
+        </Link>
       ))}
     </div>
   );

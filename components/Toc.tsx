@@ -1,67 +1,118 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Heading } from '@/lib/types/toc';
-import { BookMarked } from 'lucide-react';
+import { BookMarked, CircleSmall } from 'lucide-react';
 import clsx from 'clsx';
 
-export function TableOfContents({ headings }: { headings: Heading[] }) {
-  const [activeId, setActiveId] = useState('');
+interface TableOfContentsProps {
+  headings: Heading[];
+}
+
+export function TableOfContents({ headings }: TableOfContentsProps) {
+  const [activeId, setActiveId] = useState(headings[0]?.id ?? '');
 
   useEffect(() => {
-    const headings = document.querySelectorAll('h1, h2, h3');
+    if (!headings.length) return;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveId(entry.target.id);
-          }
-        });
-      },
-      {
-        rootMargin: '-100px 0px -70% 0px',
+    const headingElements = headings
+      .map(({ id }) => document.getElementById(id))
+      .filter((element): element is HTMLElement => element instanceof HTMLElement);
+
+    if (!headingElements.length) return;
+
+    const updateActiveHeading = () => {
+      const scrollPosition = window.scrollY;
+      const isAtBottom =
+        window.innerHeight + scrollPosition >= document.documentElement.scrollHeight - 2;
+
+      if (isAtBottom) {
+        setActiveId(headingElements[headingElements.length - 1].id);
+        return;
       }
-    );
 
-    headings.forEach((heading) => observer.observe(heading));
+      const threshold = 150;
 
-    return () => observer.disconnect();
-  }, []);
+      // Find the last heading that has crossed the reading threshold.
+      const currentHeading = [...headingElements]
+        .reverse()
+        .find((heading) => heading.getBoundingClientRect().top <= threshold);
+
+      setActiveId(currentHeading?.id ?? headingElements[0].id);
+    };
+
+    updateActiveHeading();
+
+    window.addEventListener('scroll', updateActiveHeading, {
+      passive: true,
+    });
+
+    window.addEventListener('resize', updateActiveHeading);
+
+    return () => {
+      window.removeEventListener('scroll', updateActiveHeading);
+      window.removeEventListener('resize', updateActiveHeading);
+    };
+  }, [headings]);
+
+  if (!headings.length) return null;
 
   return (
-    <nav className="border-l-2 border-l-foreground/30 px-4 pb-4 mb-8">
+    <nav
+      aria-label="Table of contents"
+      className="
+        mb-8 rounded-lg border border-border/60 bg-muted/20 p-4
+        xl:mb-0 xl:rounded-none xl:border-0 xl:border-l-2
+        xl:border-l-foreground/20 xl:bg-transparent xl:py-0 xl:pr-0 xl:pl-4
+      "
+    >
+      {/* Heading */}
       <div className="mb-4 flex items-center gap-2">
-        <BookMarked className="w-6 h-6 text-chart-2" />
-        <h2 className="text-lg lg:text-xl font-semibold mb-1 text-foreground/70">Contents</h2>
+        <BookMarked className="h-5 w-5 shrink-0 text-chart-2" />
+
+        <h2 className="text-base font-semibold tracking-tight text-foreground sm:text-lg">
+          Contents
+        </h2>
       </div>
 
-      <ul className="space-y-2 ml-2">
-        {headings.map((heading) => (
-          <li
-            key={heading.id}
-            className={`
-        flex items-start gap-2
-        ${heading.level === 1 ? '' : heading.level === 2 ? 'ml-4' : 'ml-8'}
-      `}
-          >
-            <span
-              className={`
-                mt-2 shrink-0 rounded-full
-                ${heading.level === 1 ? 'h-1.5 w-1.5 bg-foreground/60' : 'h-1.5 w-1.5 border border-foreground/60'}
-              `}
-            />
-            <a
-              href={`#${heading.id}`}
+      {/* Navigation Links */}
+      <ul className="ml-1 space-y-2.5">
+        {headings.map((heading) => {
+          const isActive = activeId === heading.id;
+
+          return (
+            <li
+              key={heading.id}
               className={clsx(
-                'text-sm lg:text-base hover:text-foreground transition-colors',
-                activeId === heading.id ? 'text-chart-2 font-semibold' : 'text-foreground/70'
+                'flex items-start gap-2.5',
+                heading.level === 1 ? '' : heading.level === 2 ? 'ml-3' : 'ml-6'
               )}
             >
-              {heading.text}
-            </a>
-          </li>
-        ))}
+              {/* Active Indicator */}
+              <CircleSmall
+                aria-hidden="true"
+                className={clsx(
+                  'mt-1 h-3 w-3 shrink-0 transition-colors duration-200',
+                  isActive ? 'fill-chart-2 text-chart-2' : 'text-muted-foreground/50'
+                )}
+              />
+
+              <a
+                href={`#${heading.id}`}
+                aria-current={isActive ? 'location' : undefined}
+                className={clsx(
+                  'text-sm leading-relaxed transition-colors duration-200',
+                  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+                  isActive
+                    ? 'font-semibold text-chart-2'
+                    : 'text-muted-foreground hover:text-foreground'
+                )}
+              >
+                {heading.text}
+              </a>
+            </li>
+          );
+        })}
       </ul>
     </nav>
   );
