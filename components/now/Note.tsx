@@ -49,35 +49,6 @@ export function NoteItem({
   );
 }
 
-type NoteFooterProps = {
-  left?: string;
-  right?: string;
-};
-
-export function NoteFooter({ left, right }: NoteFooterProps) {
-  if (!left && !right) return null;
-
-  return (
-    <footer
-      className="
-        mt-auto
-        flex flex-wrap items-center justify-between
-        gap-x-3 gap-y-2
-        border-t border-border/50
-        pt-5
-        font-mono text-[10px]
-        leading-relaxed
-        text-muted-foreground
-        sm:text-xs
-      "
-    >
-      {left && <span>{left}</span>}
-
-      {right && <span className="text-foreground/80">{right}</span>}
-    </footer>
-  );
-}
-
 type NoteSubsectionProps = {
   title: string;
   description: ReactNode;
@@ -97,9 +68,7 @@ export function NoteSubsection({ title, description, headingColor, icon }: NoteS
 
         <h3
           className={`
-            font-semibold tracking-tight
-            text-base
-            sm:text-lg
+            text-xl font-semibold tracking-tight
             ${headingColor}
           `}
         >
@@ -120,7 +89,7 @@ type NoteLinkProps = {
   color?: string;
 };
 
-export function NoteLink({ href, children, color = 'text-brand' }: NoteLinkProps) {
+export function NoteLink({ href, children, color = 'text-foreground' }: NoteLinkProps) {
   const isExternal = /^https?:\/\//.test(href);
 
   return (
@@ -132,7 +101,7 @@ export function NoteLink({ href, children, color = 'text-brand' }: NoteLinkProps
         font-medium
         ${color}
         underline decoration-current/40
-        underline-offset-4
+        underline-offset-5
         transition-colors
         hover:decoration-current
         focus-visible:outline-2

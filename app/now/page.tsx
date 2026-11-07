@@ -14,16 +14,40 @@ const notes = [
     iconColor: 'text-chart-2',
     items: [
       {
-        chip: '100 Days to Offload',
-        description: 'Writing and publishing about anything that catches my curiosity.',
+        chip: 'Curious logging',
+        description: (
+          <>
+            Writing down anything interesting that feels worth remembering, as a blog post or a
+            quick note. It&apos;s how I&apos;m doing the 100 Days to Offload challenge.
+          </>
+        ),
       },
       {
         chip: 'Technical writing',
-        description: 'Writing about Ruby and Rails topics as I learn and explore their internals.',
+        description: (
+          <>
+            Writing to understand how things work: Ruby, Rails, SQL, and database optimization. If
+            I&apos;m reading about it, I try to write about it. Check out my{' '}
+            <NoteLink href="https://siddharthshringi.com" color="text-chart-2">
+              blog
+            </NoteLink>{' '}
+            for more.
+          </>
+        ),
       },
       {
         chip: 'Journaling',
-        description: 'Making time for 10-thought dumps and free writing.',
+        description: (
+          <>
+            <NoteLink
+              href="https://siddharthshringi.com/blog/2026-08-24-some-more-journaling-ideas"
+              color="text-chart-2"
+            >
+              Free writing
+            </NoteLink>{' '}
+            to think things through.
+          </>
+        ),
       },
     ],
   },
@@ -36,12 +60,13 @@ const notes = [
     iconColor: 'text-chart-1',
     items: [
       {
-        chip: 'System design',
-        description: 'Exploring system design and software architecture.',
+        chip: 'Databases',
+        description: 'Taking the CS50 SQL course, learning how to optimize and scale databases.',
       },
       {
         chip: 'Ruby & Rails internals',
-        description: 'Going deeper into how Ruby and Rails work under the hood.',
+        description:
+          'Reading The Well-Grounded Rubyist and Ruby Deep Dive, and digging into how Rails works inside.',
       },
       {
         chip: 'Open source',
@@ -59,17 +84,26 @@ const notes = [
     iconColor: 'text-chart-4',
     items: [
       {
-        chip: 'Done',
-        description:
-          'Nearly done with the MVP of WorkNotes. Recently completed the daily reports feature.',
+        chip: '',
+        description: (
+          <>
+            <NoteLink href="https://worknotes.app" color="text-chart-4">
+              WorkNotes
+            </NoteLink>{' '}
+            is a productivity app I&apos;m building to track work sessions and take notes along the
+            way. Every project keeps its own sessions, and a daily report shows the hours spent on
+            each one with the notes beside them.
+          </>
+        ),
       },
       {
-        chip: 'Current focus',
-        description: 'Implementing PDF report exports using background jobs.',
+        chip: 'Currently working on',
+        description: 'Building PDF export feature for the daily report.',
       },
       {
         chip: 'Next up',
-        description: 'Exploring ways to integrate AI into WorkNotes.',
+        description:
+          'AI integration to turn sessions and notes into a timesheet for a freelance project.',
       },
     ],
   },
@@ -79,26 +113,51 @@ const hobbies = [
   {
     title: 'Beyond the desk',
     tapePosition: 35,
-    tilt: 'rotate-3',
-    tapeTilt: '-rotate-2',
+    tilt: '-rotate-3',
+    tapeTilt: 'rotate-2',
     tapeColor: 'bg-chart-3/70',
     iconColor: 'text-chart-3',
     subsections: [
       {
         title: 'Fitness',
         description:
-          'Staying consistent with 3-4 workouts a week, experimenting with kettlebells and making room for yoga.',
+          'Trying to stay consistent with 3-4 workouts a week. Experimenting with kettlebells and yoga.',
         icon: <Dumbbell className="h-4 w-4" />,
       },
       {
         title: 'Reading',
-        description:
-          'Exploring Hindi literature. Currently reading works by Harishankar Parsai and Kashinath Singh.',
+        description: (
+          <>
+            Reading more Hindi literature lately. Enjoying the works of{' '}
+            <NoteLink
+              href="https://www.goodreads.com/author/show/4615204.Harishankar_Parsai"
+              color="text-chart-3"
+            >
+              Harishankar Parsai
+            </NoteLink>{' '}
+            and{' '}
+            <NoteLink
+              href="https://www.goodreads.com/author/show/6536265.Kashinath_Singh"
+              color="text-chart-3"
+            >
+              Kashinath Singh
+            </NoteLink>
+            .
+          </>
+        ),
         icon: <BookOpen className="h-4 w-4" />,
       },
       {
         title: 'Watching',
-        description: 'Just started watching Severance.',
+        description: (
+          <>
+            Currently watching{' '}
+            <NoteLink href="https://www.imdb.com/title/tt11280740/" color="text-chart-3">
+              Severance
+            </NoteLink>
+            .
+          </>
+        ),
         icon: <Clapperboard className="h-4 w-4" />,
       },
     ],
@@ -107,31 +166,27 @@ const hobbies = [
 
 export default function NowPage() {
   return (
-    <main className="mx-auto w-full max-w-6xl px-5 py-12 sm:px-8 sm:py-16">
+    <main className="mx-auto w-full max-w-6xl px-5 py-5 sm:px-8 sm:py-8">
       {/* Page introduction */}
       <header className="max-w-2xl space-y-5">
         <div className="space-y-2">
-          <p className="text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">
-            A little life update
-          </p>
-
           <h1 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
             What I&apos;m Doing Now
           </h1>
         </div>
 
         <div className="flex items-center gap-2 text-sm">
-          <span className="text-muted-foreground">Last updated</span>
+          <span className="text-muted-foreground text-base">Last updated</span>
 
-          <time dateTime="2026-11-06" className="font-medium text-chart-2">
-            November 6, 2026
+          <time dateTime="2026-11-06" className="font-medium text-base text-chart-2">
+            November 7, 2026
           </time>
         </div>
 
         <p className="text-base leading-8 text-muted-foreground sm:text-lg">
-          Right now, I&apos;m focused on writing, learning, building WorkNotes, and finding my next
-          role. Outside of that, I&apos;m trying to stay active, explore new interests, and make
-          time for things that have nothing to do with work.
+          Right now, I&apos;m spending my time writing, understanding how things work under the
+          hood, and building WorkNotes. I&apos;m also discovering new interests, staying active, and
+          looking for my next professional opportunity.
         </p>
       </header>
 
@@ -152,7 +207,7 @@ export default function NowPage() {
             }}
             whileHover={{
               scale: 1.08,
-              y: -10,
+              y: -5,
               zIndex: 10,
             }}
             whileTap={{ scale: 0.99 }}
@@ -186,11 +241,11 @@ export default function NowPage() {
       </section>
 
       {/* Hobbies and interests */}
-      <section aria-label="Hobbies and interests" className="mt-16 flex justify-center">
+      <section aria-label="Hobbies and interests" className="mt-12 w-full sm:mt-16">
         {hobbies.map((note, index) => (
           <motion.div
             key={note.title}
-            className="relative mx-auto w-full max-w-xl"
+            className="relative w-full max-w-xl"
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{
@@ -198,12 +253,12 @@ export default function NowPage() {
               delay: index * 0.1,
             }}
             whileHover={{
-              scale: 1.03,
+              scale: 1.08,
               y: -5,
               zIndex: 10,
             }}
-            whileTap={{ scale: 0.99 }}
-            style={{ transformOrigin: 'center center' }}
+            whileTap={{ scale: 0.995 }}
+            style={{ transformOrigin: 'left center' }}
           >
             <StickyNote
               tapePosition={note.tapePosition}
