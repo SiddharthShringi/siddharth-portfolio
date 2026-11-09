@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import { motion } from 'motion/react';
 
 interface NavItem {
@@ -11,16 +10,14 @@ interface NavItem {
 
 interface DesktopNavLinksProps {
   items: NavItem[];
+  activeHref: string | null;
 }
 
-export default function DesktopNavLinks({ items }: DesktopNavLinksProps) {
-  const pathname = usePathname();
-
+export default function DesktopNavLinks({ items, activeHref }: DesktopNavLinksProps) {
   return (
     <div className="flex items-center gap-8">
       {items.map((item) => {
-        const isActive =
-          pathname === item.href || (item.href !== '/' && pathname.startsWith(`${item.href}/`));
+        const isActive = activeHref === item.href;
 
         return (
           <Link
