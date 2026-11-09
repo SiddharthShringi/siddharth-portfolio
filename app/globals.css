@@ -87,8 +87,6 @@
   --sh-string: #00a99a;
   --sh-keyword: #f47067;
   --sh-comment: #a19595;
-  --portrait-bg: oklch(38% 0.035 245);
-  --portrait-highlight: oklch(48% 0.045 245);
 }
 
 .dark {
@@ -132,8 +130,6 @@
   --sh-string: #00a99a;
   --sh-keyword: #f47067;
   --sh-comment: #a19595;
-  --portrait-bg: oklch(29% 0.035 245);
-  --portrait-highlight: oklch(39% 0.045 245);
 }
 
 .prose h1 {
@@ -226,8 +222,4 @@ html.dark code > [data-line]::before {
 html.dark [data-highlighted-line] {
   background-color: rgba(100, 150, 255, 0.15);
   border-left: 2px solid rgb(100, 150, 255);
-}
-
-.portrait-background {
-  background: radial-gradient(circle at 50% 30%, var(--portrait-highlight), var(--portrait-bg) 75%);
 }

@@ -19,12 +19,17 @@ export default function Introduction() {
           transition={{ duration: 0.8 }}
           className="flex justify-center lg:hidden"
         >
-          <div className="relative size-48 xl:size-52 2xl:size-56 rounded-full overflow-hidden portrait-background border border-foreground/10 shadow-md">
+          <div
+            className="relative w-36 h-36 sm:w-40 sm:h-40
+  rounded-full overflow-hidden
+  border border-foreground/10 shadow-md"
+          >
             <Image
               src="/Potrait.webp"
               alt="Siddharth Shringi"
               fill
-              className="object-contain scale-[1.08] translate-y-2"
+              priority
+              className="object-cover object-center saturate-[0.75] contrast-[1.05]"
             />
           </div>
         </motion.div>
@@ -109,12 +114,16 @@ export default function Introduction() {
         transition={{ duration: 0.8 }}
         className="hidden lg:flex shrink-0 self-start"
       >
-        <div className="relative size-48 xl:size-52 2xl:size-56 rounded-full overflow-hidden portrait-background border border-foreground/10 shadow-md">
+        <div
+          className="relative size-48 xl:size-52 2xl:size-56
+  rounded-full overflow-hidden
+  border border-foreground/10 shadow-md"
+        >
           <Image
             src="/Potrait.webp"
             alt="Siddharth Shringi"
             fill
-            className="object-contain scale-[1.08] translate-y-2"
+            className="object-cover object-center"
           />
         </div>
       </motion.div>
