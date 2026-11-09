@@ -1,4 +1,7 @@
+'use client';
+
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import * as motion from 'motion/react-client';
 
 import { navItems } from '@/lib/constant';
@@ -8,6 +11,14 @@ import MobileNavbar from './MobileNavbar';
 import DesktopNavLinks from './DesktopNavLinks';
 
 export default function Navbar() {
+  const pathname = usePathname();
+
+  const activeHref =
+    navItems.find(
+      (item) =>
+        pathname === item.href || (item.href !== '/' && pathname.startsWith(`${item.href}/`))
+    )?.href ?? null;
+
   return (
     <nav
       aria-label="Main navigation"
@@ -41,12 +52,12 @@ export default function Navbar() {
 
           {/* Desktop Navigation */}
           <div className="hidden items-center gap-8 md:flex">
-            <DesktopNavLinks items={navItems} />
+            <DesktopNavLinks items={navItems} activeHref={activeHref} />
             <ThemeToggle />
           </div>
 
           {/* Mobile Navigation */}
-          <MobileNavbar />
+          <MobileNavbar items={navItems} activeHref={activeHref} />
         </div>
       </Container>
     </nav>
