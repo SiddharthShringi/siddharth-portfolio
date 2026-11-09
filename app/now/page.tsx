@@ -204,11 +204,11 @@ export default function NowPage() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{
-                duration: 0.4,
+                duration: 0.2,
                 delay: index * 0.1,
               }}
               whileHover={{
-                scale: 1.08,
+                scale: 1.04,
                 y: -5,
                 zIndex: 10,
               }}
@@ -251,11 +251,11 @@ export default function NowPage() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{
-                duration: 0.4,
+                duration: 0.2,
                 delay: index * 0.1,
               }}
               whileHover={{
-                scale: 1.08,
+                scale: 1.04,
                 y: -5,
                 zIndex: 10,
               }}
